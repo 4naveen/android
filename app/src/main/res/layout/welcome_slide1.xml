@@ -16,26 +16,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="To Do Reminder"
-            android:textColor="@android:color/white"
+            android:textColor="@color/bg_screen1"
             android:textAlignment="center"
             android:gravity="center"
-            android:textSize="@dimen/slide_mob_title"
-            android:textStyle="bold" />
+            android:id="@+id/text1"
+            android:textSize="30sp"
+             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Make Life Easier"
-            android:textColor="@android:color/white"
+            android:textColor="@color/bg_screen1"
             android:textAlignment="center"
             android:gravity="center"
+            android:id="@+id/text2"
             android:textSize="@dimen/slide_mob_title"
+
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:id="@+id/text3"
             android:paddingLeft="@dimen/desc_mob_padding"
             android:paddingRight="@dimen/desc_mob_padding"
             android:text="No Stress,Feel Relaxed.It will remind you everything!! Memory like a seive ?Now there's no need to remember all those"

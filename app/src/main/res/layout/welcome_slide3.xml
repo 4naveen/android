@@ -20,6 +20,7 @@
             android:textAlignment="center"
             android:gravity="center"
             android:textSize="@dimen/slide_mob_title"
+            android:id="@+id/text1"
             android:textStyle="bold" />
 
         <TextView
@@ -30,7 +31,8 @@
             android:textAlignment="center"
             android:gravity="center"
             android:textSize="@dimen/slide_mob_title"
-            android:textStyle="bold" />
+            android:id="@+id/text2"
+             />
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,6 +40,7 @@
             android:layout_marginTop="10dp"
             android:paddingLeft="@dimen/desc_mob_padding"
             android:paddingRight="@dimen/desc_mob_padding"
+            android:id="@+id/text3"
             android:text="No Stress,Feel Relaxed.It will remind you everything!! Memory like a seive ?Now there's no need to remember all those"
             android:textAlignment="center"
             android:textColor="@android:color/white"

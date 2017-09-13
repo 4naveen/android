@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -15,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private TextView[] dots;
     private int[] layouts;
     private LinearLayout login, register;
+    private ImageView image;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,14 +61,14 @@ public class WelcomeActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(WelcomeActivity.this,LoginActivity.class));
             }
         });
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(WelcomeActivity.this,RegisterActivity.class));
             }
         });
 
@@ -141,6 +143,17 @@ public class WelcomeActivity extends AppCompatActivity {
         public Object instantiateItem(ViewGroup container, int position) {
             layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = layoutInflater.inflate(layouts[position], container, false);
+            TextView textView1=(TextView)view.findViewById(R.id.text1);
+            TextView textView2=(TextView)view.findViewById(R.id.text2);
+            TextView textView3=(TextView)view.findViewById(R.id.text3);
+            Typeface tf1 = Typeface.createFromAsset(getAssets(),"fonts/roboto-thin.ttf");
+            Typeface tf2 = Typeface.createFromAsset(getAssets(), "fonts/roboto-bold.ttf");
+            Typeface tf3 = Typeface.createFromAsset(getAssets(),"fonts/roboto_regular.ttf");
+
+            textView1.setTypeface(tf1);
+            textView2.setTypeface(tf2);
+            textView3.setTypeface(tf3);
+
             container.addView(view);
             return view;
         }
