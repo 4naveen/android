@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dots_height">30dp</dimen>
+    <dimen name="dots_margin_bottom">20dp</dimen>
+    <dimen name="img_width_mob_height">120dp</dimen>
+    <dimen name="slide_mob_title">22sp</dimen>
+    <dimen name="slide_mob_desc">15dp</dimen>
+    <dimen name="desc_mob_padding">40dp</dimen>
+    <dimen name="desc_padding">40dp</dimen>
+
+</resources>
