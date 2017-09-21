@@ -9,7 +9,7 @@
     android:focusableInTouchMode="true"
     tools:context="com.project.spliceglobal.recallgo.RegisterActivity">
     <include
-        layout="@layout/app_bar_home"
+        layout="@layout/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -168,38 +168,38 @@
                 android:orientation="horizontal">
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/facebook"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/user"
+                    android:src="@mipmap/facebook"
                     app:civ_border_color="#fff"
                     app:civ_border_width="2dp" />
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/google"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/user"
+                    android:src="@mipmap/gplus"
                     app:civ_border_color="#fff"
                     app:civ_border_width="2dp" />
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/twitter"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/user"
+                    android:src="@mipmap/twitter"
                     app:civ_border_color="#fff"
                     app:civ_border_width="2dp" />
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/linkedin"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/user"
+                    android:src="@mipmap/linkedin"
                     app:civ_border_color="#fff"
                     app:civ_border_width="2dp" />
             </LinearLayout>

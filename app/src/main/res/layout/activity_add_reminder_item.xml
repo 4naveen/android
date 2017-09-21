@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.project.spliceglobal.recallgo.AddReminderItemActivity">
+    <include
+        layout="@layout/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:id="@+id/category"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="Category"/>
+        <TextView
+            android:layout_width="0dp"
+            android:id="@+id/category_text"
+            android:layout_weight="0.4"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:text="UnCategorized"
+            android:textColor="@color/bg_screen2"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="0.1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:src="@mipmap/arrow_right"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="3dp"
+        android:background="#c0c0c0" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:id="@+id/brand"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="Brand"/>
+        <TextView
+            android:layout_width="0dp"
+            android:id="@+id/brand_text"
+            android:layout_weight="0.4"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:text=""
+            android:textColor="@color/bg_screen2"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="0.1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:src="@mipmap/arrow_right"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="3dp"
+        android:background="#c0c0c0" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:id="@+id/prefered_store"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="Preferd Store"/>
+        <TextView
+            android:layout_width="0dp"
+            android:id="@+id/prefered_store_text"
+            android:layout_weight="0.4"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:text=""
+            android:textColor="@color/bg_screen2"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="0.1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:src="@mipmap/arrow_right"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="3dp"
+        android:background="#c0c0c0" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.7"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="Quantity"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:id="@+id/quantity"
+            android:layout_weight="0.2"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="center"
+            android:cursorVisible="false"
+            android:background="@drawable/rounded_edittext" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="3dp"
+        android:background="#c0c0c0" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.6"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="Remind me on day"/>
+        <TextView
+            android:layout_width="0dp"
+            android:id="@+id/date_time_text"
+            android:layout_weight="0.3"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:text=""
+            android:textColor="@color/bg_screen2"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:id="@+id/date_time"
+            android:layout_weight="0.1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:src="@mipmap/calendar"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="3dp"
+        android:background="#c0c0c0" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:id="@+id/repeat"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="Repeat"/>
+        <TextView
+            android:layout_width="0dp"
+            android:id="@+id/repeat_text"
+            android:layout_weight="0.4"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:text="Never"
+            android:textColor="@color/bg_screen2"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="0.1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:src="@mipmap/arrow_right"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="3dp"
+        android:background="#c0c0c0" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.9"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="Remind me at location"/>
+
+        <Switch
+            android:id="@+id/simpleSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:textOff="No"
+            android:textOn="Yes"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="3dp"
+        android:background="#c0c0c0" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.6"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="Priority"/>
+
+        <TableLayout
+            android:id="@+id/table_products"
+            android:layout_width="0dp"
+            android:layout_weight="0.4"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:layout_marginRight="3dp"
+            android:stretchColumns="*">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/none"
+                    android:background="@drawable/cell_shape"
+                    android:padding="4dp"
+                    android:text="None"
+                    android:backgroundTint="@color/cardview_dark_background"
+                    android:textColor="#fff"
+
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/cell_shape"
+                    android:padding="4dp"
+                    android:text="1"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:id="@+id/one"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/cell_shape"
+                    android:padding="4dp"
+                    android:text="2"
+                    android:textAlignment="center"
+                    android:id="@+id/two"
+                    android:textColor="@color/colorAccent"
+
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/cell_shape"
+                    android:padding="4dp"
+                    android:text="3"
+                    android:textColor="@color/colorAccent"
+                    android:textAlignment="center"
+                    android:id="@+id/three"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/cell_shape"
+                    android:padding="4dp"
+                    android:text="4"
+                    android:textColor="@color/colorAccent"
+                    android:textAlignment="center"
+                    android:id="@+id/four"
+                    />
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="3dp"
+        android:background="#c0c0c0" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:id="@+id/notes"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.9"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="Notes"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="0.1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:src="@mipmap/arrow_right"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="3dp"
+        android:background="#c0c0c0" />
+</LinearLayout>

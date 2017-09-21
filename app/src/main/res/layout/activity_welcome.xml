@@ -40,10 +40,10 @@
             android:id="@+id/layoutDots"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/dots_margin_bottom"
             android:layout_weight="0.1"
             android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"
             android:orientation="horizontal"
             android:padding="10dp" />
 
@@ -62,22 +62,26 @@
                 android:background="@color/bg_screen1"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:src="@drawable/login" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:text="Login"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@mipmap/login" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Login"
+                        android:layout_marginTop="34dp"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+                </FrameLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -87,23 +91,24 @@
                 android:layout_weight="0.5"
                 android:background="@color/bg_screen2"
                 android:orientation="vertical">
-
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:src="@drawable/login" />
+                    android:src="@mipmap/login" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:gravity="center"
                     android:text="Register"
-                    android:textAlignment="center"
+                    android:layout_marginTop="34dp"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
+                </FrameLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

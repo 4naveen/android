@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+   >
 
     <android.support.v7.widget.Toolbar
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -16,13 +16,8 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/AppTheme.AppBarOverlay">
-
-    <ImageView
-        android:id="@+id/actionCall"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:paddingBottom="90dp"
-        android:layout_gravity="center"
-        android:src="@drawable/web_hi_res_512"/>
     </android.support.v7.widget.Toolbar>
+
+
+
 </RelativeLayout>

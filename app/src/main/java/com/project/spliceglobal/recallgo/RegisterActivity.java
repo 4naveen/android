@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -34,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://www.fb.com/login"));
+                        Uri.parse("https://www.facebook.com/login/"));
                 startActivity(intent);
             }
         });
@@ -42,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://www.google.com/login"));
+                        Uri.parse("https://accounts.google.com/ServiceLogin"));
                 startActivity(intent);
             }
         });
@@ -50,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://www.twiter.com/login"));
+                        Uri.parse("https://twitter.com/login?lang=en"));
                 startActivity(intent);
             }
         });
@@ -58,7 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://www.linked.com/login"));
+                        Uri.parse("https://in.linkedin.com/"));
                 startActivity(intent);
             }
         });
@@ -71,7 +72,16 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivityForResult(i.createChooser(i, "select pic"), 101);
             }
         });
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                finish();
 
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -9,7 +9,7 @@
     android:focusableInTouchMode="true"
     tools:context="com.project.spliceglobal.recallgo.RegisterActivity">
     <include
-        layout="@layout/app_bar_home"
+        layout="@layout/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -66,25 +66,25 @@
 
             <Button
                 android:id="@+id/login"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_gravity="end"
+                android:layout_gravity="center_horizontal"
                 android:background="@color/bg_screen2"
                 android:padding="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:text="Sign In"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
                 android:textColor="@color/textColor"
                 android:textSize="20sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:gravity="center"
+                android:gravity="center_horizontal"
                 android:text="Forget Password ?"
-                android:layout_marginRight="10dp"
                 android:textAlignment="center"
                 android:textColor="@android:color/background_dark"
                 android:textSize="16sp" />
@@ -97,38 +97,34 @@
                 android:orientation="horizontal">
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/facebook"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/user"
+                    android:src="@mipmap/facebook"
                     app:civ_border_color="#fff"
                     app:civ_border_width="2dp" />
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/google"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/user"
+                    android:src="@mipmap/gplus"
                     app:civ_border_color="#fff"
                     app:civ_border_width="2dp" />
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/twitter"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/user"
+                    android:src="@mipmap/twitter"
                     app:civ_border_color="#fff"
                     app:civ_border_width="2dp" />
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/linkedin"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/user"
+                    android:src="@mipmap/linkedin"
                     app:civ_border_color="#fff"
                     app:civ_border_width="2dp" />
             </LinearLayout>

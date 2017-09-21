@@ -16,10 +16,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="To Do Reminder"
-            android:textColor="@android:color/white"
+            android:textColor="@color/bg_screen1"
             android:textAlignment="center"
             android:gravity="center"
-            android:textSize="@dimen/slide_mob_title"
+            android:textSize="30sp"
             android:id="@+id/text1"
             android:textStyle="bold" />
 
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Make Life Easier"
-            android:textColor="@android:color/white"
+            android:textColor="@color/bg_screen1"
             android:textAlignment="center"
             android:gravity="center"
             android:textSize="@dimen/slide_mob_title"
