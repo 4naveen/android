@@ -169,7 +169,6 @@
                     android:paddingStart="10dp"
                     android:singleLine="true"
                     android:textStyle="bold"
-
                     android:text="Greeting from gmail team"
                     android:textSize="13sp" />
 

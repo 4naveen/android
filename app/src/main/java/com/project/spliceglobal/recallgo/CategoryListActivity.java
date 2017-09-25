@@ -2,13 +2,17 @@ package com.project.spliceglobal.recallgo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -39,9 +43,25 @@ public class CategoryListActivity extends AppCompatActivity {
         categoryArrayList.add("Electronics");
         categoryArrayList.add("Meetings");
         categoryArrayList.add("Birthday");
-        listAdapter = new CategoryListAdapter(this, categoryArrayList);
-        listView.setAdapter(listAdapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
+        listAdapter = new CategoryListAdapter(this, categoryArrayList);
+       listView.setAdapter(listAdapter);
+       /* listView.setAdapter(new ArrayAdapter<String>(this, R.layout.indi_view_category,
+                R.id.category_name,categoryArrayList) {
+            @NonNull
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                ImageView icon = (ImageView) v.findViewById(R.id.ok);
+                if (listView.isItemChecked(position)) {
+                    icon.setImageResource(R.mipmap.ok);
+                } else {
+                   // icon.setImageResource(R.mipmap.ic_add_white_24dp);
+                }
+                return v;
+            }
+        });*/
 /*        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -66,10 +86,29 @@ public class CategoryListActivity extends AppCompatActivity {
                 Log.v("Selected item", String.valueOf(listView.getItemAtPosition(i)));
             }
         });*/
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
               category_text=""+parent.getItemAtPosition(position);
+               /* try{
+                    for (int ctr=0;ctr<=categoryArrayList.size();ctr++){
+                        if(position==ctr){
+                            // listView.getChildAt(ctr).setBackgroundColor(Color.CYAN);
+                            ImageView imageView=(ImageView) view.findViewById(R.id.ok);
+                            imageView.setVisibility(View.VISIBLE);
+                        }else{
+                            // listView.getChildAt(ctr).setBackgroundColor(Color.WHITE);
+                            ImageView imageView=(ImageView) view.findViewById(R.id.ok);
+                           // imageView.setImageDrawable(getResources().getDrawable(R.mipmap.ic_done_white_24dp));;
+                           // imageView.setVisibility(View.GONE);
+                        }
+                    }
+                    listAdapter.notifyDataSetChanged();
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }*/
             }
         });
 

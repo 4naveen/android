@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.project.spliceglobal.recallgo.CheckableLinaerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,8 +18,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:orientation="horizontal">
@@ -29,6 +28,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.4"
+                android:gravity="center_vertical"
                 android:text="dythghtt"
                 android:textSize="16sp" />
             <ImageView
@@ -36,9 +36,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.1"
-                android:src="@mipmap/ok"
-                android:visibility="gone"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/ic_done_white_24dp"
                  />
         </LinearLayout>
     </android.support.v7.widget.CardView>
-</LinearLayout>
+</com.project.spliceglobal.recallgo.CheckableLinaerLayout>

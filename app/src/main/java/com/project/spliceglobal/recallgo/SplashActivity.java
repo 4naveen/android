@@ -7,11 +7,14 @@ import android.os.Bundle;
 
 public class SplashActivity extends AppCompatActivity {
     private static int SPLASH_TIME_OUT = 2000;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        /*sessionManager=new SessionManager(getApplicationContext());
+        sessionManager.checkLogin();*/
 
         new Handler().postDelayed(new Runnable() {
             @Override

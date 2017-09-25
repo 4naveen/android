@@ -44,6 +44,8 @@ public class StoreListActivity extends AppCompatActivity {
         categoryArrayList.add("Pizza Hut");
         categoryArrayList.add("Big Bazar");
         categoryArrayList.add("DLF Mall");
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
         listAdapter = new CategoryListAdapter(this, categoryArrayList);
         listView.setAdapter(listAdapter);
 

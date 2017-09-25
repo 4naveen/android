@@ -45,6 +45,8 @@ public class BrandListActivity extends AppCompatActivity {
         categoryArrayList.add("Vistara");
         categoryArrayList.add("Amul India");
         categoryArrayList.add("Pizza Hut");
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
         listAdapter = new CategoryListAdapter(this, categoryArrayList);
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -29,11 +29,15 @@ public class WelcomeActivity extends AppCompatActivity {
     private int[] layouts;
     private LinearLayout login, register;
     private ImageView image;
+    SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         // Making notification bar transparent
+        sessionManager=new SessionManager(getApplicationContext());
+        sessionManager.checkLogin();
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
