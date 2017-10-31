@@ -1,4 +1,4 @@
-package com.project.spliceglobal.recallgo;
+package com.project.spliceglobal.recallgo.utils;
 
 /**
  * Created by Personal on 9/25/2017.
@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+
+import com.project.spliceglobal.recallgo.HomeActivity;
 
 import java.util.HashMap;
 

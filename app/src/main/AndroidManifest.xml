@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.project.spliceglobal.recallgo">
+
     <uses-sdk tools:overrideLibrary="com.pes.androidmaterialcolorpickerdialog" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -45,15 +47,20 @@
             android:value="AIzaSyCnbfrDybXq0Cq_PU-nE2TN26soaYlknhY" />
 
         <activity android:name=".FeedbackActivity" />
-        <activity android:name=".PriceChaserActivity" >
+        <activity android:name=".PriceChaserActivity">
             <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="text/plain"/>
-                <data android:mimeType="image/*"/>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+                <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
-        <activity android:name=".SetTargetActivity"></activity>
+        <activity android:name=".SetTargetActivity" />
+        <activity android:name=".CategoryItemListActivity">
+
+        </activity>
     </application>
 
 </manifest>

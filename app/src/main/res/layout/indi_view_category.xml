@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.project.spliceglobal.recallgo.CheckableLinaerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.project.spliceglobal.recallgo.utils.CheckableLinaerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -41,4 +41,4 @@
                  />
         </LinearLayout>
     </android.support.v7.widget.CardView>
-</com.project.spliceglobal.recallgo.CheckableLinaerLayout>
+</com.project.spliceglobal.recallgo.utils.CheckableLinaerLayout>

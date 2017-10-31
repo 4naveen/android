@@ -8,4 +8,10 @@
         android:visible="false"
         android:title="search here"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/add"
+        android:orderInCategory="100"
+        android:visible="false"
+        android:title="ADD"
+        app:showAsAction="always" />
 </menu>

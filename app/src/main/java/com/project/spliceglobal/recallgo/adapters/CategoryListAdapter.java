@@ -1,4 +1,4 @@
-package com.project.spliceglobal.recallgo;
+package com.project.spliceglobal.recallgo.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,15 +8,18 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.project.spliceglobal.recallgo.R;
+import com.project.spliceglobal.recallgo.model.AllCategory;
+
 import java.util.ArrayList;
 
 
 
 public class CategoryListAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<String> categoryList;
+    private ArrayList<AllCategory> categoryList;
     LayoutInflater layoutInflater;
-    public CategoryListAdapter(Context context, ArrayList<String> categoryList) {
+    public CategoryListAdapter(Context context, ArrayList<AllCategory> categoryList) {
         this.context = context;
         this.categoryList = categoryList;
         layoutInflater = LayoutInflater.from(context);
@@ -53,8 +56,7 @@ public class CategoryListAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
-        viewHolder.txtName.setText(categoryList.get(position));
+        viewHolder.txtName.setText(categoryList.get(position).getCategory_name());
       /*  convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

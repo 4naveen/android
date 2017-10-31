@@ -133,6 +133,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/top_view"
             android:orientation="horizontal">
 
             <ImageView
@@ -156,7 +157,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:paddingStart="10dp"
-                    android:text="Gmail Team"
+                    android:text="Name"
                     android:singleLine="true"
                     android:textColor="#212121"
                     android:textSize="18sp" />
@@ -169,7 +170,7 @@
                     android:paddingStart="10dp"
                     android:singleLine="true"
                     android:textStyle="bold"
-                    android:text="Greeting from gmail team"
+                    android:text="quantity"
                     android:textSize="13sp" />
 
                 <TextView

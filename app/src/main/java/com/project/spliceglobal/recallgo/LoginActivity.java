@@ -1,10 +1,12 @@
 package com.project.spliceglobal.recallgo;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,13 +16,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.project.spliceglobal.recallgo.utils.AppUrl;
+import com.project.spliceglobal.recallgo.utils.MyVolleySingleton;
+import com.project.spliceglobal.recallgo.utils.NetworkStatus;
+import com.project.spliceglobal.recallgo.utils.SessionManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LoginActivity extends AppCompatActivity {
-    CircleImageView facebook,google,twitter,linkedin;
+    CircleImageView facebook, google, twitter, linkedin;
     Button signin;
     SessionManager sessionManager;
-    EditText email_phone,password;
+    EditText email_phone, password;
     TextInputLayout input_email_phone, input_pwd;
 
     @Override
@@ -29,19 +49,19 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        android.support.v7.app.ActionBar actionBar=getSupportActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("SignIn");
         }
-        sessionManager=new SessionManager(getApplicationContext());
+        sessionManager = new SessionManager(getApplicationContext());
         facebook = (CircleImageView) findViewById(R.id.facebook);
         google = (CircleImageView) findViewById(R.id.google);
         twitter = (CircleImageView) findViewById(R.id.twitter);
         linkedin = (CircleImageView) findViewById(R.id.linkedin);
         signin = (Button) findViewById(R.id.login);
-        email_phone=(EditText)findViewById(R.id.email);
-        password=(EditText)findViewById(R.id.password);
+        email_phone = (EditText) findViewById(R.id.email);
+        password = (EditText) findViewById(R.id.password);
         input_email_phone = (TextInputLayout) findViewById(R.id.input_layout_email);
         input_pwd = (TextInputLayout) findViewById(R.id.input_layou_password);
         email_phone.addTextChangedListener(new TextWatcher() {
@@ -50,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                 input_email_phone.setError("");
 
             }
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -75,10 +96,13 @@ public class LoginActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+        if (!NetworkStatus.isConnected(LoginActivity.this)) {
+            Toast.makeText(getApplicationContext(), "Please check your Internet Connectivity!", Toast.LENGTH_LONG).show();
+        }
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (email_phone.getText().toString().isEmpty()  || password.getText().toString().isEmpty()) {
+                if (email_phone.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
                     email_phone.requestFocus();
                     if (email_phone.getText().toString().isEmpty()) {
                         email_phone.requestFocus();
@@ -91,21 +115,19 @@ public class LoginActivity extends AppCompatActivity {
                         return;
                     }
                 }
-                if(email_phone.getText().toString().equals("test@gmail.com") && password.getText().toString().equals("password")){
+                if (NetworkStatus.isConnected(LoginActivity.this)) {
+                   loginUser(AppUrl.LOGIN_URL);
+                }
+               /* if (email_phone.getText().toString().equals("test@gmail.com") && password.getText().toString().equals("password")) {
 
-                    // Creating user login session
-                    // For testing i am stroing name, email as follow
-                    // Use user real data
                     sessionManager.createLoginSession(email_phone.getText().toString(), password.getText().toString());
-
-                    startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                     finish();
 
-                }else{
+                } else {
                     // username / password doesn't match
-
-                    Toast.makeText(getApplicationContext(),"Login failed...,Username/Password is incorrect",Toast.LENGTH_LONG).show();
-                }
+                    Toast.makeText(getApplicationContext(), "Login failed...,Username/Password is incorrect", Toast.LENGTH_LONG).show();
+                }*/
             }
         });
         facebook.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +165,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -153,4 +176,78 @@ public class LoginActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void loginUser(String login_url) {
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog.setMessage("Loading, please wait");
+        progressDialog.setTitle("Connecting server");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+        //System.out.println("login_url" + login_url);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, login_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject jsonobject = null;
+                        try {
+                            jsonobject = new JSONObject(response);
+                            String key=jsonobject.getString("key");
+                           // System.out.println("key "+key);
+                            if (!key.isEmpty()){
+                               // AppUrl.TOKEN="fe63a7b37e04515a4cba77d2960526a84d1a56da";
+                                AppUrl.TOKEN=key;
+                                sessionManager.createLoginSession(email_phone.getText().toString(), password.getText().toString());
+                                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                finish();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        progressDialog.dismiss();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (String.valueOf(error) != null) {
+                    new MaterialDialog.Builder(LoginActivity.this)
+                            .content("Invalid Credentials!Please try again")
+                            .positiveText("Ok")
+                            .positiveColorRes(R.color.colorPrimary)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                                }
+                            })
+                            .show();
+                    progressDialog.dismiss();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("email", email_phone.getText().toString());
+                params.put("password", password.getText().toString());
+                return params;
+            }
+
+       /*    @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String>header=new HashMap<>();
+                header.put("Content-Type", "application/json");
+
+               return header;
+            }*/
+
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        MyVolleySingleton.getInstance(getApplicationContext()).getRequestQueue().add(stringRequest);
+
+    }
+
 }

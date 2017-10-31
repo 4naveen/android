@@ -28,7 +28,6 @@
             android:inputType="textMultiLine"
             android:overScrollMode="always"
             android:scrollbarStyle="insideInset"
-
             android:scrollbars="vertical"
             android:lines="6"
             android:textAppearance="?android:attr/textAppearanceMedium"

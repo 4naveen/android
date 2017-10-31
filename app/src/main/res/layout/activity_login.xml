@@ -43,6 +43,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Email id or Mobile No"
                     android:inputType="textEmailAddress"
+                    android:text="arun@spliceglobal.com"
                     android:singleLine="true"
                     android:theme="@android:style/Theme.Holo.Light" />
             </android.support.design.widget.TextInputLayout>
@@ -58,6 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Password"
+                    android:text="RG1234rg@"
                     android:inputType="textPassword"
                     android:singleLine="true"
                     android:theme="@android:style/Theme.Holo.Light" />

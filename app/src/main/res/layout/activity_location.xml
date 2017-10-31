@@ -24,11 +24,11 @@
 
     </SearchView>
 
-     <ListView
+   <!--  <ListView
          android:layout_width="match_parent"
          android:layout_height="150dp"
          android:scrollbars="vertical"
-         android:id="@+id/lv"/>
+         android:id="@+id/lv"/>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

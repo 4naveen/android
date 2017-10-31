@@ -1,4 +1,4 @@
-package com.project.spliceglobal.recallgo;
+package com.project.spliceglobal.recallgo.model;
 
 /**
  * Created by Personal on 9/21/2017.

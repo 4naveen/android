@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.project.spliceglobal.recallgo.utils.SessionManager;
+
 
 public class WelcomeActivity extends AppCompatActivity {
     private ViewPager viewPager;
@@ -42,19 +44,15 @@ public class WelcomeActivity extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
         Configuration config = getResources().getConfiguration();
-
-
             layouts = new int[]{
                     R.layout.welcome_slide1,
                     R.layout.welcome_slide2,
                     R.layout.welcome_slide3};
 
-
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         login = (LinearLayout) findViewById(R.id.btn_login);
         register = (LinearLayout) findViewById(R.id.btn_register);
-
         addBottomDots(0);
         changeStatusBarColor();
 
@@ -69,16 +67,13 @@ public class WelcomeActivity extends AppCompatActivity {
                 finish();
             }
         });
-
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(WelcomeActivity.this,RegisterActivity.class));
             }
         });
-
     }
-
     private void addBottomDots(int currentPage) {
         dots = new TextView[layouts.length];
 
