@@ -99,45 +99,7 @@ public class CategoryListActivity extends AppCompatActivity {
 
         }
         getCategory(AppUrl.ALL_CATEGORY_URL);
-       /* listView.setAdapter(new ArrayAdapter<String>(this, R.layout.indi_view_category,
-                R.id.category_name,categoryArrayList) {
-            @NonNull
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View v = super.getView(position, convertView, parent);
-                ImageView icon = (ImageView) v.findViewById(R.id.ok);
-                if (listView.isItemChecked(position)) {
-                    icon.setImageResource(R.mipmap.ok);
-                } else {
-                   // icon.setImageResource(R.mipmap.ic_add_white_24dp);
-                }
-                return v;
-            }
-        });*/
-/*        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                try{
-                    for (int ctr=0;ctr<=categoryArrayList.size();ctr++){
-                        if(i==ctr){
-                           // listView.getChildAt(ctr).setBackgroundColor(Color.CYAN);
-                            ImageView imageView=(ImageView) view.findViewById(R.id.ok);
-                             imageView.setVisibility(View.VISIBLE);
-                        }else{
-                           // listView.getChildAt(ctr).setBackgroundColor(Color.WHITE);
-                            ImageView imageView=(ImageView) view.findViewById(R.id.ok);
-                            imageView.setImageDrawable(getResources().getDrawable(R.mipmap.ic_done_white_24dp));;
-                            imageView.setVisibility(View.GONE);
-                        }
-                    }
-                    listAdapter.notifyDataSetChanged();
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
-                Log.v("Selected item", String.valueOf(listView.getItemAtPosition(i)));
-            }
-        });*/
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -145,33 +107,11 @@ public class CategoryListActivity extends AppCompatActivity {
               //category_text=""+parent.getItemAtPosition(position);
                 category_text=category.getCategory_name();
                 category_id=category.getId();
-               /* try{
-                    for (int ctr=0;ctr<=categoryArrayList.size();ctr++){
-                        if(position==ctr){
-                            // listView.getChildAt(ctr).setBackgroundColor(Color.CYAN);
-                            ImageView imageView=(ImageView) view.findViewById(R.id.ok);
-                            imageView.setVisibility(View.VISIBLE);
-                        }else{
-                            // listView.getChildAt(ctr).setBackgroundColor(Color.WHITE);
-                            ImageView imageView=(ImageView) view.findViewById(R.id.ok);
-                           // imageView.setImageDrawable(getResources().getDrawable(R.mipmap.ic_done_white_24dp));;
-                           // imageView.setVisibility(View.GONE);
-                        }
-                    }
-                    listAdapter.notifyDataSetChanged();
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }*/
+
             }
         });
 
-     /*   findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(CategoryListActivity.this, AddCategoryActivity.class));
-            }
-        });*/
+
         add.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -459,7 +399,7 @@ public class CategoryListActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             dialog.dismiss();
             if (result.equals("success")) {
-                final Snackbar snackbar = Snackbar.make(layout, "Item Updated Succesfully!", Snackbar.LENGTH_LONG);
+                final Snackbar snackbar = Snackbar.make(layout, "Item Moved Succesfully!", Snackbar.LENGTH_LONG);
                 View v = snackbar.getView();
                 v.setMinimumWidth(1000);
                 TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
@@ -472,7 +412,7 @@ public class CategoryListActivity extends AppCompatActivity {
                     }
                 }, 3000);
             } else {
-                final Snackbar snackbar = Snackbar.make(layout, "Item not updated! Try Again", Snackbar.LENGTH_LONG);
+                final Snackbar snackbar = Snackbar.make(layout, "Item not moved! Try Again", Snackbar.LENGTH_LONG);
                 View v = snackbar.getView();
                 v.setMinimumWidth(1000);
                 TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
