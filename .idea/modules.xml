@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RecallGo.iml" filepath="$PROJECT_DIR$/RecallGo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/recallgo.iml" filepath="$PROJECT_DIR$/recallgo.iml" />
     </modules>
   </component>
 </project>

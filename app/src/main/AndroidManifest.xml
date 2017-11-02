@@ -18,7 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
-        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="Sign In"
+            android:parentActivityName=".WelcomeActivity" />
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
@@ -27,7 +30,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity" />
+        <activity
+            android:name=".RegisterActivity"
+            android:label="Sign Up"
+            android:parentActivityName=".WelcomeActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ReminderActivity" />
@@ -36,8 +42,6 @@
         <activity android:name=".AddCategoryActivity" />
         <activity android:name=".BrandListActivity" />
         <activity android:name=".StoreListActivity" />
-        <activity android:name=".ChangePasswordActivity"></activity>
-
         <activity android:name=".LocationActivity">
             <meta-data
                 android:name="android.app.searchable"
@@ -60,9 +64,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SetTargetActivity" />
-        <activity android:name=".CategoryItemListActivity">
-
-        </activity>
+        <activity android:name=".CategoryItemListActivity"></activity>
+        <activity android:name=".ChangePasswordActivity"></activity>
     </application>
 
 </manifest>
