@@ -7,50 +7,55 @@
     android:orientation="vertical"
     android:id="@+id/layout"
     tools:context="com.project.spliceglobal.recallgo.AddReminderItemActivity">
+
     <include
         layout="@layout/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:id="@+id/category"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_margin="10dp"
             android:text="Category"/>
+
         <TextView
             android:layout_width="0dp"
             android:id="@+id/category_text"
             android:layout_weight="0.4"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:layout_gravity="end"
-            android:gravity="end"
+            android:gravity="right"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text="UnCategorized"
-            android:textColor="@color/bg_screen2"/>
+            android:textColor="@color/pink_font_color"/>
+
         <ImageView
             android:layout_width="0dp"
             android:layout_weight="0.1"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:gravity="right"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:src="@mipmap/arrow_right"/>
 
     </LinearLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="3dp"
-        android:background="#c0c0c0" />
+        android:background="#D0D0D0" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,86 +68,94 @@
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_margin="10dp"
             android:text="Brand"/>
+
         <TextView
             android:layout_width="0dp"
             android:id="@+id/brand_text"
             android:layout_weight="0.4"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:layout_gravity="end"
-            android:gravity="end"
+            android:gravity="right"
             android:text=""
-            android:textColor="@color/bg_screen2"/>
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/pink_font_color"/>
+
         <ImageView
             android:layout_width="0dp"
             android:layout_weight="0.1"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:gravity="right"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:src="@mipmap/arrow_right"/>
 
     </LinearLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="3dp"
-        android:background="#c0c0c0" />
+        android:background="#D0D0D0" />
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:id="@+id/prefered_store"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_margin="10dp"
             android:text="Preferd Store"/>
+
         <TextView
             android:layout_width="0dp"
             android:id="@+id/prefered_store_text"
             android:layout_weight="0.4"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:layout_gravity="end"
-            android:gravity="end"
+            android:gravity="right"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text=""
-            android:textColor="@color/bg_screen2"/>
+            android:textColor="@color/pink_font_color"/>
+
         <ImageView
             android:layout_width="0dp"
             android:layout_weight="0.1"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:gravity="right"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:src="@mipmap/arrow_right"/>
     </LinearLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="3dp"
-        android:background="#c0c0c0" />
+        android:background="#D0D0D0" />
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.7"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_margin="10dp"
             android:text="Quantity"/>
 
         <EditText
@@ -150,34 +163,36 @@
             android:id="@+id/quantity"
             android:layout_weight="0.2"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
             android:layout_marginRight="5dp"
             android:layout_marginEnd="5dp"
-            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="right"
             android:cursorVisible="false"
+            android:inputType="number"
+            android:singleLine="true"
             android:background="@drawable/rounded_edittext" />
 
     </LinearLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="3dp"
-        android:background="#c0c0c0" />
+        android:background="#D0D0D0" />
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.6"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_margin="10dp"
             android:text="Remind me on day"/>
         <TextView
             android:layout_width="0dp"
@@ -185,27 +200,29 @@
             android:layout_weight="0.3"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:layout_gravity="end"
-            android:gravity="end"
+            android:gravity="right"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text=""
-            android:textColor="@color/bg_screen2"/>
+            android:textColor="@color/pink_font_color"/>
+
         <ImageView
             android:layout_width="0dp"
             android:id="@+id/date_time"
             android:layout_weight="0.1"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:gravity="right"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:src="@mipmap/calendar"/>
 
     </LinearLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="3dp"
-        android:background="#c0c0c0" />
+        android:background="#D0D0D0" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -217,48 +234,50 @@
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_margin="10dp"
             android:text="Repeat"/>
+
         <TextView
             android:layout_width="0dp"
             android:id="@+id/repeat_text"
             android:layout_weight="0.4"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:layout_gravity="end"
-            android:gravity="end"
+            android:gravity="right"
             android:text="Never"
-            android:textColor="@color/bg_screen2"/>
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/pink_font_color"/>
+
         <ImageView
             android:layout_width="0dp"
             android:layout_weight="0.1"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:gravity="right"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:src="@mipmap/arrow_right"/>
 
     </LinearLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="3dp"
-        android:background="#c0c0c0" />
+        android:background="#D0D0D0" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.9"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_margin="10dp"
             android:text="Remind me at location"/>
 
         <Switch
@@ -268,18 +287,19 @@
             android:checked="false"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:textOff="No"
             android:textOn="Yes"/>
 
     </LinearLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="3dp"
-        android:background="#c0c0c0" />
+        android:background="#D0D0D0" />
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -290,8 +310,7 @@
             android:layout_weight="0.6"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_margin="10dp"
             android:text="Priority"/>
 
         <TableLayout
@@ -300,7 +319,9 @@
             android:layout_weight="0.4"
             android:layout_height="wrap_content"
             android:layout_marginEnd="3dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:stretchColumns="*">
 
             <TableRow
@@ -370,41 +391,39 @@
     </LinearLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="3dp"
-        android:background="#c0c0c0" />
+        android:background="#D0D0D0" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:id="@+id/notes"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.9"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_margin="10dp"
             android:text="Notes"/>
 
         <ImageView
             android:layout_width="0dp"
             android:layout_weight="0.1"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:gravity="right"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:src="@mipmap/arrow_right"/>
 
     </LinearLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="3dp"
-        android:background="#c0c0c0" />
+        android:background="#D0D0D0" />
+
 </LinearLayout>
