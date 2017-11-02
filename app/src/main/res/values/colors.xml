@@ -19,6 +19,7 @@
     <color name="dashboad_bg2">#FF2559</color>
     <color name="dashboad_bg3">#81D208</color>
     <color name="dashboad_bg4">#FA7F31</color>
+    <color name="pink_font_color">#FB6F8A</color>
 
     <!-- dots inactive colors -->
     <color name="dot_dark_screen1">#d1395c</color>
