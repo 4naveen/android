@@ -230,6 +230,8 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 }
                 else {
                     Intent intent=new Intent(AddReminderItemActivity.this, CategoryListActivity.class);
+                    intent.putExtra("called_from","without_move");
+
                     startActivityForResult(intent,0);
                 }
             }

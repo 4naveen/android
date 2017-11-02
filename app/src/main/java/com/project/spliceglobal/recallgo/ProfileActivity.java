@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,7 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
     String encoded_image;
     byte[] images_bytes;
     LinearLayout layout;
-
+     ImageView change_pwd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +84,8 @@ public class ProfileActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         layout=(LinearLayout)findViewById(R.id.layout);
         toggleButton = (ToggleButton) findViewById(R.id.togglebutton);
+        change_pwd = (ImageView) findViewById(R.id.change_button_link);
+
         name = (EditText) findViewById(R.id.name);
         email = (EditText) findViewById(R.id.email);
         mobile = (EditText) findViewById(R.id.mobile);
@@ -91,6 +94,12 @@ public class ProfileActivity extends AppCompatActivity {
         email.setText(getIntent().getStringExtra("email"));
         mobile.setText(getIntent().getStringExtra("mobile"));
         profile_image.setImageBitmap(getImage(images_bytes));
+        change_pwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this,ChangePasswordActivity.class));
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)

@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -64,7 +65,8 @@ import javax.net.ssl.HttpsURLConnection;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
-    CircleImageView profile_image,facebook,google,twitter,linkedin;
+    ImageView facebook,google,twitter,linkedin;
+    CircleImageView profile_image;
     RadioGroup radioGroup;
     RadioButton radioButton;
     String sur_name,encoded_image;
@@ -101,10 +103,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         password=(EditText)findViewById(R.id.password);
         confirm_password=(EditText)findViewById(R.id.confirm_password);
         profile_image = (CircleImageView) findViewById(R.id.profile_image);
-        facebook = (CircleImageView) findViewById(R.id.facebook);
-        google = (CircleImageView) findViewById(R.id.google);
-        twitter = (CircleImageView) findViewById(R.id.twitter);
-        linkedin = (CircleImageView) findViewById(R.id.linkedin);
+        facebook = (ImageView) findViewById(R.id.facebook);
+        google = (ImageView) findViewById(R.id.google);
+        twitter = (ImageView) findViewById(R.id.twitter);
+        linkedin = (ImageView) findViewById(R.id.linkedin);
 
       //  int selectedId=radioGroup.getCheckedRadioButtonId();
 
@@ -122,12 +124,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         radioButton = (RadioButton) findViewById(checkedId);
                         sur_name=radioButton.getText().toString();
                         sur_name_id=1;
-                        System.out.println("salutation"+sur_name);
-                        break;
-                    case R.id.sur_name3:
-                        radioButton = (RadioButton) findViewById(checkedId);
-                        sur_name=radioButton.getText().toString();
-                        sur_name_id=2;
                         System.out.println("salutation"+sur_name);
                         break;
                 }

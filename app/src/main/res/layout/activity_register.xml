@@ -17,6 +17,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#fff"
         android:scrollbars="vertical">
 
         <LinearLayout
@@ -24,10 +25,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:orientation="vertical">
+
+
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_image"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:elevation="5dp"
@@ -55,12 +58,9 @@
                     android:id="@+id/sur_name2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
                     android:text="Mrs" />
-                <RadioButton
-                    android:id="@+id/sur_name3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Miss" />
+
             </RadioGroup>
 
             <android.support.design.widget.TextInputLayout
@@ -84,8 +84,7 @@
                 android:id="@+id/input_layout_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                >
+                android:padding="10dp">
 
                 <EditText
                     android:id="@+id/email"
@@ -147,18 +146,19 @@
 
             <Button
                 android:id="@+id/save"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/bg_screen2"
-                android:padding="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@color/button_bg"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
                 android:text="Create Account"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="60dp"
-                android:layout_marginRight="60dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textAllCaps="false"
                 android:textColor="@color/textColor"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -167,42 +167,42 @@
                 android:gravity="center_horizontal"
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
-                <de.hdodenhof.circleimageview.CircleImageView
+
+
+                <ImageView
                     android:id="@+id/facebook"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_margin="5dp"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/facebook"
-                    app:civ_border_color="#fff"
-                    app:civ_border_width="2dp" />
-                <de.hdodenhof.circleimageview.CircleImageView
+                    android:src="@mipmap/facebook" />
+
+                <ImageView
                     android:id="@+id/google"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_margin="5dp"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/gplus"
-                    app:civ_border_color="#fff"
-                    app:civ_border_width="2dp" />
-                <de.hdodenhof.circleimageview.CircleImageView
+                    android:src="@mipmap/gplus"/>
+
+                <ImageView
                     android:id="@+id/twitter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_margin="5dp"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/twitter"
-                    app:civ_border_color="#fff"
-                    app:civ_border_width="2dp" />
-                <de.hdodenhof.circleimageview.CircleImageView
+                    android:src="@mipmap/twitter" />
+
+
+                <ImageView
                     android:id="@+id/linkedin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_margin="5dp"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/linkedin"
-                    app:civ_border_color="#fff"
-                    app:civ_border_width="2dp" />
+                    android:src="@mipmap/linkedin" />
+
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

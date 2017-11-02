@@ -61,7 +61,6 @@ public class AllFragment extends Fragment {
         allCategoryArrayList=new ArrayList<>();
         rv = (RecyclerView)view.findViewById(R.id.rv);
         getCategory(AppUrl.ALL_CATEGORY_URL);
-
         view.setFocusableInTouchMode(true);
         view.requestFocus();
         view.setOnKeyListener(new View.OnKeyListener() {

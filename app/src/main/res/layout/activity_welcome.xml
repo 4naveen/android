@@ -5,7 +5,7 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dot_dark_screen3"
+    android:background="#053549"
     android:orientation="vertical">
 
     <ImageView
@@ -21,13 +21,12 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="180dp"
-            android:layout_height="0dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50dp"
-            android:layout_weight="0.35"
             android:scaleType="centerCrop"
-            android:src="@drawable/splash_image" />
+            android:src="@drawable/screen_head" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager"
@@ -50,16 +49,18 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/btn_login"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:background="@color/bg_screen1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:background="@color/welcome_login_bg"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -86,14 +87,18 @@
 
             <LinearLayout
                 android:id="@+id/btn_register"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:background="@color/bg_screen2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:background="@color/welcome_reg_bg"
                 android:orientation="vertical">
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -108,6 +113,7 @@
                     android:layout_marginTop="34dp"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
+
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>

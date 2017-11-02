@@ -32,7 +32,6 @@ public class WelcomeActivity extends AppCompatActivity {
     private LinearLayout login, register;
     private ImageView image;
     SessionManager sessionManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,16 +54,14 @@ public class WelcomeActivity extends AppCompatActivity {
         register = (LinearLayout) findViewById(R.id.btn_register);
         addBottomDots(0);
         changeStatusBarColor();
-
         myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
-
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(WelcomeActivity.this,LoginActivity.class));
-                finish();
+                //finish();
             }
         });
         register.setOnClickListener(new View.OnClickListener() {

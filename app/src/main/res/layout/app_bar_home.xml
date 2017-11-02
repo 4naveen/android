@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.Toolbar
@@ -18,11 +18,11 @@
         app:theme="@style/AppTheme.AppBarOverlay">
 
     <ImageView
+        android:layout_margin="5dp"
         android:id="@+id/actionCall"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:paddingBottom="90dp"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/web_hi_res_512"/>
+        android:src="@drawable/title_img"/>
     </android.support.v7.widget.Toolbar>
 </RelativeLayout>

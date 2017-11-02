@@ -80,7 +80,6 @@ public class CategoryListActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.category);
         allCategoryArrayList = new ArrayList<>();
         add=(EditText)findViewById(R.id.add);
-
         info_add=(ImageView)findViewById(R.id.info_add);
         called_from=getIntent().getStringExtra("called_from");
         if (called_from.equalsIgnoreCase("move"))
@@ -90,13 +89,11 @@ public class CategoryListActivity extends AppCompatActivity {
             brand_id=getIntent().getStringExtra("brand");
             store_id=getIntent().getStringExtra("store");
             type=getIntent().getStringExtra("type");
-
         }
         layout=(LinearLayout)findViewById(R.id.layout);
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Select Category");
-
         }
         getCategory(AppUrl.ALL_CATEGORY_URL);
 

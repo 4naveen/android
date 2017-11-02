@@ -16,7 +16,6 @@ import java.util.HashMap;
 public class SessionManager {
     // Shared Preferences
     SharedPreferences pref;
-
     // Editor for Shared preferences
     Editor editor;
 
@@ -51,13 +50,10 @@ public class SessionManager {
     public void createLoginSession(String name, String email) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
-
         // Storing name in pref
         editor.putString(KEY_EMAIL_PHONE, name);
-
         // Storing email in pref
         editor.putString(KEY_PASSWORD, email);
-
         // commit changes
         editor.commit();
         System.out.println("session created");

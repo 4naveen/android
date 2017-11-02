@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +22,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -61,7 +64,8 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
     private int category_id;
     private String cat_name;
     private String called_from_adapter;
-    private int itemIdPosition,repeat_text_id;
+    private int itemIdPosition;
+    private String type;
     ArrayList<String> repeatList;
 
     public TodayAdapter(Context context, ArrayList<Item> itemArrayList,String called_from,int category_id,String cat_name,String called_from_adapter) {
@@ -104,9 +108,10 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
         repeatList.add("Yearly");
          Item item = itemArrayList.get(position);
         final int item_id = itemArrayList.get(position).getId();
-        final String type=item.getRepeat_type();
+        type=item.getRepeat_type();
         final String brand=item.getBrand_id();
         final String store=item.getStore_id();
+
         viewHolder.category_name.setText(item.getItem_name());
         viewHolder.sharedby.setText(item.getQty());
         viewHolder.date.setText(item.getDate_time());
@@ -140,8 +145,8 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
                 intent.putExtra("brand",brand);
                 intent.putExtra("store",store);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                 context.startActivity(intent);
-                 mItemManger.closeAllItems();
+                context.startActivity(intent);
+                mItemManger.closeAllItems();
             }
         });
         viewHolder.layout_later.setOnClickListener(new View.OnClickListener() {
@@ -151,10 +156,18 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
                 final MaterialDialog dialog1 = new MaterialDialog.Builder(context)
                         .title("Select ")
                         .customView(R.layout.indi_view_repeat_dialog, true)
-                        .positiveText("")
+                        .positiveText("ok")
                         .positiveColorRes(R.color.colorPrimary)
                         .negativeColorRes(R.color.colorPrimary)
-                        .negativeText("")
+                        .negativeText("cancel")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                new LaterItemTask().execute(String.valueOf(item_id),String.valueOf(category_id),store,brand,type);
+                                dialog.dismiss();
+
+                            }
+                        })
                         .show();
                 View view = dialog1.getCustomView();
                 if (view != null) {
@@ -168,34 +181,38 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
                             //Toast.makeText(getApplicationContext(), "you selected" + parent.getItemAtPosition(position), Toast.LENGTH_LONG).show();
                            // repeat_text.setText(String.valueOf(parent.getItemAtPosition(position)));
                             if (String.valueOf(parent.getItemAtPosition(position)).equalsIgnoreCase("One Time")) {
-                                repeat_text_id = 1;
+                                type =String.valueOf(1);
                             } else if (String.valueOf(parent.getItemAtPosition(position)).equalsIgnoreCase("Daily")) {
-                                repeat_text_id = 2;
+                                type =String.valueOf(2);
                             } else if (String.valueOf(parent.getItemAtPosition(position)).equalsIgnoreCase("Weekly")) {
-                                repeat_text_id = 3;
+                                type = String.valueOf(3);
                             } else if (String.valueOf(parent.getItemAtPosition(position)).equalsIgnoreCase("Every two Week")) {
-                                repeat_text_id = 4;
+                                type = String.valueOf(4);
                             } else if (String.valueOf(parent.getItemAtPosition(position)).equalsIgnoreCase("Monthly")) {
-                                repeat_text_id = 5;
+                                type =String.valueOf(5);
                             } else {
-                                repeat_text_id = 6;
+                                type =String.valueOf(1);
                             }
-                            dialog1.dismiss();
+                           // dialog1.dismiss();
                         }
                     });
                 }
-                Intent intent=new Intent(context, CategoryListActivity.class);
-                intent.putExtra("called_from","move");
-                intent.putExtra("id",item_id);
-                System.out.println("id in adapter--"+item_id);
-                intent.putExtra("type",type);
-                intent.putExtra("brand",brand);
-                intent.putExtra("store",store);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+
                 mItemManger.closeAllItems();
             }
         });
+
+        viewHolder.layout_complete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemIdPosition = viewHolder.getLayoutPosition();
+
+                new CompleteItemTask().execute(String.valueOf(item_id),String.valueOf(category_id),store,brand,type,"2");
+
+                mItemManger.closeAllItems();
+            }
+        });
+
         mItemManger.bindView(viewHolder.itemView, position);
     }
 
@@ -268,7 +285,6 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
             dialog.show();
             dialog.setCancelable(false);
         }
-
         @Override
         protected String doInBackground(String... params) {
             String response = "", jsonresponse = "";
@@ -347,6 +363,251 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
                 Log.i("Res--", result);
             } else {
 
+
+            }
+        }
+    }
+    private class LaterItemTask extends AsyncTask<String, Void, String> {
+        ProgressDialog dialog;
+        HttpURLConnection conn;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(context);
+            dialog.setMessage("Loading, please wait...");
+            dialog.setTitle("Connecting server");
+            dialog.show();
+            dialog.setCancelable(false);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String response = "", jsonresponse = "";
+            BufferedReader bufferedReader = null;
+            JSONObject json = null;
+            JSONObject jsonObject = null;
+            URL url = null;
+            try {
+                jsonObject = new JSONObject();
+                jsonObject.put("id",params[0]);
+                jsonObject.put("list",params[1]);
+                if (params[2].equalsIgnoreCase("null"))
+                {
+                    jsonObject.put("store",JSONObject.NULL);
+                }
+                else {
+                    jsonObject.put("store", params[2]);
+                }
+                if (params[3].equalsIgnoreCase("null"))
+                {
+                    jsonObject.put("brand",JSONObject.NULL);
+                }else {
+                    jsonObject.put("brand", params[3]);
+                }
+                jsonObject.put("type", params[4]);
+                System.out.println(jsonObject.toString());
+                url = new URL(AppUrl.ITEM_LIST_URL+params[0]+"/");
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("PATCH");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestProperty("Authorization", "Token "+ AppUrl.TOKEN);
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(jsonObject.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+                int responseCode = conn.getResponseCode();
+                System.out.println("responsecode--"+responseCode);
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    String line;
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    //Log.d("Output",br.toString());
+                    while ((line = br.readLine()) != null) {
+                        response += line;
+                        Log.d("output lines", line);
+                    }
+                    json = new JSONObject(response);
+                    //Get Values from JSONobject
+                    // System.out.println("success=" + json.get("success"));
+
+                    jsonresponse = "success";
+
+                } else {
+                    InputStreamReader inputStreamReader = new InputStreamReader(conn.getErrorStream());
+                    bufferedReader = new BufferedReader(inputStreamReader);
+                    String line = "";
+                    while ((line = bufferedReader.readLine()) != null) {
+                        response += line;
+                        Log.d("output lines", line);
+                    }
+                    // Log.i("response", response);
+                    // json = new JSONObject(response);
+                    // jsonresponse = json.getString("error");
+                    //System.out.println("error=" + json.get("error"));
+                    //succes = json.getString("success");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            return jsonresponse;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            dialog.dismiss();
+            if (result.equals("success")) {
+              /*  final Snackbar snackbar = Snackbar.make(context, "Item Moved Succesfully!", Snackbar.LENGTH_LONG);
+                View v = snackbar.getView();
+                v.setMinimumWidth(1000);
+                TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.YELLOW);
+                snackbar.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 3000);*/
+                Toast.makeText(context,"updated successfully",Toast.LENGTH_LONG).show();
+            } else {
+           /*     final Snackbar snackbar = Snackbar.make(layout, "Item not moved! Try Again", Snackbar.LENGTH_LONG);
+                View v = snackbar.getView();
+                v.setMinimumWidth(1000);
+                TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.YELLOW);
+                snackbar.show();*/
+                Toast.makeText(context," Not updated ! Try Again",Toast.LENGTH_LONG).show();
+
+            }
+        }
+    }
+    private class CompleteItemTask extends AsyncTask<String, Void, String> {
+        ProgressDialog dialog;
+        HttpURLConnection conn;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(context);
+            dialog.setMessage("Loading, please wait...");
+            dialog.setTitle("Connecting server");
+            dialog.show();
+            dialog.setCancelable(false);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String response = "", jsonresponse = "";
+            BufferedReader bufferedReader = null;
+            JSONObject json = null;
+            JSONObject jsonObject = null;
+            URL url = null;
+            try {
+                jsonObject = new JSONObject();
+                jsonObject.put("id",params[0]);
+                jsonObject.put("list",params[1]);
+                if (params[2].equalsIgnoreCase("null"))
+                {
+                    jsonObject.put("store",JSONObject.NULL);
+                }
+                else {
+                    jsonObject.put("store", params[2]);
+                }
+                if (params[3].equalsIgnoreCase("null"))
+                {
+                    jsonObject.put("brand",JSONObject.NULL);
+                }else {
+                    jsonObject.put("brand", params[3]);
+                }
+                jsonObject.put("type", params[4]);
+                jsonObject.put("status",params[5]);
+                System.out.println(jsonObject.toString());
+                url = new URL(AppUrl.ITEM_LIST_URL+params[0]+"/");
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("PATCH");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestProperty("Authorization", "Token "+ AppUrl.TOKEN);
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(jsonObject.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+                int responseCode = conn.getResponseCode();
+                System.out.println("responsecode--"+responseCode);
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    String line;
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    //Log.d("Output",br.toString());
+                    while ((line = br.readLine()) != null) {
+                        response += line;
+                        Log.d("output lines", line);
+                    }
+                    json = new JSONObject(response);
+                    //Get Values from JSONobject
+                    // System.out.println("success=" + json.get("success"));
+
+                    jsonresponse = "success";
+
+                } else {
+                    InputStreamReader inputStreamReader = new InputStreamReader(conn.getErrorStream());
+                    bufferedReader = new BufferedReader(inputStreamReader);
+                    String line = "";
+                    while ((line = bufferedReader.readLine()) != null) {
+                        response += line;
+                        Log.d("output lines", line);
+                    }
+                    // Log.i("response", response);
+                    // json = new JSONObject(response);
+                    // jsonresponse = json.getString("error");
+                    //System.out.println("error=" + json.get("error"));
+                    //succes = json.getString("success");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            return jsonresponse;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            dialog.dismiss();
+            if (result.equals("success")) {
+              /*  final Snackbar snackbar = Snackbar.make(context, "Item Moved Succesfully!", Snackbar.LENGTH_LONG);
+                View v = snackbar.getView();
+                v.setMinimumWidth(1000);
+                TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.YELLOW);
+                snackbar.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 3000);*/
+                Toast.makeText(context,"updated successfully",Toast.LENGTH_LONG).show();
+            } else {
+           /*     final Snackbar snackbar = Snackbar.make(layout, "Item not moved! Try Again", Snackbar.LENGTH_LONG);
+                View v = snackbar.getView();
+                v.setMinimumWidth(1000);
+                TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.YELLOW);
+                snackbar.show();*/
+                Toast.makeText(context," Not updated ! Try Again",Toast.LENGTH_LONG).show();
 
             }
         }

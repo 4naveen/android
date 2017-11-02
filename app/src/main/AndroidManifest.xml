@@ -36,6 +36,8 @@
         <activity android:name=".AddCategoryActivity" />
         <activity android:name=".BrandListActivity" />
         <activity android:name=".StoreListActivity" />
+        <activity android:name=".ChangePasswordActivity"></activity>
+
         <activity android:name=".LocationActivity">
             <meta-data
                 android:name="android.app.searchable"

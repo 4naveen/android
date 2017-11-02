@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#053549</color>
+    <color name="colorPrimaryDark">#07122E</color>
     <color name="colorAccent">#FF4081</color>
     <color name="textColor">#fff</color>
     <color name="light_green">#64DD17</color>
@@ -10,6 +10,15 @@
     <color name="bg_screen2">#f64c73</color>
     <color name="bg_screen3">#3395ff</color>
     <color name="bg_screen4">#F9A825</color>
+
+    <color name="header_bg">#FF245A</color>
+    <color name="button_bg">#FF2559</color>
+    <color name="welcome_login_bg">#2CC3D4</color>
+    <color name="welcome_reg_bg">#FF245A</color>
+    <color name="dashboad_bg1">#3DB5E9</color>
+    <color name="dashboad_bg2">#FF2559</color>
+    <color name="dashboad_bg3">#81D208</color>
+    <color name="dashboad_bg4">#FA7F31</color>
 
     <!-- dots inactive colors -->
     <color name="dot_dark_screen1">#d1395c</color>

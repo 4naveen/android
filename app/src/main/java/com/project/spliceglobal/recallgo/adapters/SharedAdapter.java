@@ -84,6 +84,7 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.ViewHolder
             i.putExtra("category_id", category_id);
             i.putExtra("name",sharedArrayList.get(getAdapterPosition()).getCategory_name());
             i.putExtra("called_from_adapter","shared");
+            i.putExtra("called_from","without_move");
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
         }

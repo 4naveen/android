@@ -24,7 +24,7 @@
             android:weightSum="2">
 
             <LinearLayout
-                android:id="@+id/layout_delete"
+                android:id="@+id/layout_share"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -47,7 +47,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layout_move"
+                android:id="@+id/layout_delete"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

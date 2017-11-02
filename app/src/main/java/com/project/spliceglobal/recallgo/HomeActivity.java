@@ -49,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         profile_image = (CircleImageView) findViewById(R.id.profile_image);
         sessionManager=new SessionManager(getApplicationContext());

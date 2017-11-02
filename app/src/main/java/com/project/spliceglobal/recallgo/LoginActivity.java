@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -37,12 +38,11 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LoginActivity extends AppCompatActivity {
-    CircleImageView facebook, google, twitter, linkedin;
+    ImageView facebook, google, twitter, linkedin;
     Button signin;
     SessionManager sessionManager;
     EditText email_phone, password;
-    TextInputLayout input_email_phone, input_pwd;
-
+    TextInputLayout input_email_phone,input_pwd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,10 +55,10 @@ public class LoginActivity extends AppCompatActivity {
             actionBar.setTitle("SignIn");
         }
         sessionManager = new SessionManager(getApplicationContext());
-        facebook = (CircleImageView) findViewById(R.id.facebook);
-        google = (CircleImageView) findViewById(R.id.google);
-        twitter = (CircleImageView) findViewById(R.id.twitter);
-        linkedin = (CircleImageView) findViewById(R.id.linkedin);
+        facebook = (ImageView) findViewById(R.id.facebook);
+        google = (ImageView) findViewById(R.id.google);
+        twitter = (ImageView) findViewById(R.id.twitter);
+        linkedin = (ImageView) findViewById(R.id.linkedin);
         signin = (Button) findViewById(R.id.login);
         email_phone = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
@@ -68,30 +68,22 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 input_email_phone.setError("");
-
             }
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
         password.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 input_pwd.setError("");
-
             }
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -162,8 +154,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
     @Override
@@ -171,7 +161,6 @@ public class LoginActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 finish();
-
             }
         }
         return super.onOptionsItemSelected(item);
