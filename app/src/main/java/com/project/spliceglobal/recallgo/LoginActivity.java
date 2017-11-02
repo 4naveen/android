@@ -52,9 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("SignIn");
+            actionBar.setTitle("Sign In");
         }
-        System.out.println("git push");
         sessionManager = new SessionManager(getApplicationContext());
         facebook = (ImageView) findViewById(R.id.facebook);
         google = (ImageView) findViewById(R.id.google);
@@ -182,11 +181,11 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             jsonobject = new JSONObject(response);
                             String key=jsonobject.getString("key");
-                           // System.out.println("key "+key);
+                            System.out.println("key "+key);
                             if (!key.isEmpty()){
                                // AppUrl.TOKEN="fe63a7b37e04515a4cba77d2960526a84d1a56da";
                                 AppUrl.TOKEN=key;
-                                sessionManager.createLoginSession(email_phone.getText().toString(), password.getText().toString());
+                                sessionManager.createLoginSession(email_phone.getText().toString(), password.getText().toString(),key);
                                 startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                 finish();
                             }

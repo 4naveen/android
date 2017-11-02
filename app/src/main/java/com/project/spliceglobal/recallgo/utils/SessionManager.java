@@ -34,6 +34,7 @@ public class SessionManager {
     // User name (make variable public to access from outside)
     public static final String KEY_EMAIL_PHONE = "email_phone";
     public static final String KEY_PASSWORD = "password";
+    public static final String KEY_TOKEN = "token";
 
     // Email address (make variable public to access from outside)
 
@@ -47,13 +48,16 @@ public class SessionManager {
     /**
      * Create login session
      */
-    public void createLoginSession(String name, String email) {
+    public void createLoginSession(String name, String email,String token) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
         // Storing name in pref
         editor.putString(KEY_EMAIL_PHONE, name);
         // Storing email in pref
         editor.putString(KEY_PASSWORD, email);
+        editor.putString(KEY_TOKEN, token);
+        System.out.println("key in session"+token);
+
         // commit changes
         editor.commit();
         System.out.println("session created");
@@ -83,6 +87,7 @@ public class SessionManager {
             // Closing all the Activities
            // i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             // Add new Flag to start new Activity
+            AppUrl.TOKEN= pref.getString(KEY_TOKEN, null);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             // Staring Login Activity
             _context.startActivity(i);

@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     CircleImageView profile_image;
     RadioGroup radioGroup;
     RadioButton radioButton;
-    String sur_name,encoded_image;
+    String sur_name,encoded_image,status;
     int sur_name_id;
     Bitmap bitmap;
     EditText name,email,mobile,password,confirm_password;
@@ -86,7 +86,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         android.support.v7.app.ActionBar actionBar=getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("SignUp");
+            actionBar.setTitle("Sign Up");
         }
         register=(Button)findViewById(R.id.save);
         layout=(LinearLayout)findViewById(R.id.layout);
@@ -192,7 +192,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         password.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                input_password.setError("");
+                input_password.setError("password must be alpha numeric!");
+
+
 
             }
 
@@ -379,8 +381,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     //Get Values from JSONobject
                    // System.out.println("success=" + json.get("success"));
                    // jsonresponse = json.getString("success");
-                    jsonresponse = "success";
-
+                    jsonresponse = response;
+                    status="success";
                 } else {
                     InputStreamReader inputStreamReader = new InputStreamReader(conn.getErrorStream());
                     bufferedReader = new BufferedReader(inputStreamReader);
@@ -391,40 +393,45 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }
                     // Log.i("response", response);
                    // json = new JSONObject(response);
-                   // jsonresponse = json.getString("error");
+                    jsonresponse = response;
+                    status="fail";
                     //System.out.println("error=" + json.get("error"));
                     //succes = json.getString("success");
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
             return jsonresponse;
         }
 
         @Override
         protected void onPostExecute(String result) {
-            if (result.equals("success")) {
-                final Snackbar snackbar = Snackbar.make(layout, "Succesfully Registered!", Snackbar.LENGTH_LONG);
-                View v = snackbar.getView();
-                v.setMinimumWidth(1000);
-                TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
-                tv.setTextColor(Color.YELLOW);
-                snackbar.show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        finish();
-                    }
-                }, 3000);
+            if (status.equals("success")) {
+                try {
+                    JSONObject jsonObject=new JSONObject(result);
+                    AppUrl.TOKEN=jsonObject.getString("key");
+                    startActivity(new Intent(RegisterActivity.this,HomeActivity.class));
+                    finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             } else {
-                final Snackbar snackbar = Snackbar.make(layout, "Registration not successful! Try Again", Snackbar.LENGTH_LONG);
+                try {
+                    JSONObject jsonObject=new JSONObject(result);
+                    input_name.setError(jsonObject.getString("username"));
+                    input_email.setError(jsonObject.getString("email"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+           /*     final Snackbar snackbar = Snackbar.make(layout, "Registration not successful! Try Again", Snackbar.LENGTH_LONG);
                 View v = snackbar.getView();
                 v.setMinimumWidth(1000);
                 TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
                 tv.setTextColor(Color.YELLOW);
-                snackbar.show();
+                snackbar.show();*/
             }
             dialog.dismiss();
 
