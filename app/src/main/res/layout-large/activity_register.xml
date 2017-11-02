@@ -155,8 +155,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:background="@color/button_bg"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
                 android:text="Create Account"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
@@ -172,6 +172,7 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
                 android:layout_marginBottom="20dp"
+                android:layout_marginTop="30dp"
                 android:orientation="horizontal">
 
 

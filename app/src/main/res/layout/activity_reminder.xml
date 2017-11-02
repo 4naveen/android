@@ -89,11 +89,12 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="10dp"
+                android:layout_width="wrap_content"
                 android:src="@mipmap/arrow"
                 android:id="@+id/arrow1"
                 android:visibility="invisible"
-                android:layout_height="16dp"
+                android:layout_marginTop="-3dp"
+                android:layout_height="wrap_content"
                 />
 
             <TextView
@@ -103,7 +104,7 @@
                 android:singleLine="true"
                 android:text="4"
                 android:textColor="@color/bg_screen1"
-                android:textSize="30sp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/shaed"
@@ -114,7 +115,7 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
                 android:text="Shared"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -127,10 +128,11 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="16dp"
+                android:layout_width="wrap_content"
                 android:src="@mipmap/arrow"
                 android:id="@+id/arrow2"
-                android:layout_height="16dp"
+                android:layout_marginTop="-3dp"
+                android:layout_height="wrap_content"
                 />
 
             <TextView
@@ -140,7 +142,7 @@
                 android:singleLine="true"
                 android:text="0"
                 android:textColor="@color/bg_screen1"
-                android:textSize="30sp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/item"
@@ -150,7 +152,7 @@
                 android:gravity="center_horizontal"
                 android:singleLine="true"
                 android:text="Today"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -161,11 +163,12 @@
             android:id="@+id/all_layout"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="10dp"
+                android:layout_width="wrap_content"
                 android:src="@mipmap/arrow"
                 android:id="@+id/arrow3"
+                android:layout_marginTop="-3dp"
                 android:visibility="invisible"
-                android:layout_height="10dp"
+                android:layout_height="wrap_content"
                 />
             <TextView
                 android:id="@+id/all_qty"
@@ -174,7 +177,7 @@
                 android:singleLine="true"
                 android:text="5"
                 android:textColor="@color/bg_screen1"
-                android:textSize="30sp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/all_category"
@@ -184,7 +187,7 @@
                 android:singleLine="true"
                 android:text="All"
                 android:gravity="center_horizontal"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 
