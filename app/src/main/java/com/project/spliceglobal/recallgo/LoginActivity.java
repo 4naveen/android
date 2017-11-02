@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("SignIn");
         }
+        System.out.println("git push");
         sessionManager = new SessionManager(getApplicationContext());
         facebook = (ImageView) findViewById(R.id.facebook);
         google = (ImageView) findViewById(R.id.google);
