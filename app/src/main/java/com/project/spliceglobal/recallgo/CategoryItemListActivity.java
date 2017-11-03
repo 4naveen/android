@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -61,8 +62,8 @@ public class CategoryItemListActivity extends AppCompatActivity {
     int category_id;
     String category_name, next_url, called_from_adapter;
     int count;
-    ArrayList<Item> itemArrayList;
-    RecyclerView rv;
+    ArrayList<Item> itemArrayList,completeItemArrayList;
+    RecyclerView rv,rv1;
     TodayAdapter todayAdapter;
     TextView blank_message;
     private LinearLayoutManager layoutManager;
@@ -74,6 +75,8 @@ public class CategoryItemListActivity extends AppCompatActivity {
     LinearLayout layout;
     MaterialSearchView searchView;
     ProgressDialog dialog;
+    ToggleButton toggleButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,10 +86,12 @@ public class CategoryItemListActivity extends AppCompatActivity {
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         blank_message = (TextView) findViewById(R.id.blank_data);
         layout = (LinearLayout) findViewById(R.id.layout);
+        toggleButton = (ToggleButton)findViewById(R.id.togglebutton);
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
         add = (EditText) findViewById(R.id.add);
         info_add = (ImageView) findViewById(R.id.info_add);
         itemArrayList = new ArrayList<>();
+        completeItemArrayList =new ArrayList<>();
         category_id = getIntent().getIntExtra("category_id", 0);
         category_name = getIntent().getStringExtra("name");
         called_from_adapter = getIntent().getStringExtra("called_from_adapter");
@@ -97,6 +102,7 @@ public class CategoryItemListActivity extends AppCompatActivity {
         next_url = AppUrl.CATEGOTY_ITEM_LIST_URL;
         itemArrayList = new ArrayList<>();
         rv = (RecyclerView) findViewById(R.id.rv);
+        rv1 = (RecyclerView)findViewById(R.id.rv1);
         getItems(next_url);
         add.addTextChangedListener(new TextWatcher() {
             @Override
@@ -125,6 +131,23 @@ public class CategoryItemListActivity extends AppCompatActivity {
                         startActivityForResult(intent, 0);
                     }
                 });
+            }
+        });
+        toggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (((ToggleButton) view).isChecked()) {
+                    // handle toggle on
+                    rv1.setVisibility(View.VISIBLE);
+                    layoutManager = new LinearLayoutManager(getApplicationContext());
+                    rv1.setLayoutManager(layoutManager);
+                    todayAdapter = new TodayAdapter(CategoryItemListActivity.this,completeItemArrayList, "update_category", category_id, category_name, called_from_adapter);
+                    rv1.setAdapter(todayAdapter);
+                    rv1.setItemAnimator(new DefaultItemAnimator());
+                } else {
+                    // handle toggle off
+                    rv1.setVisibility(View.INVISIBLE);
+                }
             }
         });
     }
@@ -194,6 +217,7 @@ public class CategoryItemListActivity extends AppCompatActivity {
                                 item.setId(object.getInt("id"));
                                 item.setList_name(object.getString("list_name"));
                                 item.setList_id(object.getInt("list"));
+                                int status=object.getInt("status");
                                 if (object.getString("store").equalsIgnoreCase("null") || object.getString("brand").equalsIgnoreCase("null")) {
                                     item.setStore_name("");
                                     item.setBrand_name("");
@@ -206,8 +230,14 @@ public class CategoryItemListActivity extends AppCompatActivity {
                                     item.setStore_id(String.valueOf(object.getInt("store")));
                                 }
                                 item.setRepeat_type(String.valueOf(object.getInt("type")));
-                                itemArrayList.add(item);
+                               // itemArrayList.add(item);
 
+                                if (status==1){
+                                    itemArrayList.add(item);}
+                                else {
+                                    completeItemArrayList.add(item);
+                                    System.out.println("complete items"+completeItemArrayList.size());
+                                }
                             }
                             if (itemArrayList.isEmpty()) {
                                 blank_message.setVisibility(View.VISIBLE);
@@ -282,6 +312,8 @@ public class CategoryItemListActivity extends AppCompatActivity {
                                 item.setId(object.getInt("id"));
                                 item.setList_name(object.getString("list_name"));
                                 item.setList_id(object.getInt("list"));
+                                int status=object.getInt("status");
+
                                 if (object.getString("store").equalsIgnoreCase("null") || object.getString("brand").equalsIgnoreCase("null")) {
                                     item.setStore_name("");
                                     item.setBrand_name("");
@@ -294,8 +326,11 @@ public class CategoryItemListActivity extends AppCompatActivity {
                                     item.setStore_id(String.valueOf(object.getInt("store")));
                                 }
                                 item.setRepeat_type(String.valueOf(object.getInt("type")));
-                                itemArrayList.add(item);
-
+                               // itemArrayList.add(item);
+                                if (status==1){
+                                    itemArrayList.add(item);}
+                                else {
+                                    completeItemArrayList.add(item);}
                             }
                             if (itemArrayList.isEmpty()) {
                                 blank_message.setVisibility(View.VISIBLE);
