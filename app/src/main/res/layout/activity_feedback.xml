@@ -8,6 +8,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     tools:context="com.project.spliceglobal.recallgo.FeedbackActivity">
+
     <include
         layout="@layout/app_bar"
         android:layout_width="match_parent"
@@ -35,6 +36,7 @@
             android:layout_weight="0.5"
             android:textColor="@color/textColor"
             android:text="Refer To Friend" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -44,24 +46,27 @@
         android:background="#fff"
         android:id="@+id/funtionality_feedback"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.9"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:id="@+id/feedback_type"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_margin="10dp"
             android:text="Functionality Feedback"/>
 
         <ImageView
             android:layout_width="0dp"
             android:layout_weight="0.1"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:gravity="right"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:src="@mipmap/arrow_right"/>
 
     </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,11 +74,11 @@
         android:layout_margin="10dp"
         android:textSize="18sp"
         />
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_layout_name"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
@@ -98,11 +103,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
             android:text="Rate us"
             android:textSize="18sp"
             />
@@ -111,7 +118,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/rating"
-            app:srb_starSize="30dp"
+            android:layout_margin="5dp"
+            app:srb_starSize="24dp"
             app:srb_numberOfStars="5"
             app:srb_rating="3"
             app:srb_stepSize="0.5"
@@ -124,15 +132,18 @@
 
     <Button
         android:id="@+id/login"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/bg_screen2"
-        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="true"
+        android:layout_gravity="right"
+        android:background="@color/button_bg"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:layout_marginTop="30dp"
         android:text="Submit"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginRight="15dp"
         android:textColor="@color/textColor"
         android:textSize="20sp" />
 </LinearLayout>

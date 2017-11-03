@@ -17,18 +17,27 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="Enter a product url and we will notify when there is a price drop"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/store_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
+        android:layout_gravity="right"
         android:layout_marginRight="10dp"
-        android:text="View all supported store"
-        android:textColor="@color/bg_screen2"
-        android:textSize="16sp" />
+        android:text="@string/supported_store"
+        android:textColor="@color/pink_font_color"
+        android:autoLink="all"
+        android:selectAllOnFocus="false"
+        android:linksClickable="true"
+        android:paddingBottom="10dp"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D0D0D0"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,6 +47,11 @@
         android:textSize="14sp"
         android:background="#fff"
         android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D0D0D0"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,7 +64,7 @@
             android:layout_margin="10dp"
             android:layout_weight="0.7"
             android:text="My Price Chaser"
-            android:textSize="24sp"
+            android:textSize="18sp"
             />
 
         <Button
@@ -61,13 +75,15 @@
             android:layout_weight="0.3"
             android:background="@color/bg_screen2"
             android:text="Track"
+            android:textAllCaps="false"
             android:textColor="@color/textColor"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
+
     </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="228dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,11 +92,11 @@
 
             <View
                 android:layout_width="0dp"
-                android:layout_height="2dp"
+                android:layout_height="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="0.25"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.1"
                 android:background="#c0c0c0" />
 
             <TextView
@@ -88,18 +104,17 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="10dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.4"
                 android:text="Product : iMac"
-                android:textSize="24sp"
-                />
+                android:textSize="18sp" />
 
             <View
                 android:layout_width="0dp"
-                android:layout_height="2dp"
+                android:layout_height="1dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="0.25"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.5"
                 android:background="#c0c0c0" />
 
         </LinearLayout>
@@ -110,25 +125,25 @@
             android:orientation="horizontal">
 
             <View
-                android:layout_width="2dp"
+                android:layout_width="1dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="#c0c0c0" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
                 android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="40dp"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
@@ -138,18 +153,16 @@
                         android:layout_weight="0.3"
                         android:gravity="end"
                         android:text="Original Price"
-                        android:textSize="15sp"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
-
                         android:gravity="center"
-
                         android:text="Current Price"
-                        android:textSize="15sp"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -159,7 +172,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_weight="0.3"
                         android:text="Best Price"
-                        android:textSize="15sp"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -179,8 +192,7 @@
                         android:layout_weight="0.3"
                         android:text="$1100"
                         android:textColor="@color/bg_screen2"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -188,8 +200,7 @@
                         android:layout_weight="0.3"
                         android:text="$1050"
                         android:textColor="@color/bg_screen2"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -197,8 +208,7 @@
                         android:layout_weight="0.3"
                         android:text="$1145"
                         android:textColor="@color/bg_screen2"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -217,8 +227,7 @@
                         android:layout_weight="0.3"
                         android:text="13 May,2017"
                         android:textColor="@color/cardview_dark_background"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -226,8 +235,7 @@
                         android:layout_weight="0.3"
                         android:text="13 May,2017"
                         android:textColor="@color/cardview_dark_background"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -235,50 +243,58 @@
                         android:layout_weight="0.3"
                         android:text="13 May,2017"
                         android:textColor="@color/cardview_dark_background"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginStart="20dp"
+                    android:layout_marginTop="25dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingTop="3dp"
+                        android:layout_marginLeft="20dp"
                         android:text="Alert Price"
                         android:textColor="@color/cardview_dark_background"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:paddingTop="3dp"
                         android:text="$"
                         android:textColor="@color/bg_screen2"
-                        android:layout_marginLeft="10dp"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textSize="13sp" />
 
                     <LinearLayout
                         android:layout_width="100dp"
+                        android:layout_height="24dp"
                         android:layout_marginLeft="2dp"
-                        android:layout_height="30dp"
                         android:orientation="horizontal">
 
                         <EditText
                             android:id="@+id/number"
-                            android:layout_width="70dp"
-                            android:layout_height="match_parent"
-                            android:cursorVisible="false"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:background="@drawable/rounded_edittext"
+                            android:cursorVisible="false"
                             android:gravity="center"
-                            android:text="1220" />
+                            android:inputType="number"
+                            android:maxLength="99999"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingTop="5dp"
+                            android:text="1220"
+                            android:textSize="12sp" />
 
                         <LinearLayout
                             android:layout_width="30dp"
@@ -287,73 +303,86 @@
                             android:orientation="vertical">
 
                             <ImageButton
+                                android:id="@+id/increase"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                android:id="@+id/increase"
                                 android:layout_weight="0.5"
                                 android:src="@mipmap/ic_keyboard_arrow_up_black_24dp" />
 
                             <ImageButton
+                                android:id="@+id/decrese"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                android:id="@+id/decrese"
                                 android:layout_weight="0.5"
                                 android:src="@mipmap/ic_keyboard_arrow_down_black_24dp" />
                         </LinearLayout>
 
                     </LinearLayout>
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
                         android:layout_gravity="clip_vertical"
+                        android:layout_marginLeft="5dp"
                         android:src="@mipmap/ic_keyboard_arrow_left_black_24dp" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Set Price"
-                        android:textColor="#000"
                         android:layout_marginLeft="5dp"
-                        android:textSize="14sp"
-                        />
+                        android:text="Set Price"
+                        android:textColor="@color/cardview_dark_background"
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <Button
                     android:id="@+id/buy"
-                    android:layout_width="180dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right"
                     android:layout_marginTop="20dp"
-                    android:background="@color/bg_screen2"
+                    android:background="@color/button_bg"
+                    android:layout_marginRight="20dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp"
                     android:text="Buy Now"
+                    android:textAllCaps="false"
                     android:textColor="@color/textColor"
-                    android:textSize="14sp"
-                    android:layout_gravity="center_horizontal"/>
+                    android:textSize="14sp" />
+
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginTop="17dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
                     android:background="#c0c0c0" />
             </LinearLayout>
 
 
         </LinearLayout>
+
         <View
-            android:layout_width="2dp"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="20dp"
             android:layout_gravity="end"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:background="#c0c0c0" />
+
     </FrameLayout>
+
     <Button
         android:id="@+id/view_more"
-        android:layout_width="180dp"
-        android:layout_height="40dp"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
         android:layout_marginTop="20dp"
         android:background="@color/colorPrimary"
         android:text="View More"
         android:textColor="@color/textColor"
         android:textSize="14sp"
+        android:textAllCaps="false"
         android:layout_gravity="center_horizontal"/>
+
 </LinearLayout>

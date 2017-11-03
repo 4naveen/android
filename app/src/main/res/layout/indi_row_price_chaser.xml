@@ -4,10 +4,8 @@
     android:id="@+id/cv"
     android:layout_width="match_parent"
     android:layout_height="85dp"
-    card_view:cardBackgroundColor="#ffffff"
-    card_view:cardCornerRadius="2dp"
-    card_view:cardElevation="1dp"
-    card_view:cardUseCompatPadding="true">
+    android:background="#ececec"
+    >
 
     <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:swipe="http://schemas.android.com/apk/res-auto"
@@ -30,7 +28,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/bg_screen2"
+                android:padding="10dp"
+                android:background="@color/pink_font_color"
                 android:orientation="vertical">
 
                 <ImageView
@@ -54,6 +53,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/dot_dark_screen2"
+                android:padding="10dp"
                 android:orientation="vertical">
 
                 <ImageView
@@ -76,6 +76,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:padding="10dp"
                 android:background="@color/colorPrimary"
                 android:orientation="vertical">
 
@@ -125,7 +126,8 @@
                         android:singleLine="true"
                         android:text="product_name"
                         android:textColor="#212121"
-                        android:textSize="22sp" />
+                        android:padding="10dp"
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -134,9 +136,10 @@
                         android:singleLine="true"
                         android:text="Target Price"
                         android:gravity="end"
-
                         android:textSize="14sp"
+                        android:padding="10dp"
                         android:textStyle="bold"/>
+
                     <TextView
                         android:id="@+id/target_price"
                         android:layout_width="0dp"
@@ -145,6 +148,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="$452"
+                        android:padding="10dp"
                         android:textColor="@color/bg_screen2"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -164,7 +168,7 @@
                         android:singleLine="true"
                         android:text="13 May,2017"
                         android:textColor="@color/bg_screen2"
-                        android:textSize="13sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -207,4 +211,10 @@
 
     </com.daimajia.swipe.SwipeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D0D0D0"/>
+
 </android.support.v7.widget.CardView>
+

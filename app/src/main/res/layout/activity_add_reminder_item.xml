@@ -171,6 +171,8 @@
             android:cursorVisible="false"
             android:inputType="number"
             android:singleLine="true"
+            android:maxLength="3"
+            android:textAlignment="center"
             android:background="@drawable/rounded_edittext" />
 
     </LinearLayout>
