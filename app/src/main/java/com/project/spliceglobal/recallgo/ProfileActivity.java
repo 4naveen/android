@@ -70,7 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
     String encoded_image;
     byte[] images_bytes;
     LinearLayout layout;
-     ImageView change_pwd;
+    ImageView change_pwd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +85,6 @@ public class ProfileActivity extends AppCompatActivity {
         layout=(LinearLayout)findViewById(R.id.layout);
         toggleButton = (ToggleButton) findViewById(R.id.togglebutton);
         change_pwd = (ImageView) findViewById(R.id.change_button_link);
-
         name = (EditText) findViewById(R.id.name);
         email = (EditText) findViewById(R.id.email);
         mobile = (EditText) findViewById(R.id.mobile);

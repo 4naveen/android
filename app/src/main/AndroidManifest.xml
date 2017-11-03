@@ -17,7 +17,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/MyMaterialTheme">
+        android:theme="@style/MyMaterialTheme"
+        android:name="android.support.multidex.MultiDexApplication">
         <activity
             android:name=".LoginActivity"
             android:label="Sign In"

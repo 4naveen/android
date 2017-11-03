@@ -208,7 +208,6 @@ public class ReminderActivity extends AppCompatActivity {
                                      AppConstants.UncategorisedId=UncategorisedId;
                                  }
                             }
-
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
@@ -230,16 +229,12 @@ public class ReminderActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String,String>header=new HashMap<>();
                 header.put("Content-Type", "application/json; charset=utf-8");
-
                 // header.put("Authorization","Token fe63a7b37e04515a4cba77d2960526a84d1a56da");
                 header.put("Authorization","Token "+ AppUrl.TOKEN);
-
                 // header.put("Content-Type", "application/x-www-form-urlencoded");
-
                 return header;
             }
         } ;
         MyVolleySingleton.getInstance(this).getRequestQueue().add(stringRequest);
     }
-
 }

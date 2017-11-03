@@ -194,8 +194,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 input_password.setError("password must be alpha numeric!");
 
-
-
             }
 
             @Override
@@ -286,13 +284,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 byte[] imageInByte = stream.toByteArray();
                 long lengthbmp = imageInByte.length;
                 Log.i("image length", String.valueOf(lengthbmp));
-                if (lengthbmp > 512000) {
+              /*  if (lengthbmp > 512000) {
                     Toast.makeText(getApplicationContext(), "image size should be less than 500kb", Toast.LENGTH_LONG).show();
                     return;
                 } else {
-                    profile_image.setImageBitmap(bitmap);
-                }
-                encoded_image = getStringImage(bitmap);
+                }*/
+
+                Bitmap scaledBitmap = scaleDown(bitmap, 100, true);
+                profile_image.setImageBitmap(scaledBitmap);
+                encoded_image = getStringImage(scaledBitmap);
+               // encoded_image = getStringImage(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -488,5 +489,21 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 break;
             }
         }
+    }
+
+    public static Bitmap scaleDown(Bitmap realImage, float maxImageSize,
+                                   boolean filter) {
+        float ratio = Math.min(
+                (float) maxImageSize / realImage.getWidth(),
+                (float) maxImageSize / realImage.getHeight());
+
+        System.out.println("image ratio"+String.valueOf(ratio));
+        int width = Math.round((float) ratio * realImage.getWidth());
+
+        int height = Math.round((float) ratio * realImage.getHeight());
+
+        Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width,
+                height, filter);
+        return newBitmap;
     }
 }
