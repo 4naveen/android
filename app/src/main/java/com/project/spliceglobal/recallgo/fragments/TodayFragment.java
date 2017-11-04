@@ -82,8 +82,8 @@ public class TodayFragment extends Fragment {
     MaterialSearchView searchView;
     String called_from,next_url;
     int count;
-    ArrayList<Item> itemArrayList,completeItemArrayList;
-    RecyclerView rv,rv1;
+    ArrayList<Item> itemArrayList;
+    RecyclerView rv;
     TodayAdapter todayAdapter;
     TextView blank_message;
     EditText add;
@@ -91,7 +91,6 @@ public class TodayFragment extends Fragment {
     Menu menu1;
     FrameLayout layout;
     private LinearLayoutManager layoutManager;
-    ToggleButton toggleButton;
 
     public TodayFragment() {
         // Required empty public constructor
@@ -111,7 +110,6 @@ public class TodayFragment extends Fragment {
         layout=(FrameLayout)view.findViewById(R.id.layout);
         add=(EditText)view.findViewById(R.id.add);
         info_add=(ImageView)view.findViewById(R.id.info_add);
-        toggleButton = (ToggleButton)view.findViewById(R.id.togglebutton);
         if (called_from.equalsIgnoreCase("search")){
         searchView.setVisibility(View.VISIBLE);
         }
@@ -125,10 +123,8 @@ public class TodayFragment extends Fragment {
         }
         next_url=AppUrl.ITEM_LIST_URL;
         itemArrayList =new ArrayList<>();
-        completeItemArrayList =new ArrayList<>();
 
         rv = (RecyclerView)view.findViewById(R.id.rv);
-        rv1 = (RecyclerView)view.findViewById(R.id.rv1);
 
         getItems(next_url);
         add.addTextChangedListener(new TextWatcher() {
@@ -164,23 +160,7 @@ public class TodayFragment extends Fragment {
                 });
             }
         });
-         toggleButton.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 if (((ToggleButton) view).isChecked()) {
-                     // handle toggle on
-                     rv1.setVisibility(View.VISIBLE);
-                     layoutManager = new LinearLayoutManager(getActivity());
-                     rv1.setLayoutManager(layoutManager);
-                     todayAdapter = new TodayAdapter(getActivity(),itemArrayList,"update_today","today");
-                     rv1.setAdapter(todayAdapter);
-                     rv1.setItemAnimator(new DefaultItemAnimator());
 
-                 } else {
-                     // handle toggle off
-                 }
-             }
-         });
         view.setFocusableInTouchMode(true);
         view.requestFocus();
         view.setOnKeyListener(new View.OnKeyListener() {
@@ -280,7 +260,6 @@ public class TodayFragment extends Fragment {
                                 item.setId(object.getInt("id"));
                                 item.setList_name(object.getString("list_name"));
                                 item.setList_id(object.getInt("list"));
-                                int status=object.getInt("status");
                                 if (object.getString("store").equalsIgnoreCase("null") || object.getString("brand").equalsIgnoreCase("null")) {
                                     item.setStore_name("");
                                     item.setBrand_name("");
@@ -293,10 +272,7 @@ public class TodayFragment extends Fragment {
                                     item.setStore_id(String.valueOf(object.getInt("store")));
                                 }
                                 item.setRepeat_type(String.valueOf(object.getInt("type")));
-                                if (status==1){
-                                    itemArrayList.add(item);}
-                                else {
-                                    completeItemArrayList.add(item);}
+                                itemArrayList.add(item);
 
                             }
                             if (itemArrayList.isEmpty())
@@ -391,12 +367,8 @@ public class TodayFragment extends Fragment {
 
                                 }
                                 item.setRepeat_type(String.valueOf(object.getInt("type")));
-                                if (status==1){
-                                    itemArrayList.add(item);}
-                                else {
-                                    completeItemArrayList.add(item);
-                                    System.out.println("complete items"+completeItemArrayList.size());
-                                }
+                                itemArrayList.add(item);
+
                             }
                             if (itemArrayList.isEmpty())
                             {

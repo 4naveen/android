@@ -9,7 +9,6 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical"
     tools:context="com.project.spliceglobal.recallgo.CategoryItemListActivity">
-
     <FrameLayout
         android:id="@+id/toolbar_container"
         android:layout_width="match_parent"
@@ -68,10 +67,9 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:scrollbars="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v7.widget.RecyclerView>
+        android:scrollbars="vertical"/>
 
     <TextView
         android:id="@+id/blank_data"
@@ -83,5 +81,26 @@
         android:text="No Item Available!please add what do you want to remind me?"
         android:textSize="16sp"
         android:visibility="gone" />
+    <ToggleButton
+        android:id="@+id/togglebutton"
+        android:background="@color/colorPrimary"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textOff="Show Completed"
+        android:textOn="Hide Completed" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv1"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:scrollbars="vertical">
+
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>
