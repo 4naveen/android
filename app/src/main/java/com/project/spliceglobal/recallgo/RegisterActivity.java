@@ -232,7 +232,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
                 if (name.getText().toString().trim().isEmpty()) {
-                    input_name.setError("please enter opptornity");
+                    input_name.setError("please enter your name");
                     return;
                 }
                 if (email.getText().toString().trim().isEmpty()) {
@@ -240,11 +240,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     return;
                 }
                 if (mobile.getText().toString().trim().isEmpty()) {
-                    input_mobile.setError("please enter customer_id");
+                    input_mobile.setError("please enter mobile number");
                     return;
                 }
                 if (password.getText().toString().trim().isEmpty()) {
-                    input_password.setError("please enter customer_id");
+                    input_password.setError("please enter password");
                     return;
                 }
                 if (password.getText().toString().compareTo(confirm_password.getText().toString()) != 0) {
@@ -346,6 +346,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 jsonObject.put("salutation",sur_name_id);
                   JSONObject sub_object=new JSONObject();
                 sub_object.put("mime","image/jpeg");
+
                 sub_object.put("img",encoded_image);
                 jsonObject.put("picture",sub_object);
                 //jsonObject.put("picture", encoded_image);

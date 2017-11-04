@@ -30,6 +30,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -42,6 +43,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.github.pwittchen.infinitescroll.library.InfiniteScrollListener;
+import com.google.android.gms.maps.GoogleMap;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.project.spliceglobal.recallgo.AddReminderItemActivity;
 import com.project.spliceglobal.recallgo.OnLoadMoreListener;
@@ -91,6 +93,7 @@ public class TodayFragment extends Fragment {
     Menu menu1;
     FrameLayout layout;
     private LinearLayoutManager layoutManager;
+    private ProgressBar progressBar;
 
     public TodayFragment() {
         // Required empty public constructor
@@ -108,6 +111,8 @@ public class TodayFragment extends Fragment {
         searchView = (MaterialSearchView) getActivity().findViewById(R.id.search_view);
         blank_message=(TextView)view.findViewById(R.id.blank_data);
         layout=(FrameLayout)view.findViewById(R.id.layout);
+        progressBar = (ProgressBar)view.findViewById(R.id.progress);
+        progressBar.setVisibility(View.GONE);
         add=(EditText)view.findViewById(R.id.add);
         info_add=(ImageView)view.findViewById(R.id.info_add);
         if (called_from.equalsIgnoreCase("search")){
@@ -134,15 +139,11 @@ public class TodayFragment extends Fragment {
                 menu1.findItem(R.id.add).setVisible(true);
                 if (count==0){
                     menu1.findItem(R.id.add).setVisible(false);
-
                 }
-
             }
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 menu1.findItem(R.id.add).setVisible(false);
-
             }
 
             @Override
@@ -160,7 +161,6 @@ public class TodayFragment extends Fragment {
                 });
             }
         });
-
         view.setFocusableInTouchMode(true);
         view.requestFocus();
         view.setOnKeyListener(new View.OnKeyListener() {
@@ -237,6 +237,7 @@ public class TodayFragment extends Fragment {
     }
 
     public  void getItems(String url) {
+           progressBar.setVisibility(View.VISIBLE);
         System.out.println("getItemcalled");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         System.out.println(dateFormat.format(new Date()));
@@ -287,7 +288,7 @@ public class TodayFragment extends Fragment {
                             rv.setAdapter(todayAdapter);
                             rv.setItemAnimator(new DefaultItemAnimator());
                             rv.addOnScrollListener(createInfiniteScrollListener());
-
+                           progressBar.setVisibility(View.GONE);
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
@@ -450,7 +451,10 @@ public class TodayFragment extends Fragment {
                 jsonObject.put("name",params[0]);
                 jsonObject.put("list",params[1]);
                 jsonObject.put("type", params[2]);
-
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+                String formated_date = dateFormat.format(new Date());
+                System.out.println("today formated date "+formated_date);
+                jsonObject.put("date",formated_date);
                 System.out.println(jsonObject.toString());
                 url = new URL(AppUrl.ITEM_LIST_URL);
                 conn = (HttpURLConnection) url.openConnection();
@@ -513,6 +517,9 @@ public class TodayFragment extends Fragment {
         protected void onPostExecute(String result) {
             dialog.dismiss();
             if (result.equals("success")) {
+                itemArrayList.clear();
+                getItems(AppUrl.ITEM_LIST_URL);
+                add.setText("");
                 final Snackbar snackbar = Snackbar.make(layout, "Added item Succesfully!", Snackbar.LENGTH_LONG);
                 View v = snackbar.getView();
                 v.setMinimumWidth(1000);

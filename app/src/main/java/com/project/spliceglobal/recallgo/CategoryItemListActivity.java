@@ -34,6 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.github.pwittchen.infinitescroll.library.InfiniteScrollListener;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.project.spliceglobal.recallgo.adapters.CompleteItemAdapter;
 import com.project.spliceglobal.recallgo.adapters.TodayAdapter;
 import com.project.spliceglobal.recallgo.model.Item;
 import com.project.spliceglobal.recallgo.utils.AppUrl;
@@ -65,6 +66,7 @@ public class CategoryItemListActivity extends AppCompatActivity {
     ArrayList<Item> itemArrayList,completeItemArrayList;
     RecyclerView rv,rv1;
     TodayAdapter todayAdapter;
+    CompleteItemAdapter completeItemAdapter;
     TextView blank_message;
     private LinearLayoutManager layoutManager;
     EditText name;
@@ -76,7 +78,6 @@ public class CategoryItemListActivity extends AppCompatActivity {
     MaterialSearchView searchView;
     ProgressDialog dialog;
     ToggleButton toggleButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,8 +142,8 @@ public class CategoryItemListActivity extends AppCompatActivity {
                     rv1.setVisibility(View.VISIBLE);
                     layoutManager = new LinearLayoutManager(getApplicationContext());
                     rv1.setLayoutManager(layoutManager);
-                    todayAdapter = new TodayAdapter(CategoryItemListActivity.this,completeItemArrayList, "update_category", category_id, category_name, called_from_adapter);
-                    rv1.setAdapter(todayAdapter);
+                    completeItemAdapter = new CompleteItemAdapter(CategoryItemListActivity.this,completeItemArrayList,category_id);
+                    rv1.setAdapter(completeItemAdapter);
                     rv1.setItemAnimator(new DefaultItemAnimator());
                 } else {
                     // handle toggle off
@@ -154,7 +155,6 @@ public class CategoryItemListActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == 0) {
             if (resultCode == Activity.RESULT_OK) {
                 getItems(AppUrl.CATEGOTY_ITEM_LIST_URL);
@@ -185,7 +185,6 @@ public class CategoryItemListActivity extends AppCompatActivity {
                     //System.out.println("lead item --"+leadsArrayList.get(i).getName()+" "+leadsArrayList.get(i).getNumber());
                 }
                 rv.setAdapter(new TodayAdapter(CategoryItemListActivity.this,subitemArrayList,"update_category", category_id, category_name, called_from_adapter));
-
                 return false;
             }
         });

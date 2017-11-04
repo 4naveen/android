@@ -7,29 +7,17 @@
     android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context="com.project.spliceglobal.recallgo.FeedbackActivity">
+    >
 
     <include
         layout="@layout/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <fragment
-            android:layout_below="@+id/id_video_play_text"
-            android:id="@+id/youtube_player_fragment"
-            android:name="com.google.android.youtube.player.YouTubePlayerFragment"
+        <com.google.android.youtube.player.YouTubePlayerView
+            android:id="@+id/youtube_view"
             android:layout_width="match_parent"
-            android:layout_height="300dp"/>
-
-    </LinearLayout>
-
-
-
+            android:contentDescription="@string/player"
+            android:layout_height="200dp" />
 
 </LinearLayout>

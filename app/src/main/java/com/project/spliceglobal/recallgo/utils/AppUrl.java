@@ -15,7 +15,7 @@ public class AppUrl {
     public static final String ALL_STORE_URL = BASE_URL+"api/stores/";
     public static final String SHARE_CATEGORY_URL = BASE_URL+"api/lists/share_list/";
     public static final String ITEM_LIST_URL = BASE_URL+"api/reminders/";
-
     public static final String CATEGOTY_ITEM_LIST_URL = BASE_URL+"api/reminders/?list=";
+    public static final String CHANGE_PASSWORD_URL =BASE_URL+"auth/password/change/";
 
 }

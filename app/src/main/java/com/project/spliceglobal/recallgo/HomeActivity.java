@@ -1,9 +1,11 @@
 package com.project.spliceglobal.recallgo;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -30,8 +32,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -49,7 +58,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         profile_image = (CircleImageView) findViewById(R.id.profile_image);
         sessionManager=new SessionManager(getApplicationContext());
@@ -201,6 +209,7 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            System.out.println("user detail--"+response);
                             JSONObject jsonObject=new JSONObject(response);
                              name=jsonObject.getString("first_name")+"  "+jsonObject.getString("last_name");
                              email=jsonObject.getString("email");
@@ -210,7 +219,16 @@ public class HomeActivity extends AppCompatActivity {
                                  JSONObject object = jsonArray.getJSONObject(i);
                                  mobile=object.getString("mobile");
                                  JSONObject picture=object.getJSONObject("picture");
-                                 encoded_string_image=picture.getString("img");
+                                 Iterator keys=picture.keys();
+                                 while (keys.hasNext()){
+                                     String key = (String)keys.next();
+                                     if (key.equalsIgnoreCase("img"))
+                                     {
+                                         encoded_string_image=picture.getString("img");
+                                         byte[] decodedString = Base64.decode(encoded_string_image, Base64.DEFAULT);
+                                         profile_image.setImageBitmap(getImage(decodedString));
+                                     }
+                                 }
                                  shared=object.getInt("shared");
                                  all=object.getInt("all");
                                  today=object.getInt("today");
@@ -219,8 +237,7 @@ public class HomeActivity extends AppCompatActivity {
                             }
                             textname.setText(jsonObject.getString("first_name"));
                             last_visited.setText("Last Visited : "+jsonObject.getString("last_login").substring(0,10));
-                            byte[] decodedString = Base64.decode(encoded_string_image, Base64.DEFAULT);
-                            profile_image.setImageBitmap(getImage(decodedString));
+
                             // System.out.println(jsonObject.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -256,4 +273,5 @@ public class HomeActivity extends AppCompatActivity {
     public static Bitmap getImage(byte[] image) {
         return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
+
 }
