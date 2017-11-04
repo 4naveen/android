@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -43,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     SessionManager sessionManager;
     EditText email_phone, password;
     TextInputLayout input_email_phone,input_pwd;
+    TextView passwodLink;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             actionBar.setTitle("Sign In");
         }
         sessionManager = new SessionManager(getApplicationContext());
+        passwodLink = (TextView) findViewById(R.id.forgetPasswordLink);
         facebook = (ImageView) findViewById(R.id.facebook);
         google = (ImageView) findViewById(R.id.google);
         twitter = (ImageView) findViewById(R.id.twitter);
@@ -151,6 +154,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW,
                         Uri.parse("https://in.linkedin.com/"));
+                startActivity(intent);
+            }
+        });
+
+        passwodLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/login/"));
                 startActivity(intent);
             }
         });

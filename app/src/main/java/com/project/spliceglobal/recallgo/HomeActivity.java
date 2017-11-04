@@ -38,7 +38,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HomeActivity extends AppCompatActivity {
     TextView hello, reminder_text,textname,last_visited,feedback_text, price_chaser_text;
     LinearLayout remainder_layout, price_chaser_layout, tutorial_layout, feedback_layout;
-    ImageView reminder, feedback, price_chaser;
+    ImageView reminder, feedback, price_chaser, tutorial_icon;
     SessionManager sessionManager;
     String email,name,mobile,encoded_string_image;
     CircleImageView profile_image;
@@ -56,6 +56,7 @@ public class HomeActivity extends AppCompatActivity {
         remainder_layout = (LinearLayout) findViewById(R.id.reminder_layout);
         reminder = (ImageView) findViewById(R.id.reminder);
         feedback = (ImageView) findViewById(R.id.feedback);
+        tutorial_icon = (ImageView) findViewById(R.id.tutorialIcon);
         textname = (TextView) findViewById(R.id.name);
         last_visited = (TextView) findViewById(R.id.last_visited);
         System.out.println("token:--"+AppUrl.TOKEN);
@@ -135,6 +136,24 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+
+        //tutorial Layout
+        tutorial_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, TutorialActivity.class));
+
+            }
+        });
+
+        tutorial_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, TutorialActivity.class));
+
+            }
+        });
+
         price_chaser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
