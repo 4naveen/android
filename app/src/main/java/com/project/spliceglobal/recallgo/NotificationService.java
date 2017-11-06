@@ -105,32 +105,36 @@ public class NotificationService extends Service implements GoogleApiClient.Conn
                             count=jsonObject.getInt("count");
                             next_url=jsonObject.getString("next");
                             JSONArray jsonArray = jsonObject.getJSONArray("results");
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject object = jsonArray.getJSONObject(i);
-                                Item item = new Item();
-                                if (!object.getString("date").equalsIgnoreCase("null"))
+                            System.out.println("result array size--"+jsonArray.length());
+                            if (jsonArray.length()!=0){
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject object = jsonArray.getJSONObject(i);
+                                    Item item = new Item();
+                                    if (!object.getString("date").equalsIgnoreCase("null"))
+                                    {
+                                        String[] dates=object.getString("date").split("T");
+                                        item.setItem_name(object.getString("name"));
+                                        item.setDate_time(dates[0].substring(0,10));
+                                        // System.out.println("date"+dates[0].substring(0,10));
+                                        itemArrayList.add(item);
+                                    }
+                                }
+                                while (next_url.equalsIgnoreCase("null"))
                                 {
-                                    String[] dates=object.getString("date").split("T");
-                                    item.setItem_name(object.getString("name"));
-                                    item.setDate_time(dates[0].substring(0,10));
-                                   // System.out.println("date"+dates[0].substring(0,10));
-                                    itemArrayList.add(item);
+                                    getMoreItem(next_url);
                                 }
-                            }
-                            while (next_url.equalsIgnoreCase("null"))
-                            {
-                                getMoreItem(next_url);
-                            }
-                            System.out.println("total item size"+itemArrayList.size());
-                            for (int i = 0; i < itemArrayList.size(); i++) {
-                                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                                System.out.println(dateFormat.format(new Date()));
-                                if (itemArrayList.get(i).getDate_time().equalsIgnoreCase(dateFormat.format(new Date()))){
-                                    todayItemArrayList.add(itemArrayList.get(i));
+                                System.out.println("total item size"+itemArrayList.size());
+                                for (int i = 0; i < itemArrayList.size(); i++) {
+                                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                    System.out.println(dateFormat.format(new Date()));
+                                    if (itemArrayList.get(i).getDate_time().equalsIgnoreCase(dateFormat.format(new Date()))){
+                                        todayItemArrayList.add(itemArrayList.get(i));
+                                    }
                                 }
+                                // System.out.println("today total item size"+todayItemArrayList.size());
+                                sendNotification("today you have "+String.valueOf(todayItemArrayList.size())+"reminder item ");
                             }
-                           // System.out.println("today total item size"+todayItemArrayList.size());
-                            sendNotification("today you have "+String.valueOf(todayItemArrayList.size())+"reminder item ");
+
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
@@ -228,7 +232,6 @@ public class NotificationService extends Service implements GoogleApiClient.Conn
             //moving the map to location
         }
     }
-
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         getCurrentLocation();
