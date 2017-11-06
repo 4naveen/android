@@ -1,12 +1,15 @@
 package com.project.spliceglobal.recallgo;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -15,9 +18,9 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
 
+//  extends YouTubeBaseActivity
 
-
-public class TutorialActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+public class TutorialActivity extends YouTubeBaseActivity  implements YouTubePlayer.OnInitializedListener {
 
     private static final int RECOVERY_REQUEST = 1;
     private YouTubePlayerView youTubeView;
@@ -31,19 +34,24 @@ public class TutorialActivity extends YouTubeBaseActivity implements YouTubePlay
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
+
+
+        //Tool back icon click
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-       /* setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Tutorial");
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);*/
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+        toolbar.setNavigationIcon(R.drawable.back_icon_24);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(TutorialActivity.this, HomeActivity.class));
+            }
+        });
+
         youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
         youTubeView.initialize(YouTubeKey, this);
-        video_id = "IF3K4dL-kns";
+        video_id = "nkBokjPSGsI";
         playerStateChangeListener = new MyPlayerStateChangeListener();
         playbackEventListener = new MyPlaybackEventListener();
-
-        Log.d("Load Video", "After Key");
 
     }
 
@@ -54,7 +62,6 @@ public class TutorialActivity extends YouTubeBaseActivity implements YouTubePlay
         player.setPlaybackEventListener(playbackEventListener);
         if (!wasRestored){
             player.loadVideo(video_id);
-
         }
     }
 
@@ -77,7 +84,7 @@ public class TutorialActivity extends YouTubeBaseActivity implements YouTubePlay
             getYouTubePlayerProvider().initialize(YouTubeKey, this);
         }
     }
-    //back button
+    /*//back button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -86,7 +93,7 @@ public class TutorialActivity extends YouTubeBaseActivity implements YouTubePlay
             }
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
     protected YouTubePlayer.Provider getYouTubePlayerProvider() {
         return youTubeView;
     }

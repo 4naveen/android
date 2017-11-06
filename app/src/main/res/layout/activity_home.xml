@@ -55,7 +55,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:singleLine="true"
-                        android:text="Hello,"
+                        android:text="Hello, "
                         android:textStyle="normal"
                         android:textColor="@color/textColor"
                         android:textSize="30sp" />
