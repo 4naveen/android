@@ -251,7 +251,6 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
         }
     }
 
-
     private void moveMap() {
         //String to display current latitude and longitude
         String msg = latitude + ", "+longitude;

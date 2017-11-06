@@ -1,13 +1,20 @@
 package com.project.spliceglobal.recallgo;
 
+import android.*;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 
 import com.android.volley.AuthFailureError;
@@ -15,6 +22,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.project.spliceglobal.recallgo.model.Item;
 import com.project.spliceglobal.recallgo.utils.AppUrl;
 import com.project.spliceglobal.recallgo.utils.MyVolleySingleton;
@@ -30,14 +40,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NotificationService extends Service {
-    public String url="http://laitit.com/hce/api/notificationmsg.php?beaconsmsg=";
-    String beconsmsg;
-    int count,no_of_item_loaded;
+public class NotificationService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     String next_url;
+    int count;
     ArrayList<Item> itemArrayList,todayItemArrayList;
+    private GoogleApiClient googleApiClient;
+    private double longitude;
+    private double latitude;
     public NotificationService() {
-
     }
 
     @Override
@@ -51,39 +61,31 @@ public class NotificationService extends Service {
         super.onCreate();
         itemArrayList=new ArrayList<>();
         todayItemArrayList=new ArrayList<>();
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
         System.out.println("oncreate in service");
 
     }
-/*
-    @Override
-    public void onStart(Intent intent, int startId) {
-        super.onStart(intent, startId);
-
-     *//*   if (!beaconManager.||!beaconManager.isBluetoothEnabled()) {
-            Toast.makeText(this, "Device does not have Bluetooth Low Energy or it is not enabled", Toast.LENGTH_LONG).show();
-            this.stopSelf();
-        }*//*
-        connectToService();
-    }*/
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         getItems(AppUrl.ITEM_LIST_URL);
-
+        googleApiClient.connect();
         return START_STICKY;
     }
 
-
     private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, ReminderActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("")
+                .setContentTitle("Toady Reminder")
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
@@ -110,10 +112,9 @@ public class NotificationService extends Service {
                                 {
                                     String[] dates=object.getString("date").split("T");
                                     item.setItem_name(object.getString("name"));
-                                    item.setDate_time(dates[1].substring(0,5));
-                                    System.out.println("date"+dates[1].substring(0,5));
+                                    item.setDate_time(dates[0].substring(0,10));
+                                   // System.out.println("date"+dates[0].substring(0,10));
                                     itemArrayList.add(item);
-
                                 }
                             }
                             while (next_url.equalsIgnoreCase("null"))
@@ -128,7 +129,7 @@ public class NotificationService extends Service {
                                     todayItemArrayList.add(itemArrayList.get(i));
                                 }
                             }
-                            System.out.println("today total item size"+todayItemArrayList.size());
+                           // System.out.println("today total item size"+todayItemArrayList.size());
                             sendNotification("today you have "+String.valueOf(todayItemArrayList.size())+"reminder item ");
                         }
                         catch (JSONException e) {
@@ -213,5 +214,34 @@ public class NotificationService extends Service {
             }
         } ;
         MyVolleySingleton.getInstance(this).getRequestQueue().add(stringRequest);
+    }
+
+    private void getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        if (location != null) {
+            //Getting longitude and latitude
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+            //moving the map to location
+        }
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        getCurrentLocation();
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
