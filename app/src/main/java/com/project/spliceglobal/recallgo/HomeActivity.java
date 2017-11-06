@@ -33,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -58,6 +59,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        startService( new Intent(HomeActivity.this, NotificationService.class));
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         profile_image = (CircleImageView) findViewById(R.id.profile_image);
         sessionManager=new SessionManager(getApplicationContext());
@@ -185,8 +187,14 @@ public class HomeActivity extends AppCompatActivity {
                 i.putExtra("name",name);
                 i.putExtra("email",email);
                 i.putExtra("mobile",mobile);
-                byte[] decodedString = Base64.decode(encoded_string_image, Base64.DEFAULT);
-                i.putExtra("image_bytes",decodedString);
+                if (!encoded_string_image.isEmpty()){
+                    byte[] decodedString = Base64.decode(encoded_string_image, Base64.DEFAULT);
+                    i.putExtra("image_bytes",decodedString);
+                }
+                else {
+                    byte[] decodedString = Base64.decode(encoded_string_image, Base64.DEFAULT);
+                    i.putExtra("image_bytes",decodedString);
+                }
             }
             startActivity(i);
         }
@@ -227,6 +235,11 @@ public class HomeActivity extends AppCompatActivity {
                                          encoded_string_image=picture.getString("img");
                                          byte[] decodedString = Base64.decode(encoded_string_image, Base64.DEFAULT);
                                          profile_image.setImageBitmap(getImage(decodedString));
+                                     }
+                                     else {
+                                       profile_image.setImageResource(R.drawable.user);
+                                         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.user);
+                                         encoded_string_image=getStringImage(bitmap);
                                      }
                                  }
                                  shared=object.getInt("shared");
@@ -272,6 +285,14 @@ public class HomeActivity extends AppCompatActivity {
     }
     public static Bitmap getImage(byte[] image) {
         return BitmapFactory.decodeByteArray(image, 0, image.length);
+    }
+    public String getStringImage(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        // Log.i("encodedImageString", encodedImage);
+        return encodedImage;
     }
 
 }

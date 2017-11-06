@@ -73,6 +73,12 @@
             android:label="Tutorial"
             android:parentActivityName=".HomeActivity"
             ></activity>
+
+
+        <service
+            android:name=".NotificationService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

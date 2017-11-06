@@ -289,7 +289,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     return;
                 } else {
                 }*/
-
                 Bitmap scaledBitmap = scaleDown(bitmap, 100, true);
                 profile_image.setImageBitmap(scaledBitmap);
                 encoded_image = getStringImage(scaledBitmap);

@@ -17,5 +17,6 @@ public class AppUrl {
     public static final String ITEM_LIST_URL = BASE_URL+"api/reminders/";
     public static final String CATEGOTY_ITEM_LIST_URL = BASE_URL+"api/reminders/?list=";
     public static final String CHANGE_PASSWORD_URL =BASE_URL+"auth/password/change/";
+    public static final String FORGET_PASSWORD_URL =BASE_URL+"auth/password/reset/";
 
 }

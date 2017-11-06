@@ -126,7 +126,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     return;
                 }
 
-                new ChangePassword().execute(old_password.getText().toString(),new_password.getText().toString());
+                new ChangePassword().execute(confirm_password.getText().toString().trim(),new_password.getText().toString().trim());
             }
         });
     }
@@ -172,12 +172,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
-                conn.setRequestMethod("PATCH");
+                conn.setRequestMethod("POST");
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestProperty("Accept", "application/json");
-                conn.setRequestProperty("Authorization", "Token "+ AppUrl.TOKEN);
+                conn.setRequestProperty("Authorization", "Token "+AppUrl.TOKEN);
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
@@ -187,7 +187,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 os.close();
                 int responseCode = conn.getResponseCode();
                 System.out.println("responsecode"+responseCode);
-                if (responseCode == HttpsURLConnection.HTTP_CREATED) {
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
                     String line;
                     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     //Log.d("Output",br.toString());
@@ -239,7 +239,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 }, 3000);
 
             } else {
-
+                final Snackbar snackbar = Snackbar.make(layout, "Your password not changed ! Try Again ", Snackbar.LENGTH_LONG);
+                View v = snackbar.getView();
+                v.setMinimumWidth(1000);
+                TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.YELLOW);
+                snackbar.show();
             }
             dialog.dismiss();
 
