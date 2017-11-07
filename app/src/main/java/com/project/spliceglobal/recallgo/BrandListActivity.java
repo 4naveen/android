@@ -154,8 +154,8 @@ public class BrandListActivity extends AppCompatActivity {
 
     public  void getBrand(String url) {
         dialog = new ProgressDialog(BrandListActivity.this);
-        dialog.setMessage("Loading, please wait...");
-        dialog.setTitle("Connecting server");
+        dialog.setMessage("Please Wait..");
+        //dialog.setTitle("Connecting server");
         dialog.show();
         dialog.setCancelable(false);
         StringRequest stringRequest = new StringRequest(Request.Method.GET,url,
@@ -294,8 +294,8 @@ public class BrandListActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = new ProgressDialog(BrandListActivity.this);
-            dialog.setMessage("Loading, please wait...");
-            dialog.setTitle("Connecting server");
+            dialog.setMessage("Please Wait..");
+            //dialog.setTitle("Connecting server");
             dialog.show();
             dialog.setCancelable(false);
         }

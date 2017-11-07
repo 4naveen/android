@@ -211,8 +211,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
     private void EditUserProfile(String edit_url) {
         final ProgressDialog progressDialog = new ProgressDialog(ProfileActivity.this);
-        progressDialog.setMessage("Loading, please wait");
-        progressDialog.setTitle("Connecting server");
+        progressDialog.setMessage("Please Wait..");
+       // progressDialog.setTitle("Connecting server");
         progressDialog.show();
         progressDialog.setCancelable(false);
         System.out.println("login_url" + edit_url);
@@ -291,8 +291,8 @@ public class ProfileActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = new ProgressDialog(ProfileActivity.this);
-            dialog.setMessage("Loading, please wait...");
-            dialog.setTitle("Connecting server");
+            dialog.setMessage("Please Wait..");
+            //dialog.setTitle("Connecting server");
             dialog.show();
             dialog.setCancelable(false);
         }

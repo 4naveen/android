@@ -433,8 +433,8 @@ public class TodayFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = new ProgressDialog(getActivity());
-            dialog.setMessage("Loading, please wait...");
-            dialog.setTitle("Connecting server");
+            dialog.setMessage("Please Wait..");
+            //dialog.setTitle("Connecting server");
             dialog.show();
             dialog.setCancelable(false);
         }

@@ -193,8 +193,8 @@ public class CategoryItemListActivity extends AppCompatActivity {
     }
     public void getItems(String url) {
         dialog = new ProgressDialog(this);
-        dialog.setMessage("Loading, please wait");
-        dialog.setTitle("Connecting server");
+        dialog.setMessage("Please Wait..");
+        //dialog.setTitle("Connecting server");
         dialog.show();
         dialog.setCancelable(false);
         System.out.println("getItemcalled");
@@ -408,8 +408,8 @@ public class CategoryItemListActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = new ProgressDialog(CategoryItemListActivity.this);
-            dialog.setMessage("Loading, please wait...");
-            dialog.setTitle("Connecting server");
+            dialog.setMessage("Please Wait..");
+            //dialog.setTitle("Connecting server");
             dialog.show();
             dialog.setCancelable(false);
         }

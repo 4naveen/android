@@ -132,8 +132,8 @@ public class StoreListActivity extends AppCompatActivity {
     }
     public  void getStore(String url) {
         dialog = new ProgressDialog(StoreListActivity.this);
-        dialog.setMessage("Loading, please wait...");
-        dialog.setTitle("Connecting server");
+        dialog.setMessage("Please Wait..");
+        //dialog.setTitle("Connecting server");
         dialog.show();
         dialog.setCancelable(false);
         StringRequest stringRequest = new StringRequest(Request.Method.GET,url,
@@ -271,8 +271,8 @@ public class StoreListActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = new ProgressDialog(StoreListActivity.this);
-            dialog.setMessage("Loading, please wait...");
-            dialog.setTitle("Connecting server");
+            dialog.setMessage("Please Wait..");
+           // dialog.setTitle("Connecting server");
             dialog.show();
             dialog.setCancelable(false);
         }

@@ -308,8 +308,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = new ProgressDialog(RegisterActivity.this);
-            dialog.setMessage("Loading, please wait...");
-            dialog.setTitle("Connecting server");
+            dialog.setMessage("Please Wait..");
+            //dialog.setTitle("Connecting server");
             dialog.show();
             dialog.setCancelable(false);
         }

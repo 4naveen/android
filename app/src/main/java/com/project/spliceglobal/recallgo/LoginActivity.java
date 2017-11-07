@@ -199,8 +199,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginUser(String login_url) {
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
-        progressDialog.setMessage("Loading, please wait");
-        progressDialog.setTitle("Connecting server");
+        progressDialog.setMessage("Please Wait..");
+        //progressDialog.setTitle("Connecting server");
         progressDialog.show();
         progressDialog.setCancelable(false);
         //System.out.println("login_url" + login_url);
