@@ -90,6 +90,7 @@
             android:scrollbars="vertical"
             android:lines="6"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:padding="10dp"
             android:scrollHorizontally="false" />
     </android.support.design.widget.TextInputLayout>
 

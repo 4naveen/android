@@ -22,12 +22,15 @@
         <activity
             android:name=".LoginActivity"
             android:label="Sign In"
+            android:screenOrientation="portrait"
             android:parentActivityName=".WelcomeActivity"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity android:name=".WelcomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,17 +43,18 @@
             android:name=".RegisterActivity"
             android:label="Sign Up"
             android:parentActivityName=".WelcomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".HomeActivity" android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ProfileActivity" android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ReminderActivity" android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".AddReminderItemActivity" android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CategoryListActivity" android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".AddCategoryActivity" android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".BrandListActivity" android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".StoreListActivity" android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".LocationActivity" android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".HomeActivity" android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
+        <activity android:name=".ProfileActivity" android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
+        <activity android:name=".ReminderActivity" android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
+        <activity android:name=".AddReminderItemActivity" android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
+        <activity android:name=".CategoryListActivity" android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
+        <activity android:name=".AddCategoryActivity" android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
+        <activity android:name=".BrandListActivity" android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
+        <activity android:name=".StoreListActivity" android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
+        <activity android:name=".LocationActivity" android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -62,9 +66,10 @@
 
         <activity android:name=".FeedbackActivity"
             android:label="Feedback"
+            android:screenOrientation="portrait"
             android:parentActivityName=".HomeActivity"/>
 
-        <activity android:name=".PriceChaserActivity" android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".PriceChaserActivity" android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -73,13 +78,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SetTargetActivity"  android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".CategoryItemListActivity" android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ChangePasswordActivity" android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ForgotPasswordActivity" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".SetTargetActivity"  android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
+        <activity android:name=".CategoryItemListActivity" android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
+        <activity android:name=".ChangePasswordActivity" android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
+        <activity android:name=".ForgotPasswordActivity" android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
 
         <activity android:name=".TutorialActivity"
             android:label="Tutorial"
+            android:screenOrientation="portrait"
             android:parentActivityName=".HomeActivity"
             ></activity>
 
