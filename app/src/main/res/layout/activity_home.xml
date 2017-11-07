@@ -31,7 +31,7 @@
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_image"
                 android:layout_width="0dp"
-                android:layout_height="70dp"
+                android:layout_height="65dp"
                 android:layout_weight="0.3"
                 android:src="@drawable/user"
                 app:civ_border_color="#ffffff"
@@ -40,7 +40,6 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="0.6"
                 android:orientation="vertical">
 
@@ -53,35 +52,32 @@
                         android:id="@+id/hello"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
                         android:singleLine="true"
                         android:text="Hello, "
                         android:textStyle="normal"
                         android:textColor="@color/textColor"
-                        android:textSize="30sp" />
+                        android:textSize="28sp" />
 
                     <TextView
                         android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
                         android:textStyle="bold"
                         android:singleLine="true"
                         android:text="Gizlen"
                         android:textColor="@color/textColor"
-                        android:textSize="30sp" />
+                        android:textSize="28sp" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/last_visited"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:text="Last Visited 20nd May,2017"
                     android:textColor="@color/textColor"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
         </LinearLayout>

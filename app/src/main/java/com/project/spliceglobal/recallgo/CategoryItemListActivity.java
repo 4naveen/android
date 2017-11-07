@@ -60,6 +60,7 @@ import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 
 public class CategoryItemListActivity extends AppCompatActivity {
+
     int category_id;
     String category_name, next_url, called_from_adapter;
     int count;

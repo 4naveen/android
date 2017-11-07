@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cv"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
-    android:background="#ececec">
+    android:padding="0dp"
+    android:layout_margin="0dp"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
 
     <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:swipe="http://schemas.android.com/apk/res-auto"
         android:id="@+id/swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ececec"
         swipe:leftEdgeSwipeOffset="0dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         swipe:rightEdgeSwipeOffset="0dp">
 
         <!--Bottom View For Right to Left-->
@@ -42,7 +43,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Share"
-                    android:textColor="#fff" />
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/white_font_color" />
             </LinearLayout>
 
             <LinearLayout
@@ -65,7 +67,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Delete"
-                    android:textColor="#fff" />
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/white_font_color" />
             </LinearLayout>
 
         </LinearLayout>
@@ -124,10 +127,9 @@
         </LinearLayout>
     </com.daimajia.swipe.SwipeLayout>
 
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#D0D0D0"/>
+        android:background="@color/list_line_color"/>
 
-</android.support.v7.widget.CardView>
+</LinearLayout>

@@ -20,6 +20,12 @@
     <color name="dashboad_bg3">#81D208</color>
     <color name="dashboad_bg4">#FA7F31</color>
     <color name="pink_font_color">#FB6F8A</color>
+    <color name="white_font_color">#FFFFFF</color>
+    <color name="hind_text_color">#212121</color>
+    <color name="hint_text_bg_color">#ececec</color>
+    <color name="list_bg_color">#ececec</color>
+    <color name="list_text_color">#212121</color>
+    <color name="list_line_color">#D0D0D0</color>
 
     <!-- dots inactive colors -->
     <color name="dot_dark_screen1">#d1395c</color>

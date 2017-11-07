@@ -14,34 +14,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/cv"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#ececec">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+            android:background="@color/hint_text_bg_color"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:src="@mipmap/ic_add_black_24dp" />
-
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:hint="What do you want to remind me?"
-                android:textColorHint="@color/cardview_light_background" />
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:hint="Add Your Own Brand"
+                    android:layout_marginLeft="5dp"
+                    android:padding="10dp"
+                    android:backgroundTint="@android:color/transparent"
+                    android:textColorHint="@color/hind_text_color" />
 
 
             <TextView
@@ -53,24 +43,19 @@
                 android:textStyle="bold"
                 />
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/list_line_color"/>
 
         <ListView
             android:id="@+id/category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:background="@color/list_bg_color"
             android:divider="@null"
-            android:scrollbars="vertical"
-            >
+            android:scrollbars="vertical">
         </ListView>
-<!--        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:backgroundTint="@color/colorPrimary"
-            android:layout_gravity="bottom|end"
-            app:useCompatPadding="true"
-            android:visibility="visible"
-            android:src="@mipmap/ic_add_white_24dp"/>-->
+
 </LinearLayout>

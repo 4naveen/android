@@ -9,66 +9,48 @@
     android:id="@+id/layout"
     android:focusableInTouchMode="true"
     tools:context="com.project.spliceglobal.recallgo.CategoryListActivity">
+
     <include
         layout="@layout/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/cv"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#ececec">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:background="@color/hint_text_bg_color"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/add"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:hint="Add Your Own Catetory"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:padding="10dp"
+            android:backgroundTint="@android:color/transparent"
+            android:textColorHint="@color/hind_text_color" />
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:src="@mipmap/ic_add_black_24dp" />
+        <ImageView
+            android:id="@+id/info_add"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:src="@mipmap/ic_info_outline_black_24dp" />
+    </LinearLayout>
 
-            <EditText
-                android:id="@+id/add"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:hint="What do you want to remind me?"
-                android:textColorHint="@color/cardview_light_background" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/list_line_color"/>
 
-            <ImageView
-                android:id="@+id/info_add"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:src="@mipmap/ic_info_outline_black_24dp" />
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-
-        <ListView
+    <ListView
             android:id="@+id/category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:divider="@null"
+            android:background="@color/list_bg_color"
             android:scrollbars="vertical"/>
-
-<!--        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:src="@mipmap/ic_add_white_24dp"
-            android:visibility="visible"
-            app:backgroundTint="@color/colorPrimary"
-            app:useCompatPadding="true" />-->
-
-</LinearLayout>
+    </LinearLayout>

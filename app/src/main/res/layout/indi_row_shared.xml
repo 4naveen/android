@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cv"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="#ececec">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/top_view"
-        android:background="#ececec"
-        android:paddingTop="10dp"
+        android:padding="10dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -48,7 +45,6 @@
                 android:paddingStart="10dp"
                 android:singleLine="true"
                 android:textStyle="bold"
-
                 android:text="Greeting from gmail team"
                 android:textSize="13sp" />
 
@@ -70,6 +66,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#D0D0D0"/>
+        android:background="@color/list_line_color"/>
     
-</android.support.v7.widget.CardView>
+</LinearLayout>
