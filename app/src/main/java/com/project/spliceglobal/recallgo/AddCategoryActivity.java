@@ -53,7 +53,7 @@ public class AddCategoryActivity extends AppCompatActivity {
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("Add your own Category");
+            actionBar.setTitle("Add Your Own Category");
         }
         name=(EditText)findViewById(R.id.name);
         category_name=getIntent().getStringExtra("name");

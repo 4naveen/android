@@ -154,7 +154,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MaterialDialog dialog1 = new MaterialDialog.Builder(AddReminderItemActivity.this)
-                        .title("Add note")
+                        .title("Add Note")
                         .customView(R.layout.add_notes_dialog, true)
                         .positiveText("ADD")
                         .autoDismiss(false)
@@ -210,7 +210,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
                                 //retrieve the SingleDateAndTimePicker
                             }
                         })
-                        .title("Pick your date")
+                        .title("Pick Your Date")
                         .listener(new SingleDateAndTimePickerDialog.Listener() {
                             @Override
                             public void onDateSelected(Date date) {

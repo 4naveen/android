@@ -30,6 +30,7 @@
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
             android:lines="6"
+            android:padding="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:scrollHorizontally="false" />
     </android.support.design.widget.TextInputLayout>

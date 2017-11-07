@@ -57,7 +57,7 @@ public class SetTargetActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final MaterialDialog dialog1 = new MaterialDialog.Builder(SetTargetActivity.this)
-                        .title("Supported store")
+                        .title("Supported Store")
                         .customView(R.layout.indi_view_repeat_dialog, true)
                         .positiveText("")
                         .positiveColorRes(R.color.colorPrimary)
