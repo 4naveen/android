@@ -41,6 +41,7 @@
 
     <TextView
         android:layout_width="wrap_content"
+        android:id="@+id/product_url"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="http://www.wallmart.com"
@@ -186,6 +187,7 @@
 
                     <TextView
                         android:layout_width="0dp"
+                        android:id="@+id/original_price"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="26dp"
                         android:layout_marginStart="26dp"
@@ -196,6 +198,7 @@
 
                     <TextView
                         android:layout_width="0dp"
+                        android:id="@+id/current_price"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
                         android:text="$1050"
@@ -204,6 +207,7 @@
 
                     <TextView
                         android:layout_width="0dp"
+                        android:id="@+id/target_price"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
                         android:text="$1145"
@@ -358,8 +362,6 @@
                     android:layout_marginTop="20dp"
                     android:background="#c0c0c0" />
             </LinearLayout>
-
-
         </LinearLayout>
 
         <View
@@ -377,7 +379,7 @@
         android:id="@+id/view_more"
         android:layout_width="100dp"
         android:layout_height="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:background="@color/colorPrimary"
         android:text="View More"
         android:textColor="@color/textColor"

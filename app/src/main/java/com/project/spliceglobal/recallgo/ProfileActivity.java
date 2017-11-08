@@ -234,7 +234,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 if (String.valueOf(error) != null) {
                     new MaterialDialog.Builder(ProfileActivity.this)
-                            .content("Invalid Credentials!Please try again")
+                            .content("Something wrong happen!Please Try Later")
                             .positiveText("Ok")
                             .positiveColorRes(R.color.colorPrimary)
                             .onPositive(new MaterialDialog.SingleButtonCallback() {

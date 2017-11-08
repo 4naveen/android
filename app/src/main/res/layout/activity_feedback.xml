@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:focusable="true"
+    android:id="@+id/layout"
     android:focusableInTouchMode="true"
     tools:context="com.project.spliceglobal.recallgo.FeedbackActivity">
 
@@ -127,7 +128,7 @@
 
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAllCaps="true"

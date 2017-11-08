@@ -1,10 +1,16 @@
 package com.project.spliceglobal.recallgo;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,22 +23,32 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
+import com.project.spliceglobal.recallgo.utils.AppUrl;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class FeedbackActivity extends AppCompatActivity {
-    Button feedback, refer;
-    LinearLayout feedback_type;
+    Button feedback, refer,submit;
+    LinearLayout feedback_type,layout;
     ArrayList<String> feedback_typeList;
     TextView feedback_type_text;
     SimpleRatingBar simpleRatingBar;
     EditText description;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
-
        /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
@@ -40,7 +56,7 @@ public class FeedbackActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Feedback");
         }*/
-
+       layout=(LinearLayout)findViewById(R.id.layout);
         simpleRatingBar = (SimpleRatingBar)findViewById(R.id.rating);
         description = (EditText)findViewById(R.id.description);
         description.setText(" ");
@@ -53,9 +69,10 @@ public class FeedbackActivity extends AppCompatActivity {
         feedback_typeList.add("I want to share my idea");
         feedback_typeList.add("Some feature not working");
         feedback_typeList.add("General Feedback");
-
         feedback = (Button) findViewById(R.id.arriving);
         refer = (Button) findViewById(R.id.leaving);
+        submit = (Button) findViewById(R.id.submit);
+
         refer.setBackgroundColor(Color.rgb(0,0, 0));
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +95,6 @@ public class FeedbackActivity extends AppCompatActivity {
                 intentShare.setType("text/plain");
                 intentShare.putExtra(Intent.EXTRA_TEXT,"Hey I am using Recallgo to remind me for everything .you can dowmload it from play store");
                 startActivity(Intent.createChooser(intentShare, "Select an action"));
-
             }
         });
         feedback_type.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +125,15 @@ public class FeedbackActivity extends AppCompatActivity {
                 }
             }
         });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new SendFeedback().execute(feedback_type_text.getText().toString(),String.valueOf(simpleRatingBar.getRating()),"Feedback.3");
+
+            }
+        });
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -119,4 +144,117 @@ public class FeedbackActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private class SendFeedback extends AsyncTask<String, Void, String> {
+        ProgressDialog dialog;
+        HttpURLConnection conn;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(FeedbackActivity.this);
+            dialog.setMessage("Please Wait..");
+            //dialog.setTitle("Connecting server");
+            dialog.show();
+            dialog.setCancelable(false);
+        }
+        @Override
+        protected String doInBackground(String... params) {
+            String response = "", jsonresponse = "";
+            BufferedReader bufferedReader = null;
+            JSONObject json = null;
+            JSONObject jsonObject = null;
+            URL url = null;
+            try {
+                jsonObject = new JSONObject();
+                jsonObject.put("feedback",params[0]);
+                jsonObject.put("rating", Float.parseFloat(params[1]));
+                jsonObject.put("object",params[2]);
+                System.out.println(jsonObject.toString());
+                url = new URL(AppUrl.FEEDBACK_URL);
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestProperty("Authorization", "Token "+ AppUrl.TOKEN);
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+
+                writer.write(jsonObject.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+                int responseCode = conn.getResponseCode();
+                System.out.println("responsecode--"+responseCode);
+                if (responseCode == HttpsURLConnection.HTTP_CREATED) {
+                    String line;
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    //Log.d("Output",br.toString());
+                    while ((line = br.readLine()) != null) {
+                        response += line;
+                        Log.d("output lines", line);
+                    }
+                    json = new JSONObject(response);
+                    //Get Values from JSONobject
+                    // System.out.println("success=" + json.get("success"));
+
+                    jsonresponse = "success";
+
+                } else {
+                    InputStreamReader inputStreamReader = new InputStreamReader(conn.getErrorStream());
+                    bufferedReader = new BufferedReader(inputStreamReader);
+                    String line = "";
+                    while ((line = bufferedReader.readLine()) != null) {
+                        response += line;
+                        Log.d("output lines", line);
+                    }
+                    // Log.i("response", response);
+                    // json = new JSONObject(response);
+                    // jsonresponse = json.getString("error");
+                    //System.out.println("error=" + json.get("error"));
+                    //succes = json.getString("success");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            return jsonresponse;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            dialog.dismiss();
+            if (result.equals("success")) {
+                final Snackbar snackbar = Snackbar.make(layout, "Added item Succesfully!", Snackbar.LENGTH_LONG);
+                View v = snackbar.getView();
+                v.setMinimumWidth(1000);
+                TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.YELLOW);
+                snackbar.show();
+                Intent myIntent = new Intent();
+                setResult(Activity.RESULT_OK, myIntent);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 3000);
+            } else {
+                final Snackbar snackbar = Snackbar.make(layout, "Item not added! Try Again", Snackbar.LENGTH_LONG);
+                View v = snackbar.getView();
+                v.setMinimumWidth(1000);
+                TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.YELLOW);
+                snackbar.show();
+            }
+        }
+    }
+
 }

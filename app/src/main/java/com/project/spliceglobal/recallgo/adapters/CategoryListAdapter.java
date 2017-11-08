@@ -75,6 +75,7 @@ public class CategoryListAdapter extends BaseAdapter {
        // notifyDataSetChanged();
         return convertView;
     }
+
 }
 
 

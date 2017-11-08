@@ -249,7 +249,6 @@ public class TodayFragment extends Fragment {
                             JSONObject jsonObject=new JSONObject(response);
                             count=jsonObject.getInt("count");
                             next_url=jsonObject.getString("next");
-
                             JSONArray jsonArray = jsonObject.getJSONArray("results");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(i);

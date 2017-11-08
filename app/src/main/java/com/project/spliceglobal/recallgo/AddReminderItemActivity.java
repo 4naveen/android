@@ -596,7 +596,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             dialog.dismiss();
             if (result.equals("success")) {
-                final Snackbar snackbar = Snackbar.make(layout, "Added item Succesfully!", Snackbar.LENGTH_LONG);
+                final Snackbar snackbar = Snackbar.make(layout, "Added Item Succesfully!", Snackbar.LENGTH_LONG);
                 View v = snackbar.getView();
                 v.setMinimumWidth(1000);
                 TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
@@ -611,7 +611,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
                     }
                 }, 3000);
             } else {
-                final Snackbar snackbar = Snackbar.make(layout, "Item not added! Try Again", Snackbar.LENGTH_LONG);
+                final Snackbar snackbar = Snackbar.make(layout, "Item not Added! Try Again", Snackbar.LENGTH_LONG);
                 View v = snackbar.getView();
                 v.setMinimumWidth(1000);
                 TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);

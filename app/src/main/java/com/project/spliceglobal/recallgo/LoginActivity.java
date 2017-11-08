@@ -116,12 +116,12 @@ public class LoginActivity extends AppCompatActivity {
                     email_phone.requestFocus();
                     if (email_phone.getText().toString().isEmpty()) {
                         email_phone.requestFocus();
-                        input_email_phone.setError("please enter your email");
+                        input_email_phone.setError("Please Enter Your Email");
                         return;
                     }
                     if (password.getText().toString().isEmpty()) {
                         password.requestFocus();
-                        input_pwd.setError("please enter your password");
+                        input_pwd.setError("Please Enter Your Password");
                         return;
                     }
                 }
@@ -178,7 +178,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (email_phone.getText().toString().isEmpty()) {
                     email_phone.requestFocus();
-                    input_email_phone.setError("please enter your email");
+                    input_email_phone.setError("Please Enter Your Email");
                     return;
                 }
                  new ForgetPassword().execute(email_phone.getText().toString().trim());
@@ -233,7 +233,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 if (String.valueOf(error) != null) {
                     new MaterialDialog.Builder(LoginActivity.this)
-                            .content("Invalid Credentials!Please try again")
+                            .content("Invalid Credentials!Please Try Again")
                             .positiveText("Ok")
                             .positiveColorRes(R.color.colorPrimary)
                             .onPositive(new MaterialDialog.SingleButtonCallback() {

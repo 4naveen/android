@@ -10,8 +10,7 @@
         android:id="@+id/swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+
         swipe:leftEdgeSwipeOffset="0dp"
         swipe:rightEdgeSwipeOffset="0dp">
 
@@ -19,7 +18,7 @@
 
         <LinearLayout
             android:id="@+id/bottom_wrapper2"
-            android:layout_width="220dp"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
             android:weightSum="3">
 
@@ -90,9 +89,8 @@
                     android:id="@+id/tvSetPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:gravity="center"
-                    android:layout_gravity="center_horizontal"
                     android:text="Set Target Price"
                     android:textColor="#fff" />
             </LinearLayout>
@@ -146,7 +144,6 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="$452"
-                        android:padding="10dp"
                         android:textColor="@color/bg_screen2"
                         android:textSize="14sp" />
                 </LinearLayout>

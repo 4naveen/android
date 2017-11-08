@@ -223,8 +223,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             }
         });
-
-
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -232,23 +230,23 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
                 if (name.getText().toString().trim().isEmpty()) {
-                    input_name.setError("please enter your name");
+                    input_name.setError("Please Enter Your Name");
                     return;
                 }
                 if (email.getText().toString().trim().isEmpty()) {
-                    input_email.setError("please enter email");
+                    input_email.setError("Please Enter Email");
                     return;
                 }
                 if (mobile.getText().toString().trim().isEmpty()) {
-                    input_mobile.setError("please enter mobile number");
+                    input_mobile.setError("Please Enter Mobile Number");
                     return;
                 }
                 if (password.getText().toString().trim().isEmpty()) {
-                    input_password.setError("please enter password");
+                    input_password.setError("Please Enter Password");
                     return;
                 }
                 if (password.getText().toString().compareTo(confirm_password.getText().toString()) != 0) {
-                    input_confirm_password.setError("Password do not match");
+                    input_confirm_password.setError("Password not Matched");
                     return;
                 }
 
@@ -257,7 +255,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         password.getText().toString(),confirm_password.getText().toString());
             }
         });
-
 
     }
 

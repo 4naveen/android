@@ -59,7 +59,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        startService( new Intent(HomeActivity.this, NotificationService.class));
+        //startService( new Intent(HomeActivity.this, NotificationService.class));
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         profile_image = (CircleImageView) findViewById(R.id.profile_image);
         sessionManager=new SessionManager(getApplicationContext());

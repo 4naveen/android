@@ -104,11 +104,8 @@ public class CategoryListActivity extends AppCompatActivity {
               //category_text=""+parent.getItemAtPosition(position);
                 category_text=category.getCategory_name();
                 category_id=category.getId();
-
             }
         });
-
-
         add.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -192,10 +189,19 @@ public class CategoryListActivity extends AppCompatActivity {
                                 category.setId(object.getInt("id"));
                                 allCategoryArrayList.add(category);
                             }
-                            for (int i = count-no_of_item_loaded; i >0; i-=no_of_item_loaded) {
-                                System.out.println("i"+i);
-                                getMoreCategory(next_url);
+                            if (!next_url.equalsIgnoreCase("null")){
+                                for (int i = count-no_of_item_loaded; i >0; i-=no_of_item_loaded) {
+                                    System.out.println("i"+i);
+                                    getMoreCategory(next_url);
+                                }
                             }
+                            else {
+                                dialog.dismiss();
+                                listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                                listAdapter = new CategoryListAdapter(CategoryListActivity.this, allCategoryArrayList);
+                                listView.setAdapter(listAdapter);
+                            }
+
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
@@ -228,6 +234,7 @@ public class CategoryListActivity extends AppCompatActivity {
         } ;
         MyVolleySingleton.getInstance(CategoryListActivity.this).getRequestQueue().add(stringRequest);
     }
+
     public  void getMoreCategory(String url)
     {
    /*     if (next_url.equalsIgnoreCase("null")){

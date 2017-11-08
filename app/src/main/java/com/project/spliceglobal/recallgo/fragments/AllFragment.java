@@ -84,6 +84,7 @@ public class AllFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            System.out.println("response"+response);
                             JSONObject jsonObject=new JSONObject(response);
                             count=jsonObject.getInt("count");
                             next_url=jsonObject.getString("next");
