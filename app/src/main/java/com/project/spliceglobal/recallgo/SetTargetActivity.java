@@ -193,14 +193,8 @@ public class SetTargetActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             dialog.dismiss();
             if (result.equals("success")) {
-
-
-
-
                 Log.i("Res--", result);
             } else {
-
-
             }
         }
     }

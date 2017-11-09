@@ -2,6 +2,7 @@
     <string name="app_name">RecallGo</string>
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
+    <string name="facebook_app_id">1763944826981080</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

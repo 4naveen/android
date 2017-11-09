@@ -102,7 +102,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
 
         arriving = (Button) findViewById(R.id.arriving);
         leaving = (Button) findViewById(R.id.leaving);
-        leaving.setBackgroundColor(Color.rgb(0, 137, 123));
+        //leaving.setBackgroundColor(Color.rgb(0, 137, 123));
         arriving.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

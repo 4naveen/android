@@ -77,13 +77,13 @@ public class TutorialActivity extends YouTubeBaseActivity  implements YouTubePla
         video_id = "nkBokjPSGsI";
         playerStateChangeListener = new MyPlayerStateChangeListener();
         playbackEventListener = new MyPlaybackEventListener();
-         btncommit.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
+        btncommit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 // new SendFeedback().execute(feedback_type_text.getText().toString(),String.valueOf(simpleRatingBar.getRating()),"Feedback.3");
 
-             }
-         });
+            }
+        });
     }
 
     @Override
@@ -92,7 +92,7 @@ public class TutorialActivity extends YouTubeBaseActivity  implements YouTubePla
         player.setPlayerStateChangeListener(playerStateChangeListener);
         player.setPlaybackEventListener(playbackEventListener);
         if (!wasRestored){
-           // player.loadVideo(video_id);
+            // player.loadVideo(video_id);
             player.cueVideo(video_id);
         }
     }

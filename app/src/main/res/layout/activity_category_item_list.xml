@@ -38,7 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
-                android:hint="What do you want to remind me?"
+                android:hint="Add New Category Item"
                 android:layout_marginLeft="5dp"
                 android:padding="10dp"
                 android:backgroundTint="@android:color/transparent"

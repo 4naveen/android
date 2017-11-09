@@ -234,7 +234,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 if (String.valueOf(error) != null) {
                     new MaterialDialog.Builder(ProfileActivity.this)
-                            .content("Something wrong happen!Please Try Later")
+                            .content("Something wrong happen, Please try again!")
                             .positiveText("Ok")
                             .positiveColorRes(R.color.colorPrimary)
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -384,7 +384,7 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             if (result.equals("success")) {
-                final Snackbar snackbar = Snackbar.make(layout, "Updated Succesfully!", Snackbar.LENGTH_LONG);
+                final Snackbar snackbar = Snackbar.make(layout, "Your profile has been succesfully updated.", Snackbar.LENGTH_LONG);
                 View v = snackbar.getView();
                 v.setMinimumWidth(1000);
                 TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
@@ -397,7 +397,7 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 }, 3000);
             } else {
-                final Snackbar snackbar = Snackbar.make(layout, "Item not Updated! Try Again", Snackbar.LENGTH_LONG);
+                final Snackbar snackbar = Snackbar.make(layout, "Your profile has not been updated.", Snackbar.LENGTH_LONG);
                 View v = snackbar.getView();
                 v.setMinimumWidth(1000);
                 TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);

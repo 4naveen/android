@@ -46,7 +46,7 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email id or Mobile No"
+                    android:hint="Email Id or Mobile No"
                     android:inputType="textEmailAddress"
                     android:text="arun@spliceglobal.com"
                     android:singleLine="true"

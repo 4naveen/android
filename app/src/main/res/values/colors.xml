@@ -11,6 +11,7 @@
     <color name="bg_screen3">#3395ff</color>
     <color name="bg_screen4">#F9A825</color>
 
+    <color name="screen_background">#F7F8FA</color>
     <color name="header_bg">#FF245A</color>
     <color name="button_bg">#FF2559</color>
     <color name="welcome_login_bg">#2CC3D4</color>

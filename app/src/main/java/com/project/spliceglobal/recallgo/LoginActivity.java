@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         if (!NetworkStatus.isConnected(LoginActivity.this)) {
-            Toast.makeText(getApplicationContext(), "Please check your Internet Connectivity!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Please check your internet connectivity!", Toast.LENGTH_LONG).show();
         }
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,12 +116,12 @@ public class LoginActivity extends AppCompatActivity {
                     email_phone.requestFocus();
                     if (email_phone.getText().toString().isEmpty()) {
                         email_phone.requestFocus();
-                        input_email_phone.setError("Please Enter Your Email");
+                        input_email_phone.setError("Please enter your email or mobile");
                         return;
                     }
                     if (password.getText().toString().isEmpty()) {
                         password.requestFocus();
-                        input_pwd.setError("Please Enter Your Password");
+                        input_pwd.setError("Please enter your password");
                         return;
                     }
                 }
@@ -178,7 +178,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (email_phone.getText().toString().isEmpty()) {
                     email_phone.requestFocus();
-                    input_email_phone.setError("Please Enter Your Email");
+                    input_email_phone.setError("Please enter your email or mobile");
                     return;
                 }
                  new ForgetPassword().execute(email_phone.getText().toString().trim());
@@ -233,7 +233,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 if (String.valueOf(error) != null) {
                     new MaterialDialog.Builder(LoginActivity.this)
-                            .content("Invalid Credentials!Please Try Again")
+                            .content("Email id or mobile and password are wrong. Please try again!")
                             .positiveText("Ok")
                             .positiveColorRes(R.color.colorPrimary)
                             .onPositive(new MaterialDialog.SingleButtonCallback() {

@@ -225,7 +225,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             if (result.equals("success")) {
-                final Snackbar snackbar = Snackbar.make(layout, "Your password successfully changed ", Snackbar.LENGTH_LONG);
+                final Snackbar snackbar = Snackbar.make(layout, "Your password has been changed", Snackbar.LENGTH_LONG);
                 View v = snackbar.getView();
                 v.setMinimumWidth(1000);
                 TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
@@ -239,7 +239,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 }, 3000);
 
             } else {
-                final Snackbar snackbar = Snackbar.make(layout, "Your password not changed ! Try Again ", Snackbar.LENGTH_LONG);
+                final Snackbar snackbar = Snackbar.make(layout, "Your password has not changed. Please try again.", Snackbar.LENGTH_LONG);
                 View v = snackbar.getView();
                 v.setMinimumWidth(1000);
                 TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);

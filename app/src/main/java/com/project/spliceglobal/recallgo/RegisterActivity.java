@@ -230,23 +230,23 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
                 if (name.getText().toString().trim().isEmpty()) {
-                    input_name.setError("Please Enter Your Name");
+                    input_name.setError("Please enter name");
                     return;
                 }
                 if (email.getText().toString().trim().isEmpty()) {
-                    input_email.setError("Please Enter Email");
+                    input_email.setError("Please enter email id");
                     return;
                 }
                 if (mobile.getText().toString().trim().isEmpty()) {
-                    input_mobile.setError("Please Enter Mobile Number");
+                    input_mobile.setError("Please enter mobile no");
                     return;
                 }
                 if (password.getText().toString().trim().isEmpty()) {
-                    input_password.setError("Please Enter Password");
+                    input_password.setError("Please enter password");
                     return;
                 }
                 if (password.getText().toString().compareTo(confirm_password.getText().toString()) != 0) {
-                    input_confirm_password.setError("Password not Matched");
+                    input_confirm_password.setError("Password does not matched with confirm password");
                     return;
                 }
 

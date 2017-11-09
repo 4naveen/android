@@ -79,7 +79,7 @@ public class StoreListActivity extends AppCompatActivity {
 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("Select Category");
+            actionBar.setTitle("Prefered Store");
         }
 
         getStore(AppUrl.ALL_STORE_URL);
@@ -98,7 +98,7 @@ public class StoreListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (name.getText().toString().trim().isEmpty()) {
-                    name.setError("please enter category name");
+                    name.setError("Please enter store name");
                     return;
                 }
                 new AddStore().execute(name.getText().toString().trim());

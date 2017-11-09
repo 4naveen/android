@@ -77,20 +77,20 @@ public class FeedbackActivity extends AppCompatActivity {
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                feedback.setBackgroundColor(Color.rgb(0, 0, 0));
-                refer.setBackgroundColor(Color.WHITE);
-                feedback.setTextColor(Color.WHITE);
-                refer.setTextColor(Color.BLACK);
+                //feedback.setBackgroundColor(Color.rgb(0, 0, 0));
+                //refer.setBackgroundColor(Color.WHITE);
+                //feedback.setTextColor(Color.WHITE);
+                //refer.setTextColor(Color.BLACK);
 
             }
         });
         refer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refer.setBackgroundColor(Color.rgb(0, 0,0));
-                feedback.setBackgroundColor(Color.WHITE);
-                refer.setTextColor(Color.WHITE);
-                feedback.setTextColor(Color.BLACK);
+                //refer.setBackgroundColor(Color.rgb(0, 0,0));
+                //feedback.setBackgroundColor(Color.WHITE);
+                //refer.setTextColor(Color.WHITE);
+                //feedback.setTextColor(Color.BLACK);
                 Intent intentShare=new Intent(Intent.ACTION_SEND);
                 intentShare.setType("text/plain");
                 intentShare.putExtra(Intent.EXTRA_TEXT,"Hey I am using Recallgo to remind me for everything .you can dowmload it from play store");

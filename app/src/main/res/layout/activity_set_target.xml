@@ -104,10 +104,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="10dp"
-                android:layout_weight="0.4"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.5"
                 android:text="Product : iMac"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <View
                 android:layout_width="0dp"
@@ -115,7 +117,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.4"
                 android:background="#c0c0c0" />
 
         </LinearLayout>
