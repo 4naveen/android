@@ -100,7 +100,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
-
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void onToggleClicked(View view) {
         if (((ToggleButton) view).isChecked()) {
@@ -119,14 +118,12 @@ public class ProfileActivity extends AppCompatActivity {
             email.setBackgroundResource(R.drawable.edittext_bottom_back);
             email.requestFocus();
             email.setSelection(email.getText().length());
-
             mobile.setClickable(true);
             mobile.setFocusable(true);
             mobile.setFocusableInTouchMode(true);
             mobile.setBackgroundResource(R.drawable.edittext_bottom_back);
             mobile.requestFocus();
             mobile.setSelection(mobile.getText().length());
-
             profile_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -178,13 +175,16 @@ public class ProfileActivity extends AppCompatActivity {
                 byte[] imageInByte = stream.toByteArray();
                 long lengthbmp = imageInByte.length;
                 Log.i("image length", String.valueOf(lengthbmp));
-                if (lengthbmp > 512000) {
+             /*   if (lengthbmp > 512000) {
                     Toast.makeText(getApplicationContext(), "image size should be less than 500kb", Toast.LENGTH_LONG).show();
                     return;
                 } else {
                     profile_image.setImageBitmap(bitmap);
-                }
-                encoded_image = getStringImage(bitmap);
+                }*/
+
+                Bitmap scaledBitmap = scaleDown(bitmap, 100, true);
+                profile_image.setImageBitmap(scaledBitmap);
+                encoded_image = getStringImage(scaledBitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -286,7 +286,6 @@ public class ProfileActivity extends AppCompatActivity {
     private class EditUserProfile extends AsyncTask<String, Void, String> {
         ProgressDialog dialog;
         HttpURLConnection conn;
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -296,7 +295,6 @@ public class ProfileActivity extends AppCompatActivity {
             dialog.show();
             dialog.setCancelable(false);
         }
-
         @Override
         protected String doInBackground(String... params) {
             String response = "", jsonresponse = "";
@@ -325,7 +323,8 @@ public class ProfileActivity extends AppCompatActivity {
                 sub_object.put("img",encoded_image);
                 jsonObject.put("picture",sub_object);
                // jsonObject.put("picture", encoded_image);
-                System.out.println(jsonObject.toString());
+               // System.out.println("encoded_image"+encoded_image);
+                System.out.println("jsonobject"+jsonObject.toString());
                 url = new URL(AppUrl.GET_USER_PROFILE_URL);
                 System.out.println(url.toString());
                 conn = (HttpURLConnection) url.openConnection();
@@ -346,6 +345,7 @@ public class ProfileActivity extends AppCompatActivity {
                 writer.close();
                 os.close();
                 int responseCode = conn.getResponseCode();
+                System.out.println("response code"+responseCode);
                 if (responseCode == HttpsURLConnection.HTTP_OK) {
                     String line;
                     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -405,11 +405,22 @@ public class ProfileActivity extends AppCompatActivity {
                 snackbar.show();
             }
             dialog.dismiss();
-
         }
     }
-
     public static Bitmap getImage(byte[] image) {
         return BitmapFactory.decodeByteArray(image, 0, image.length);
+    }
+
+    public static Bitmap scaleDown(Bitmap realImage, float maxImageSize,
+                                   boolean filter) {
+        float ratio = Math.min(
+                (float) maxImageSize / realImage.getWidth(),
+                (float) maxImageSize / realImage.getHeight());
+        System.out.println("image ratio"+String.valueOf(ratio));
+        int width = Math.round((float) ratio * realImage.getWidth());
+        int height = Math.round((float) ratio * realImage.getHeight());
+        Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width,
+                height, filter);
+        return newBitmap;
     }
 }

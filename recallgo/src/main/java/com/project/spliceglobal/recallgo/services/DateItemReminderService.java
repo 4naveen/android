@@ -83,6 +83,7 @@ public class DateItemReminderService extends Service {
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
+
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             notificationBuilder.setSmallIcon(R.drawable.title_img);
             notificationBuilder.setColor(getResources().getColor(R.color.bg_screen3));

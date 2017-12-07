@@ -66,6 +66,9 @@ public class AddReminderItemActivity extends AppCompatActivity {
     private double longitude=0.00;
     private double latitude=0.00;
     private double radiusInMeters=0.00;
+    private String entry;
+    private DateFormat dateFormat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +83,11 @@ public class AddReminderItemActivity extends AppCompatActivity {
         prefered_store_text=(TextView)findViewById(R.id.prefered_store_text);
         repeat_text=(TextView)findViewById(R.id.repeat_text);
         date_time_text=(TextView)findViewById(R.id.date_time_text);
+        description = (EditText) findViewById(R.id.description);
+
         none=(TextView)findViewById(R.id.none);
+        none.setBackgroundColor(Color.BLACK);
+
         one=(TextView)findViewById(R.id.one);
         two=(TextView)findViewById(R.id.two);
         three=(TextView)findViewById(R.id.three);
@@ -90,6 +97,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
         called_from=getIntent().getStringExtra("called_from");
         System.out.println("called_from"+called_from);
         called_from_adapter=getIntent().getStringExtra("called_from_adapter");
+
        // System.out.println("called_from_adapter"+called_from_adapter);
         notes_layout = (LinearLayout) findViewById(R.id.notes);
         date_time = (ImageView) findViewById(R.id.date_time);
@@ -97,6 +105,8 @@ public class AddReminderItemActivity extends AppCompatActivity {
         brand = (LinearLayout) findViewById(R.id.brand);
         prefered_store = (LinearLayout) findViewById(R.id.prefered_store);
         repeat = (LinearLayout) findViewById(R.id.repeat);
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ",Locale.ENGLISH);
+        formated_date = dateFormat.format(new Date());
         repeatList = new ArrayList<>();
         repeatList.add("One Time");
         repeatList.add("Daily");
@@ -121,6 +131,60 @@ public class AddReminderItemActivity extends AppCompatActivity {
             prefered_store_text.setText(getIntent().getStringExtra("store_name"));
             date_time_text.setText(getIntent().getStringExtra("date_time"));
             repeat_text_id=Integer.parseInt(getIntent().getStringExtra("repeat_type"));
+            description.setText(getIntent().getStringExtra("description"));
+
+            if (getIntent().getStringExtra("priority").equalsIgnoreCase("1"))
+            {
+                one.setText("1");
+                priority=1;
+                none.setTextColor(Color.BLACK);
+                System.out.println("priority in add"+getIntent().getStringExtra("priority"));
+                one.setBackgroundColor(Color.BLACK);
+                none.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                two.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                three.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                four.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+            }
+            if (getIntent().getStringExtra("priority").equalsIgnoreCase("2"))
+            {
+                two.setText("2");
+                priority=2;
+                System.out.println("priority in add"+getIntent().getStringExtra("priority"));
+
+                none.setTextColor(Color.BLACK);
+                two.setBackgroundColor(Color.BLACK);
+                none.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                one.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                three.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                four.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+            }
+            if (getIntent().getStringExtra("priority").equalsIgnoreCase("3"))
+            {
+                three.setText("3");
+                priority=3;
+                System.out.println("priority"+getIntent().getStringExtra("priority"));
+
+                none.setTextColor(Color.BLACK);
+                three.setBackgroundColor(Color.BLACK);
+                none.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                two.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                one.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                four.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+            }
+            if (getIntent().getStringExtra("priority").equalsIgnoreCase("4"))
+            {
+                four.setText("4");
+                priority=4;
+                System.out.println("priority"+getIntent().getStringExtra("priority"));
+
+                none.setTextColor(Color.BLACK);
+                four.setBackgroundColor(Color.BLACK);
+                none.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                two.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                three.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                one.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+            }
+
             if (getIntent().getStringExtra("repeat_type").equalsIgnoreCase("1"))
             {
                 repeat="One Time";
@@ -150,7 +214,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(getIntent().getStringExtra("name"));
         }
-        notes_layout.setOnClickListener(new View.OnClickListener() {
+ /*       notes_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MaterialDialog dialog1 = new MaterialDialog.Builder(AddReminderItemActivity.this)
@@ -195,7 +259,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
                     });
                 }
             }
-        });
+        });*/
         date_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,7 +279,6 @@ public class AddReminderItemActivity extends AppCompatActivity {
                             @Override
                             public void onDateSelected(Date date) {
                                 date_time_text.setText(date.toLocaleString());
-                                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ",Locale.ENGLISH);
                                 formated_date = dateFormat.format(date);
                                 System.out.println("formated_date"+formated_date);
                             }
@@ -308,15 +371,39 @@ public class AddReminderItemActivity extends AppCompatActivity {
 
             }
         });
+        none.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                priority=1;
+                none.setBackgroundColor(Color.BLACK);
+               /* none.setBackgroundColor(Color.WHITE);
+                two.setBackgroundColor(Color.WHITE);
+                three.setBackgroundColor(Color.WHITE);
+                four.setBackgroundColor(Color.WHITE);*/
+               none.setTextColor(Color.WHITE);
+                one.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                two.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                three.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                four.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+
+
+            }
+        });
         one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             one.setBackgroundColor(Color.BLACK);
                 priority=1;
-                none.setBackgroundColor(Color.WHITE);
+                none.setTextColor(Color.BLACK);
+                one.setBackgroundColor(Color.BLACK);
+               /* none.setBackgroundColor(Color.WHITE);
                 two.setBackgroundColor(Color.WHITE);
                 three.setBackgroundColor(Color.WHITE);
-                four.setBackgroundColor(Color.WHITE);
+                four.setBackgroundColor(Color.WHITE);*/
+                none.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                two.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                three.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                four.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+
 
             }
         });
@@ -324,33 +411,48 @@ public class AddReminderItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 priority=2;
+                none.setTextColor(Color.BLACK);
                 two.setBackgroundColor(Color.BLACK);
-                none.setBackgroundColor(Color.WHITE);
+             /*   none.setBackgroundColor(Color.WHITE);
                 one.setBackgroundColor(Color.WHITE);
                 three.setBackgroundColor(Color.WHITE);
-                four.setBackgroundColor(Color.WHITE);
+                four.setBackgroundColor(Color.WHITE);*/
+                none.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                one.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                three.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                four.setBackground(getResources().getDrawable(R.drawable.cell_shape));
             }
         });
         three.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 priority=3;
+                none.setTextColor(Color.BLACK);
                 three.setBackgroundColor(Color.BLACK);
-                none.setBackgroundColor(Color.WHITE);
+           /*     none.setBackgroundColor(Color.WHITE);
                 two.setBackgroundColor(Color.WHITE);
                 one.setBackgroundColor(Color.WHITE);
-                four.setBackgroundColor(Color.WHITE);
+                four.setBackgroundColor(Color.WHITE);*/
+                none.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                two.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                one.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                four.setBackground(getResources().getDrawable(R.drawable.cell_shape));
             }
         });
         four.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 priority=4;
+                none.setTextColor(Color.BLACK);
                 four.setBackgroundColor(Color.BLACK);
-                none.setBackgroundColor(Color.WHITE);
+               /* none.setBackgroundColor(Color.WHITE);
                 two.setBackgroundColor(Color.WHITE);
                 three.setBackgroundColor(Color.WHITE);
-                one.setBackgroundColor(Color.WHITE);
+                one.setBackgroundColor(Color.WHITE);*/
+                none.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                two.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                three.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                one.setBackground(getResources().getDrawable(R.drawable.cell_shape));
             }
         });
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -401,11 +503,11 @@ public class AddReminderItemActivity extends AppCompatActivity {
                {
                    int category_id=getIntent().getIntExtra("category_id",0);
                    new AddItem().execute(item_name,String.valueOf(category_id),String.valueOf(store_id),String.valueOf(brand_id),quantity.getText().toString(),formated_date,
-                           String.valueOf(priority),notes,String.valueOf(repeat_text_id),String.valueOf(latitude),String.valueOf(longitude),String.valueOf(radiusInMeters));
+                           String.valueOf(priority),description.getText().toString(),String.valueOf(repeat_text_id),String.valueOf(latitude),String.valueOf(longitude),String.valueOf(radiusInMeters),entry);
                }
                else {
                    new AddItem().execute(item_name,String.valueOf(category_id),String.valueOf(store_id),String.valueOf(brand_id),quantity.getText().toString(),formated_date,
-                           String.valueOf(priority),notes,String.valueOf(repeat_text_id),String.valueOf(latitude),String.valueOf(longitude),String.valueOf(radiusInMeters));
+                           String.valueOf(priority),description.getText().toString(),String.valueOf(repeat_text_id),String.valueOf(latitude),String.valueOf(longitude),String.valueOf(radiusInMeters),entry);
                }
                           break;
             }
@@ -417,11 +519,11 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 if (called_from.equalsIgnoreCase("update_category"))
                 {// int category_id=getIntent().getIntExtra("category_id",0);
                     new UpdateItem().execute(String.valueOf(item_id),item_name,String.valueOf(category_id),store_id,brand_id,quantity.getText().toString(),formated_date,
-                            String.valueOf(priority),notes,String.valueOf(repeat_text_id),String.valueOf(latitude),String.valueOf(longitude),String.valueOf(radiusInMeters));
+                            String.valueOf(priority),description.getText().toString(),String.valueOf(repeat_text_id),String.valueOf(latitude),String.valueOf(longitude),String.valueOf(radiusInMeters));
                 }
                 else {
                     new UpdateItem().execute(String.valueOf(item_id),item_name,String.valueOf(category_id),store_id,brand_id,quantity.getText().toString(),formated_date,
-                            String.valueOf(priority),notes,String.valueOf(repeat_text_id),String.valueOf(latitude),String.valueOf(longitude),String.valueOf(radiusInMeters));
+                            String.valueOf(priority),description.getText().toString(),String.valueOf(repeat_text_id),String.valueOf(latitude),String.valueOf(longitude),String.valueOf(radiusInMeters));
                 }
                                 break;
             }
@@ -475,6 +577,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
                     latitude=data.getDoubleExtra("latitude",0.00);
                     longitude=data.getDoubleExtra("longitude",0.00);
                     radiusInMeters=data.getDoubleExtra("radius",0.00);
+                    entry=data.getStringExtra("entry");
                 }
                 break;
             }
@@ -508,6 +611,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 jsonObject.put("qty", params[4]);
                 jsonObject.put("date", params[5]);
                 jsonObject.put("list",params[1]);
+                jsonObject.put("entry",params[12]);
                 if (params[2].equalsIgnoreCase("null"))
                 {
                     jsonObject.put("store",JSONObject.NULL);
@@ -522,7 +626,12 @@ public class AddReminderItemActivity extends AppCompatActivity {
                     jsonObject.put("brand", params[3]);
                 }
                 jsonObject.put("priority",params[6]);
-                jsonObject.put("description", params[7]);
+                if (params[7].isEmpty()){
+                    jsonObject.put("description",JSONObject.NULL);
+                }
+                else {
+                    jsonObject.put("description", params[7]);
+                }
                 jsonObject.put("type", params[8]);
                 if (params[9].equalsIgnoreCase("0.0"))
                 {jsonObject.put("lat",JSONObject.NULL);}
@@ -663,7 +772,13 @@ public class AddReminderItemActivity extends AppCompatActivity {
                     jsonObject.put("brand", params[4]);
                 }
                 jsonObject.put("priority",params[7]);
-                jsonObject.put("description", params[8]);
+                if (params[8].isEmpty()){
+                    jsonObject.put("description", jsonObject.NULL);
+                }
+                else {
+                    jsonObject.put("description", params[8]);
+
+                }
                 jsonObject.put("type", params[9]);
                 if (params[10].equalsIgnoreCase("0.0"))
                 {jsonObject.put("lat",JSONObject.NULL);}

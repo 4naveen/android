@@ -21,6 +21,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -76,7 +77,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     TextInputLayout input_name,input_email,input_mobile,input_password,input_confirm_password;
     Button register;
     LinearLayout layout;
-
+    int keyDel;
+    String a;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,7 +161,47 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 input_mobile.setError("");
+                boolean flag = true;
+                String eachBlock[] = mobile.getText().toString().split("-");
+                for (int i = 0; i < eachBlock.length; i++)
+                {
+                    if (eachBlock[i].length() > 3)
+                    {
+                        Log.v("11111111111111111111","cc"+flag + eachBlock[i].length());
+                    }
+                }
+                if (flag) {
+                    mobile.setOnKeyListener(new View.OnKeyListener() {
 
+                        public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                            if (keyCode == KeyEvent.KEYCODE_DEL)
+                                keyDel = 1;
+                            return false;
+                        }
+                    });
+
+                    if (keyDel == 0) {
+
+                        if (((mobile.getText().length() + 1) % 4) == 0)
+                        {
+                            if (mobile.getText().toString().split("-").length <= 2)
+                            {
+                                mobile.setText(mobile.getText() + "-");
+                                mobile.setSelection(mobile.getText().length());
+                            }
+                        }
+                        a = mobile.getText().toString();
+                    }
+                    else
+                    {
+                        a = mobile.getText().toString();
+                        keyDel = 0;
+                    }
+
+                } else {
+                    mobile.setText(a);
+                }
             }
 
             @Override
@@ -192,7 +234,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         password.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                input_password.setError("password must be alpha numeric!");
+                input_password.setError("");
 
             }
 
@@ -342,7 +384,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 jsonObject.put("salutation",sur_name_id);
                   JSONObject sub_object=new JSONObject();
                 sub_object.put("mime","image/jpeg");
-
                 sub_object.put("img",encoded_image);
                 jsonObject.put("picture",sub_object);
                 //jsonObject.put("picture", encoded_image);
@@ -420,6 +461,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     JSONObject jsonObject=new JSONObject(result);
                     input_name.setError(jsonObject.getString("username"));
                     input_email.setError(jsonObject.getString("email"));
+                    input_password.setError(jsonObject.getString("password1"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

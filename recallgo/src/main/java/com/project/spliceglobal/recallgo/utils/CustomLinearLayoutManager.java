@@ -1,4 +1,4 @@
-package com.project.spliceglobal.recallgo;
+package com.project.spliceglobal.recallgo.utils;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;

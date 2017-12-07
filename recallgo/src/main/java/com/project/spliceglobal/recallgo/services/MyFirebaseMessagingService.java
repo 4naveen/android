@@ -1,4 +1,4 @@
-package com.project.spliceglobal.recallgo;
+package com.project.spliceglobal.recallgo.services;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,6 +12,8 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.project.spliceglobal.recallgo.HomeActivity;
+import com.project.spliceglobal.recallgo.R;
 
 
 import org.json.JSONObject;
@@ -36,7 +38,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
             sendNotification(remoteMessage.getNotification().getBody());
-
         }
     }
     private void sendNotification(String messageBody) {

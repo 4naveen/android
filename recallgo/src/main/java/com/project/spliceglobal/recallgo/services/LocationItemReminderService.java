@@ -1,6 +1,7 @@
 package com.project.spliceglobal.recallgo.services;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,28 +14,28 @@ import android.location.LocationManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.SettingsClient;
+import com.project.spliceglobal.recallgo.HomeActivity;
 import com.project.spliceglobal.recallgo.R;
-import com.project.spliceglobal.recallgo.ReminderActivity;
 import com.project.spliceglobal.recallgo.model.Item;
+import com.project.spliceglobal.recallgo.utils.AppConstants;
 import com.project.spliceglobal.recallgo.utils.AppUrl;
 import com.project.spliceglobal.recallgo.utils.MyVolleySingleton;
 
@@ -45,75 +46,302 @@ import org.json.JSONObject;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Personal on 11/10/2017.
+ * An {@link IntentService} subclass for handling asynchronous task requests in
+ * a service on a separate handler thread.
+ * <p>
+ * TODO: Customize class - update intent actions and extra parameters.
  */
-
-public class LocationItemReminderService extends IntentService implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,com.google.android.gms.location.LocationListener{
-    ArrayList<Item> itemArrayList,locationItemArrayList;
-    int final_count;
-    private GoogleApiClient googleApiClient;
+public class LocationItemReminderService extends IntentService {
+    private Location mCurrentLocation,mPreviousLocation;
+    private LocationCallback mLocationCallback;
+    private Boolean mRequestingLocationUpdates;
+    private String mLastUpdateTime;
+    private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest mLocationRequest;
-    private double longitude;
-    private double latitude;
-    LatLng mLocation;
-    String next_url;
-    SharedPreferences pref;
-    int PRIVATE_MODE = 0;
-    SharedPreferences.Editor editor;
-    public static LocationManager locationManager;
+    private SettingsClient mSettingsClient;
+    private static final String TAG = HomeActivity.class.getSimpleName();
+    private static final int REQUEST_CHECK_SETTINGS = 0x1;
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+    private LocationSettingsRequest mLocationSettingsRequest;
 
-    public static final String PREF_NAME = "RecallPref";
+    private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
+            UPDATE_INTERVAL_IN_MILLISECONDS / 2;
 
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     */
+    // Keys for storing activity state in the Bundle.
+    private final static String KEY_REQUESTING_LOCATION_UPDATES = "requesting-location-updates";
+    private final static String KEY_LOCATION = "location";
+    private final static String KEY_LAST_UPDATED_TIME_STRING = "last-updated-time-string";
+
+    ArrayList<Item> itemArrayList,locationItemArrayList;
+    private String next_url,repeat_alarm;
+    private int repeat_type;
     public LocationItemReminderService() {
-        super("");
+        super("MyLocationService");
     }
-
+    boolean isLocationCallbakRunningForTheFirstTime;
     @Override
     public void onCreate() {
         super.onCreate();
-        itemArrayList=new ArrayList<>();
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mSettingsClient = LocationServices.getSettingsClient(this);
+        mPreviousLocation=new Location("");
         locationItemArrayList=new ArrayList<>();
-        pref = this.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
-        locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-        editor = pref.edit();
+        mLastUpdateTime = "";
+        createLocationCallback();
+        createLocationRequest();
+       // Toast.makeText(this, "onCreate runs", Toast.LENGTH_SHORT).show();
+        Log.v("my_tag", "onCreate runs");
+        System.out.println("onCreate runs");
+        isLocationCallbakRunningForTheFirstTime = true;
 
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        googleApiClient.connect();
-
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("PREF_NAME", true);
+        editor.commit();
+        Log.v("my_tag", "isLocationCallbakRunningForTheFirstTime inside onCreate is "+isLocationCallbakRunningForTheFirstTime);
     }
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
+    protected void onHandleIntent(Intent intent) {
+        itemArrayList=new ArrayList<>();
+
         getItems(AppUrl.ITEM_LIST_URL);
     }
 
-    private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, ReminderActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    private void createLocationCallback() {
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                //Toast.makeText(getApplicationContext(), "callback runs", Toast.LENGTH_SHORT).show();
+                //System.out.println("callback runs");
+               // Log.v("my_tag", "callback runs");
+               // Log.v("my_tag", "isLocationCallbakRunningForTheFirstTime inside callback is "+isLocationCallbakRunningForTheFirstTime);
+                SharedPreferences prefsa = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                //Log.v("my_tag", "pref is: "+prefsa.getBoolean("PREF_NAME", false));
+                mCurrentLocation = locationResult.getLastLocation();
+                Double truncatedlatitude = BigDecimal.valueOf(locationResult.getLastLocation().getLatitude())
+                        .setScale(4, RoundingMode.HALF_UP)
+                        .doubleValue();
+                Double truncatedlongitude = BigDecimal.valueOf(locationResult.getLastLocation().getLongitude())
+                        .setScale(4, RoundingMode.HALF_UP)
+                        .doubleValue();
+                mCurrentLocation.setLatitude(truncatedlatitude);
+                mCurrentLocation.setLongitude(truncatedlongitude);
+                //System.out.println("mcurrentlocation:"+mCurrentLocation+"mpreviouslocation"+mPreviousLocation);
+                if (mCurrentLocation!=mPreviousLocation)
+                {
+                    mRequestingLocationUpdates=true;
+                    stopLocationUpdates();
+                    //System.out.println("location changed");
+                    mPreviousLocation=mCurrentLocation;
+                   // System.out.println("stored size"+AppConstant.list_size+"item array size"+itemArrayList.size());
+                    if (itemArrayList.size()!=0){
+                        if (AppConstants.list_size!=itemArrayList.size()) {
+                            AppConstants.list_size = itemArrayList.size();
+                            for (int i = 0; i < itemArrayList.size(); i++) {
+                                Location locationB = new Location(LocationManager.GPS_PROVIDER);
+                                locationB.setLatitude(Double.parseDouble(itemArrayList.get(i).getLati()));
+                                locationB.setLongitude(Double.parseDouble(itemArrayList.get(i).getLongi()));
+                                String entry = itemArrayList.get(i).getEntry();
+                                if (itemArrayList.get(i).getEntry().equalsIgnoreCase("null")) {
+                                    entry = "Arriving";
+                                }
+                                // System.out.println("locationB"+locationB);
+                                // System.out.println("entry"+entry);
+                                float distance = mCurrentLocation.distanceTo(locationB);
+                                //System.out.println("distance"+distance);
+                                if (entry.equalsIgnoreCase("Arriving")) {
+                                    if (distance < (float) 200.0) {
+                                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                        if (prefs.getBoolean("PREF_NAME", true)) {
+                                            //locationItemArrayList.add(itemArrayList.get(i));
+                                            //locationManager.removeUpdates();
+                                            // Toast.makeText(getApplicationContext(),itemArrayList.get(i).getItem_name(), Toast.LENGTH_SHORT).show();
+                                            sendNotification(itemArrayList.get(i).getItem_name(), i);
+                                            System.out.println("send notification");
+                                            switch (Integer.parseInt(itemArrayList.get(i).getRepeat_type())) {
+                                                case 1: {
+                                                    repeat_alarm = "One Time";
+                                                    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                                                    Intent intent = new Intent("REFRESH_THIS");
+                                                    PendingIntent pi = PendingIntent.getBroadcast(LocationItemReminderService.this, 123456789, intent, 0);
+                                                    int type = AlarmManager.RTC_WAKEUP;
+                                                    // long interval = 1000 * 50*60*60*24;
+                                                    // System.out.println("current milli sec"+System.currentTimeMillis());
+                                                    am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi);
+
+                                                    break;
+                                                }
+                                                case 2: {
+                                                    repeat_alarm = "Daily";
+                                                    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                                                    Intent intent = new Intent("REFRESH_THIS");
+                                                    PendingIntent pi = PendingIntent.getBroadcast(LocationItemReminderService.this, 123456789, intent, 0);
+                                                    int type = AlarmManager.RTC_WAKEUP;
+                                                    // long interval = 1000 * 50*60*60*24;
+                                                    // System.out.println("current milli sec"+System.currentTimeMillis());
+                                                    am.setInexactRepeating(type, System.currentTimeMillis(), AlarmManager.INTERVAL_DAY, pi);
+
+                                                    break;
+                                                }
+                                                case 3: {
+                                                    repeat_alarm = "Weekly";
+                                                    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                                                    Intent intent = new Intent("REFRESH_THIS");
+                                                    PendingIntent pi = PendingIntent.getBroadcast(LocationItemReminderService.this, 123456789, intent, 0);
+                                                    int type = AlarmManager.RTC_WAKEUP;
+                                                    //long interval = 1000 * 50*60*60*24*7;
+                                                    // System.out.println("current milli sec"+System.currentTimeMillis());
+                                                    am.setInexactRepeating(type, System.currentTimeMillis(), AlarmManager.INTERVAL_DAY * 7, pi);
+                                                    break;
+                                                }
+                                                case 4: {
+                                                    repeat_alarm = "Every two Week";
+                                                    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                                                    Intent intent = new Intent("REFRESH_THIS");
+                                                    PendingIntent pi = PendingIntent.getBroadcast(LocationItemReminderService.this, 123456789, intent, 0);
+                                                    int type = AlarmManager.RTC_WAKEUP;
+                                                    // long interval = 1000 * 50*60*60*24*14;
+                                                    // System.out.println("current milli sec"+System.currentTimeMillis());
+                                                    am.setInexactRepeating(type, System.currentTimeMillis(), AlarmManager.INTERVAL_DAY * 14, pi);
+                                                    break;
+                                                }
+                                                case 5: {
+                                                    repeat_alarm = "Monthly";
+                                                    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                                                    Intent intent = new Intent("REFRESH_THIS");
+                                                    PendingIntent pi = PendingIntent.getBroadcast(LocationItemReminderService.this, 123456789, intent, 0);
+                                                    int type = AlarmManager.RTC_WAKEUP;
+                                                    //long interval = 1000 * 50*60*60*24*30;
+                                                    // System.out.println("current milli sec"+System.currentTimeMillis());
+                                                    am.setInexactRepeating(type, System.currentTimeMillis(), AlarmManager.INTERVAL_DAY * 30, pi);
+                                                    break;
+                                                }
+                                                case 6: {
+                                                    repeat_alarm = "Yearly";
+                                                    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                                                    Intent intent = new Intent("REFRESH_THIS");
+                                                    PendingIntent pi = PendingIntent.getBroadcast(LocationItemReminderService.this, 123456789, intent, 0);
+                                                    int type = AlarmManager.RTC_WAKEUP;
+                                                    //long interval = 1000 * 50*60*60*24*30*12;
+                                                    //System.out.println("current milli sec"+System.currentTimeMillis());
+                                                    am.setInexactRepeating(type, System.currentTimeMillis(), AlarmManager.INTERVAL_DAY * 365, pi);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                if (entry.equalsIgnoreCase("leaving")) {
+                                    if (distance >= (float) 200.0 && distance < 500) {
+                                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                        if (prefs.getBoolean("PREF_NAME", true)) {
+                                            //locationItemArrayList.add(itemArrayList.get(i));
+                                            //locationManager.removeUpdates();
+                                            // Toast.makeText(getApplicationContext(),itemArrayList.get(i).getItem_name(), Toast.LENGTH_SHORT).show();
+                                            sendNotification(itemArrayList.get(i).getItem_name(), i);
+                                            System.out.println("send notification");
+                           /*                 switch (Integer.parseInt(itemArrayList.get(i).getRepeat_type())){
+                                                case 1:{
+                                                    repeat_alarm="One Time";
+
+                                                    break;
+                                                }
+                                                case 2:{
+                                                    repeat_alarm="Daily";*//*
+                                                    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                                                    Intent intent = new Intent("REFRESH_THIS");
+                                                    PendingIntent pi = PendingIntent.getBroadcast(LocationItemReminderService.this,123456789,intent, 0);
+                                                    int type = AlarmManager.RTC_WAKEUP;
+                                                    long interval = 1000 * 50;
+                                                    System.out.println("current milli sec"+System.currentTimeMillis());
+                                                    am.setInexactRepeating(type, System.currentTimeMillis(),interval,pi);*//*
+
+                                                    break;
+                                                }
+                                                case 3:{
+                                                    repeat_alarm="Weekly";
+                                                    break;
+                                                }
+                                                case 4:{
+                                                    repeat_alarm="Every two Week";
+                                                    break;
+                                                }
+                                                case 5:{
+                                                    repeat_alarm="Monthly";
+                                                    break;
+                                                }
+                                                case 6:{
+                                                    repeat_alarm="Yearly";
+                                                    break;
+                                                }
+                                            }*/
+                                        }
+                                    }
+                                }
+                            }
+                            isLocationCallbakRunningForTheFirstTime = false;
+                        }
+                        // AppConstant.list_size=itemArrayList.size();
+                        //System.out.println("stored size"+AppConstant.list_size+"item array size"+itemArrayList.size());
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putBoolean("PREF_NAME", false);
+                        editor.commit();
+                    }
+                }
+                //System.out.println("mcurrentlocation"+mCurrentLocation+"mpreviouslocation:"+mPreviousLocation);
+                mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+               // System.out.println("latitude:"+mCurrentLocation.getLatitude()+"longitude:"+mCurrentLocation.getLongitude());
+
+            }
+        };
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.v("my_tag", "onDestroy called");
+       // Toast.makeText(this, "onDestroy called", Toast.LENGTH_SHORT).show();
+    }
+
+    private void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+    private void startLocationUpdates() {
+        // Begin by checking if the device has the necessary location settings.
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest,mLocationCallback, Looper.myLooper());
+    }
+
+    private void stopLocationUpdates() {
+        if (!mRequestingLocationUpdates) {
+            Log.d("", "stopLocationUpdates: updates never requested, no-op.");
+            return;
+        }
+        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+    }
+    private void sendNotification(String messageBody, int id) {
+        Intent intent = new Intent(this, HomeActivity.class);
+        // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(com.project.spliceglobal.recallgo.R.mipmap.ic_launcher)
-                .setContentTitle("Today Reminder")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Reminder")
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
@@ -126,7 +354,7 @@ public class LocationItemReminderService extends IntentService implements Google
         }
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notificationBuilder.build());
+        notificationManager.notify(id, notificationBuilder.build());
     }
 
     public  void getItems(String url) {
@@ -135,12 +363,16 @@ public class LocationItemReminderService extends IntentService implements Google
                     @Override
                     public void onResponse(String response) {
                         try {
-                            System.out.println("resonse"+response);
+
+                            System.out.println("response"+response);
                             JSONObject jsonObject=new JSONObject(response);
                             next_url=jsonObject.getString("next");
-                            final_count=jsonObject.getInt("count");
+                            int final_count=jsonObject.getInt("count");
                             System.out.println("next in location"+next_url);
                             JSONArray jsonArray = jsonObject.getJSONArray("results");
+                          /*  if (itemArrayList.size()!=0){
+                                itemArrayList.clear();
+                            }*/
                             if (jsonArray.length()!=0){
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject object = jsonArray.getJSONObject(i);
@@ -149,8 +381,14 @@ public class LocationItemReminderService extends IntentService implements Google
                                     {
                                         item.setLati(object.getString("lat"));
                                         item.setLongi(object.getString("long"));
+                                        item.setItem_name(object.getString("name"));
+                                        item.setDate_created(object.getString("date_created"));
+                                        item.setRepeat_type(String.valueOf(object.getInt("type")));;
+                                        item.setEntry(object.getString("entry"));
+                                       // item.setEntry(object.getString("entry"));
                                         // System.out.println("date"+dates[0].substring(0,10));
                                         itemArrayList.add(item);
+
                                     }
                                 }
                             }
@@ -158,7 +396,8 @@ public class LocationItemReminderService extends IntentService implements Google
                                 getItems(next_url);
                             }
                             else {
-                                System.out.println("item array size"+itemArrayList.size());
+                                System.out.println("item array size in call"+itemArrayList.size());
+                                startLocationUpdates();
                             }
                         }
                         catch (JSONException e) {
@@ -178,115 +417,15 @@ public class LocationItemReminderService extends IntentService implements Google
             }
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String,String>header=new HashMap<>();
+                HashMap<String,String> header=new HashMap<>();
                 header.put("Content-Type", "application/json; charset=utf-8");
-                // header.put("Authorization","Token fe63a7b37e04515a4cba77d2960526a84d1a56da");
-                header.put("Authorization","Token "+ AppUrl.TOKEN);
+                header.put("Authorization","Token aa5c12b3ebac6d122304d9b6c0713ae39863d938");
                 // header.put("Content-Type", "application/x-www-form-urlencoded");
                 return header;
             }
         } ;
         MyVolleySingleton.getInstance(this).getRequestQueue().add(stringRequest);
     }
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        new Handler().post(new Runnable(){
-            @Override
-            public void run() {
-      //  getCurrentLocation();
 
 
-
-
-            }
-        });
-        UpdateLocation();
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-    }
-
-    private void getCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-        if (location != null) {
-            //Getting longitude and latitude
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
-            System.out.println("current loc"+longitude+""+latitude);
-            Toast.makeText(getApplicationContext(),"current loc"+longitude+""+latitude,Toast.LENGTH_LONG).show();
-            //moving the map to location
-        }
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        Double truncatedlatitude = BigDecimal.valueOf(location.getLatitude())
-                .setScale(4, RoundingMode.HALF_UP)
-                .doubleValue();
-        Double truncatedlongitude = BigDecimal.valueOf(location.getLongitude())
-                .setScale(4, RoundingMode.HALF_UP)
-                .doubleValue();
-        mLocation = new LatLng(truncatedlatitude,truncatedlongitude);
-        Location locationA = new Location(LocationManager.GPS_PROVIDER);
-        locationA.setLatitude(truncatedlatitude);
-        locationA.setLongitude(truncatedlongitude);
-
-        editor.clear();
-       /* editor.putString("latitude",String.valueOf(truncatedlatitude));
-        editor.putString("longitude",String.valueOf(truncatedlongitude));
-        editor.commit();*/
-
-        Log.v("pref saved loc ", "location is: "+Math.round(truncatedlatitude)+""+Math.round(truncatedlongitude));
-
-        if (itemArrayList.size()!=0){
-            //System.out.println("total item size in location"+itemArrayList.size());
-                for (int i = 0; i < itemArrayList.size(); i++) {
-                // System.out.println("today"+dateFormat.format(new Date()));
-               // System.out.println("item location"+itemArrayList.get(i).getLongi()+""+itemArrayList.get(i).getLati());
-                LatLng iLocation = new LatLng(Double.parseDouble(itemArrayList.get(i).getLati()),Double.parseDouble(itemArrayList.get(i).getLongi()));
-                //System.out.println("mloc"+mLocation+"i loc"+iLocation);
-
-                Location locationB = new Location(LocationManager.GPS_PROVIDER);
-                locationB.setLatitude(Double.parseDouble(itemArrayList.get(i).getLati()));
-                locationB.setLongitude(Double.parseDouble(itemArrayList.get(i).getLongi()));
-               // System.out.println("locationA"+locationA+"locationB"+locationB);
-
-                float distance = locationA.distanceTo(locationB);
-               /* if (mLocation.equals(iLocation)){
-                        System.out.println("yes");
-                        locationItemArrayList.add(itemArrayList.get(i));
-
-                }*/
-                if (distance<200.0);
-                {
-                    locationItemArrayList.add(itemArrayList.get(i));
-                    //Toast.makeText(getApplicationContext(),"you are reaching to your fav store",Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            //System.out.println("loc array size"+locationItemArrayList.size());
-            // sendNotification("Today you have "+todayItemArrayList.size()+"item  in reminder");
-          //  Toast.makeText(getApplicationContext(),"you are reaching to your fav store",Toast.LENGTH_SHORT).show();
-        }
-        //Toast.makeText(this, "location is: " + location.getLatitude()+", "+location.getLongitude(), Toast.LENGTH_SHORT).show();
-    }
-
-    private void UpdateLocation() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(5000);
-        mLocationRequest.setFastestInterval(2000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, mLocationRequest, this);
-    }
 }

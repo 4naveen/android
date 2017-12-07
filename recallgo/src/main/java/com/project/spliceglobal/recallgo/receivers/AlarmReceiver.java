@@ -1,4 +1,4 @@
-package com.project.spliceglobal.recallgo;
+package com.project.spliceglobal.recallgo.receivers;
 
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
@@ -28,7 +28,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             context.startService(background1);
         } else {
             Intent background = new Intent(context, DateItemReminderService.class);
-           Intent background1 = new Intent(context, LocationItemReminderService.class);
+            Intent background1 = new Intent(context, LocationItemReminderService.class);
             context.startService(background);
             context.startService(background1);
         }

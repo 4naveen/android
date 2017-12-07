@@ -264,6 +264,9 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
             i.putExtra("store_id",itemArrayList.get(getAdapterPosition()).getStore_id());
             i.putExtra("list_id",itemArrayList.get(getAdapterPosition()).getList_id());
             i.putExtra("called_from_adapter",called_from_adapter);
+            i.putExtra("description",itemArrayList.get(getAdapterPosition()).getDescription());
+            i.putExtra("priority",itemArrayList.get(getAdapterPosition()).getPriority());
+            System.out.println("priority in adapter"+itemArrayList.get(getAdapterPosition()).getPriority());
             if (called_from.equalsIgnoreCase("update_category"))
             {
                 i.putExtra("category_id",category_id);

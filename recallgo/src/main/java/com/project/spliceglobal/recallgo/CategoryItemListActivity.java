@@ -159,7 +159,6 @@ public class CategoryItemListActivity extends AppCompatActivity {
                     rv1.setVisibility(View.VISIBLE);
                    // customLayoutManager =  new CustomLinearLayoutManager(CategoryItemListActivity.this,LinearLayoutManager.VERTICAL,false);
                     layoutManager = new LinearLayoutManager(CategoryItemListActivity.this,LinearLayoutManager.VERTICAL, false);
-
                     rv1.setLayoutManager(layoutManager);
                     completeItemAdapter = new CompleteItemAdapter(CategoryItemListActivity.this,completeItemArrayList,category_id);
                     rv1.setAdapter(completeItemAdapter);
@@ -256,16 +255,21 @@ public class CategoryItemListActivity extends AppCompatActivity {
                                 item.setList_name(object.getString("list_name"));
                                 item.setList_id(object.getInt("list"));
                                 int status=object.getInt("status");
-                                if (object.getString("store").equalsIgnoreCase("null") || object.getString("brand").equalsIgnoreCase("null")) {
+
+                                if (object.getString("store").equalsIgnoreCase("null") || object.getString("brand").equalsIgnoreCase("null")||object.getString("description").equalsIgnoreCase("null")||object.getString("priority").equalsIgnoreCase("null")) {
                                     item.setStore_name("");
                                     item.setBrand_name("");
                                     item.setBrand_id("null");
                                     item.setStore_id("null");
+                                    item.setDescription("");
+                                    item.setPriority("");
                                 } else {
                                     item.setStore_name(object.getString("store_name"));
                                     item.setBrand_name(object.getString("brand_name"));
                                     item.setBrand_id(String.valueOf(object.getInt("brand")));
                                     item.setStore_id(String.valueOf(object.getInt("store")));
+                                    item.setDescription(object.getString("description"));
+                                    item.setPriority(String.valueOf(object.getInt("priority")));
                                 }
                                 item.setRepeat_type(String.valueOf(object.getInt("type")));
                                // itemArrayList.add(item);

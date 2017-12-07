@@ -31,6 +31,7 @@ import com.project.spliceglobal.recallgo.fragments.AllFragment;
 import com.project.spliceglobal.recallgo.fragments.ShaedFragment;
 import com.project.spliceglobal.recallgo.fragments.TodayFragment;
 import com.project.spliceglobal.recallgo.model.AllCategory;
+import com.project.spliceglobal.recallgo.services.LocationStoreReminderService;
 import com.project.spliceglobal.recallgo.utils.AppConstants;
 import com.project.spliceglobal.recallgo.utils.AppUrl;
 import com.project.spliceglobal.recallgo.utils.MyVolleySingleton;
@@ -56,6 +57,7 @@ public class ReminderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
@@ -72,6 +74,7 @@ public class ReminderActivity extends AppCompatActivity {
         status = (TextView) findViewById(R.id.status);
         getCategoryId(AppUrl.ALL_CATEGORY_URL);
         images_bytes = getIntent().getByteArrayExtra("image_bytes");
+
         profile_image.setImageBitmap(getImage(images_bytes));
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         shared_qty=(TextView) findViewById(R.id.shared_qty);
@@ -134,6 +137,7 @@ public class ReminderActivity extends AppCompatActivity {
         shared_qty.setText(String.valueOf(getIntent().getIntExtra("shared",0)));
         today_qty.setText(String.valueOf(getIntent().getIntExtra("today",0)));
         all_qty.setText(String.valueOf(getIntent().getIntExtra("all",0)));
+
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -176,27 +180,24 @@ public class ReminderActivity extends AppCompatActivity {
                             }
                             case R.id.price_chaser: {
                                 startActivity(new Intent(ReminderActivity.this, PriceChaserActivity.class).putExtra("flag", false));
-
                                 break;
                             }
-
                         }
                         return true;
                     }
                 });
-    }
 
+        startService(new Intent(ReminderActivity.this, LocationStoreReminderService.class));
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 finish();
-
             }
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();

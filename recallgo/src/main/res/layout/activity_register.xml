@@ -75,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Name"
-                    android:inputType="textNoSuggestions"
+                    android:inputType="textCapWords"
                     android:singleLine="true"
                     android:theme="@android:style/Theme.Holo.Light" />
             </android.support.design.widget.TextInputLayout>
@@ -106,8 +106,8 @@
                     android:id="@+id/mobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Mobile No"
-                    android:inputType="number"
+                    android:hint="Phone No"
+                    android:inputType="phone"
                     android:singleLine="true"
                     android:theme="@android:style/Theme.Holo.Light" />
             </android.support.design.widget.TextInputLayout>

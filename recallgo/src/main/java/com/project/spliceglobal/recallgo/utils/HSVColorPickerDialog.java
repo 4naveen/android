@@ -1,4 +1,4 @@
-package com.project.spliceglobal.recallgo;
+package com.project.spliceglobal.recallgo.utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,12 +10,14 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.FloatMath;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+
+import com.project.spliceglobal.recallgo.R;
+
 /**
  * Created by Personal on 11/14/2017.
  */

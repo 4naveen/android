@@ -6,7 +6,31 @@ package com.project.spliceglobal.recallgo.model;
 
 public class Item {
     int count,id,list_id;
-    String item_name,date_time,category,next,qty,list_name,store_name,brand_name,repeat_type,store_id,brand_id,lati,longi,time;
+    String item_name,date_time,category,next,qty,list_name,store_name,brand_name,repeat_type,store_id,brand_id,lati,longi,time,date_created,date_updated,entry,description,priority;
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getEntry() {
+        return entry;
+    }
+
+    public void setEntry(String entry) {
+        this.entry = entry;
+    }
 
     public String getTime() {
         return time;
@@ -142,5 +166,21 @@ public class Item {
 
     public void setNext(String next) {
         this.next = next;
+    }
+
+    public String getDate_created() {
+        return date_created;
+    }
+
+    public void setDate_created(String date_created) {
+        this.date_created = date_created;
+    }
+
+    public String getDate_updated() {
+        return date_updated;
+    }
+
+    public void setDate_updated(String date_updated) {
+        this.date_updated = date_updated;
     }
 }

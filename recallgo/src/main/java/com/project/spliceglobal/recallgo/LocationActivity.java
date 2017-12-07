@@ -67,6 +67,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
     private static final int PERMISSION_REQUEST_CODE = 200;
     private double longitude;
     private double latitude;
+    private String entry="Arriving";
     private Circle mCircle;
     private double radiusInMeters = 200.0;
     //red outline
@@ -110,6 +111,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
                 leaving.setBackgroundColor(Color.WHITE);
                 arriving.setTextColor(Color.WHITE);
                 leaving.setTextColor(Color.BLACK);
+                entry="Arriving";
 
             }
         });
@@ -120,6 +122,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
                 arriving.setBackgroundColor(Color.WHITE);
                 leaving.setTextColor(Color.WHITE);
                 arriving.setTextColor(Color.BLACK);
+                entry="leaving";
             }
         });
         if (actionBar != null) {
@@ -175,6 +178,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
                 myIntent.putExtra("latitude",0.00);
                 myIntent.putExtra("longitude",0.00);
                 myIntent.putExtra("radius",0.00);
+                myIntent.putExtra("entry",entry);
                 setResult(Activity.RESULT_OK, myIntent);
                 finish();
                 break;
@@ -193,6 +197,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
                 myIntent.putExtra("latitude",truncatedlatitude);
                 myIntent.putExtra("longitude",truncatedlongitude);
                 myIntent.putExtra("radius",truncatedradius);
+                myIntent.putExtra("entry",entry);
                 setResult(Activity.RESULT_OK, myIntent);
                 finish();
                 break;
@@ -372,6 +377,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
         myIntent.putExtra("latitude",0.00);
         myIntent.putExtra("longitude",0.00);
         myIntent.putExtra("radius",0.00);
+        myIntent.putExtra("entry",entry);
         setResult(Activity.RESULT_OK, myIntent);
         finish();
     }

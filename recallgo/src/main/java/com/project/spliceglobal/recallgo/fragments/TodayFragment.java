@@ -99,6 +99,7 @@ public class TodayFragment extends Fragment {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+
         called_from=getArguments().getString("called_from","");
         System.out.println("called_from"+called_from);
         searchView = (MaterialSearchView) getActivity().findViewById(R.id.search_view);
@@ -140,8 +141,11 @@ public class TodayFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 menu1.findItem(R.id.add).setVisible(true);
+                info_add.setVisibility(View.VISIBLE);
                 if (count==0){
                     menu1.findItem(R.id.add).setVisible(false);
+                    info_add.setVisibility(View.GONE);
+
                 }
             }
             @Override
@@ -225,7 +229,7 @@ public class TodayFragment extends Fragment {
                     }
                     //System.out.println("lead item --"+leadsArrayList.get(i).getName()+" "+leadsArrayList.get(i).getNumber());
                 }
-                rv.setAdapter(new TodayAdapter(getActivity(),itemArrayList,"update_today","today"));
+                rv.setAdapter(new TodayAdapter(getActivity(),subitemArrayList,"update_today","today"));
                 return false;
             }
         });
@@ -279,16 +283,23 @@ public class TodayFragment extends Fragment {
                                 item.setId(object.getInt("id"));
                                 item.setList_name(object.getString("list_name"));
                                 item.setList_id(object.getInt("list"));
-                                if (object.getString("store").equalsIgnoreCase("null") || object.getString("brand").equalsIgnoreCase("null")) {
+                                //item.setDescription(object.getString("description"));
+
+                                if (object.getString("store").equalsIgnoreCase("null") || object.getString("brand").equalsIgnoreCase("null")||object.getString("description").equalsIgnoreCase("null")||object.getString("priority").equalsIgnoreCase("null")) {
                                     item.setStore_name("");
                                     item.setBrand_name("");
                                     item.setBrand_id("null");
                                     item.setStore_id("null");
+                                    item.setDescription("");
+                                    item.setPriority("null");
+
                                 }else {
                                     item.setStore_name(object.getString("store_name"));
                                     item.setBrand_name(object.getString("brand_name"));
                                     item.setBrand_id(String.valueOf(object.getInt("brand")));
                                     item.setStore_id(String.valueOf(object.getInt("store")));
+                                    item.setDescription(object.getString("description"));
+                                    item.setPriority(String.valueOf(object.getInt("priority")));
                                 }
                                 item.setRepeat_type(String.valueOf(object.getInt("type")));
                                 itemArrayList.add(item);

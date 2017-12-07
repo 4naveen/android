@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.annotation.ColorInt;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -22,9 +21,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
-import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 import com.project.spliceglobal.recallgo.utils.AppUrl;
+import com.project.spliceglobal.recallgo.utils.HSVColorPickerDialog;
 
 import org.json.JSONObject;
 

@@ -169,9 +169,7 @@
             android:layout_marginBottom="10dp"
             android:gravity="right"
             android:cursorVisible="false"
-            android:inputType="number"
             android:singleLine="true"
-            android:maxLength="3"
             android:textAlignment="center"
             android:background="@drawable/rounded_edittext" />
 
@@ -338,7 +336,6 @@
                     android:background="@drawable/cell_shape"
                     android:padding="4dp"
                     android:text="None"
-                    android:backgroundTint="@color/cardview_dark_background"
                     android:textColor="#fff"
 
                     />
@@ -404,22 +401,24 @@
         android:id="@+id/notes"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.9"
-            android:layout_height="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/description"
             android:textSize="18sp"
+            android:background="@android:color/transparent"
             android:layout_margin="10dp"
-            android:text="Notes"/>
+            android:gravity="top"
+            android:hint="Add a Note..." />
 
-        <ImageView
+ <!--       <ImageView
             android:layout_width="0dp"
             android:layout_weight="0.1"
             android:layout_height="wrap_content"
             android:gravity="right"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:src="@mipmap/arrow_right"/>
+            android:src="@mipmap/ic_border_color_black_24dp"/>-->
 
     </LinearLayout>
 

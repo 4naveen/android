@@ -70,10 +70,9 @@ public class HomeActivity extends AppCompatActivity {
         AlarmManager am = (AlarmManager) getSystemService(alarm);
         Intent intent = new Intent("REFRESH_THIS");
         PendingIntent pi = PendingIntent.getBroadcast(this, 123456789, intent, 0);
-        int type = AlarmManager.RTC_WAKEUP;
         long interval = 1000 * 50;
-        System.out.println("current milli sec"+System.currentTimeMillis());
-        am.setInexactRepeating(type, System.currentTimeMillis(),interval,pi);
+       // am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),interval,pi);
+        am.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),pi);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         profile_image = (CircleImageView) findViewById(R.id.profile_image);
         sessionManager=new SessionManager(getApplicationContext());
@@ -104,17 +103,18 @@ public class HomeActivity extends AppCompatActivity {
         hello = (TextView) findViewById(R.id.hello);
         Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/roboto-thin.ttf");
         hello.setTypeface(tf1);
-
         remainder_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(HomeActivity.this, ReminderActivity.class);
                 byte[] decodedString = Base64.decode(encoded_string_image, Base64.DEFAULT);
-                i.putExtra("image_bytes",decodedString);
-                i.putExtra("all",all);
-                i.putExtra("today",today);
-                i.putExtra("shared",shared);
-                startActivity(i);
+                if (decodedString.length!=0) {
+                    i.putExtra("image_bytes", decodedString);
+                    i.putExtra("all", all);
+                    i.putExtra("today", today);
+                    i.putExtra("shared", shared);
+                    startActivity(i);
+                }
             }
         });
         reminder.setOnClickListener(new View.OnClickListener() {
@@ -122,12 +122,15 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i=new Intent(HomeActivity.this, ReminderActivity.class);
                 byte[] decodedString = Base64.decode(encoded_string_image, Base64.DEFAULT);
-                i.putExtra("image_bytes",decodedString);
-                i.putExtra("all",all);
-                i.putExtra("today",today);
-                i.putExtra("shared",shared);
-                startActivity(i);
-
+                if (decodedString.length!=0){
+                    i.putExtra("image_bytes",decodedString);
+                    i.putExtra("all",all);
+                    i.putExtra("today",today);
+                    i.putExtra("shared",shared);
+                    startActivity(i);
+                }
+                else {
+                }
             }
         });
         reminder_text.setOnClickListener(new View.OnClickListener() {
@@ -226,7 +229,7 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            System.out.println("user detail--"+response);
+                            System.out.println("user detail in home--"+response);
                             JSONObject jsonObject=new JSONObject(response);
                              name=jsonObject.getString("first_name")+"  "+jsonObject.getString("last_name");
                              email=jsonObject.getString("email");
@@ -246,7 +249,7 @@ public class HomeActivity extends AppCompatActivity {
                                          profile_image.setImageBitmap(getImage(decodedString));
                                      }
                                      else {
-                                       profile_image.setImageResource(R.drawable.user);
+                                         profile_image.setImageResource(R.drawable.user);
                                          Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.user);
                                          encoded_string_image=getStringImage(bitmap);
                                      }
@@ -254,7 +257,6 @@ public class HomeActivity extends AppCompatActivity {
                                  shared=object.getInt("shared");
                                  all=object.getInt("all");
                                  today=object.getInt("today");
-
                                // System.out.println(encoded_string_image);
                             }
                             textname.setText(jsonObject.getString("first_name"));
