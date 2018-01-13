@@ -1,5 +1,7 @@
 package com.project.spliceglobal.recallgo.utils;
 
+import com.project.spliceglobal.recallgo.model.Site;
+
 import java.util.ArrayList;
 
 /**
@@ -10,7 +12,8 @@ public class AppConstants {
     public static String UncategorisedId="" ;
     public static String categoryId="" ;
     public static int size=0;
-    public static ArrayList<String> itemDateCreateList;
+    public static ArrayList<Site> siteArrayList=new ArrayList<>();
     public static int list_size=0;
+    public static String DEVICE_TOKEN;
 
 }

@@ -104,14 +104,12 @@ public class ProfileActivity extends AppCompatActivity {
     public void onToggleClicked(View view) {
         if (((ToggleButton) view).isChecked()) {
             // handle toggle on
-
             name.setClickable(true);
             name.setFocusable(true);
             name.setFocusableInTouchMode(true);
             name.setBackgroundResource(R.drawable.edittext_bottom_back);
             name.requestFocus();
             name.setSelection(name.getText().length());
-
             email.setClickable(true);
             email.setFocusable(true);
             email.setFocusableInTouchMode(true);
@@ -240,7 +238,6 @@ public class ProfileActivity extends AppCompatActivity {
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-
                                 }
                             })
                             .show();
@@ -317,17 +314,26 @@ public class ProfileActivity extends AppCompatActivity {
                 jsonObject.put("email", params[2]);
                 jsonObject.put("first_name",first_name);
                 jsonObject.put("last_name", last_name);
-                jsonObject.put("mobile", params[3]);
-                JSONObject sub_object=new JSONObject();
-                sub_object.put("mime","image/jpeg");
-                sub_object.put("img",encoded_image);
-                jsonObject.put("picture",sub_object);
-               // jsonObject.put("picture", encoded_image);
-               // System.out.println("encoded_image"+encoded_image);
+                JSONArray jsonArray=new JSONArray();
+                JSONObject object=new JSONObject();
+                object.put("mobile", params[3]);
+
+                if (encoded_image==null){
+                    object.put("picture",JSONObject.NULL);
+                }
+                else {
+                    JSONObject sub_object=new JSONObject();
+                    sub_object.put("mime","image/jpeg");
+                    sub_object.put("img",encoded_image);
+                    object.put("picture",sub_object);
+                }
+                jsonArray.put(object);
+                jsonObject.put("profile",jsonArray);
+                //System.out.println("encoded_image"+encoded_image);
                 System.out.println("jsonobject"+jsonObject.toString());
                 url = new URL(AppUrl.GET_USER_PROFILE_URL);
                 System.out.println(url.toString());
-                conn = (HttpURLConnection) url.openConnection();
+                conn = (HttpURLConnection)url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
                 conn.setRequestMethod("PATCH");
@@ -339,13 +345,13 @@ public class ProfileActivity extends AppCompatActivity {
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-
                 writer.write(jsonObject.toString());
                 writer.flush();
                 writer.close();
                 os.close();
                 int responseCode = conn.getResponseCode();
-                System.out.println("response code"+responseCode);
+               // System.out.println("response code"+responseCode);
+                Log.e("responsecode",String.valueOf(responseCode));
                 if (responseCode == HttpsURLConnection.HTTP_OK) {
                     String line;
                     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));

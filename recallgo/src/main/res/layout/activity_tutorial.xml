@@ -43,8 +43,6 @@
                     android:id="@+id/like"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="0.5"
                     android:src="@drawable/fb_like" />
@@ -55,15 +53,16 @@
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="0.5"
+                    android:layout_marginLeft="180dp"
                     android:src="@drawable/fb_share" />
             </LinearLayout>
 
-            <android.support.design.widget.TextInputLayout
+          <!--  <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_marginRight="10dp">-->
 
                 <EditText
                     android:id="@+id/comment"
@@ -71,8 +70,11 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_edittext"
                     android:gravity="top|left"
-                    android:hint="Comment"
-                    android:inputType="textMultiLine"
+                    android:hint="Comment..."
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:inputType="textMultiLine|textCapWords"
                     android:lines="5"
                     android:overScrollMode="always"
                     android:padding="10dp"
@@ -80,7 +82,9 @@
                     android:scrollbarStyle="insideInset"
                     android:scrollbars="vertical"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
+<!--
             </android.support.design.widget.TextInputLayout>
+-->
 
             <Button
                 android:id="@+id/btncomment"

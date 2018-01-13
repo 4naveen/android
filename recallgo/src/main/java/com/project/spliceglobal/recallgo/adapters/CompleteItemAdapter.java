@@ -79,9 +79,22 @@ public class CompleteItemAdapter extends RecyclerSwipeAdapter<CompleteItemAdapte
 
         viewHolder.category_name.setText(item.getItem_name());
         viewHolder.category_name.setPaintFlags(viewHolder.category_name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        if (item.getBrand_name().equalsIgnoreCase("null")){
+            viewHolder.sharedby.setVisibility(View.GONE);
+        }else {
+            viewHolder.sharedby.setVisibility(View.VISIBLE);
+            viewHolder.sharedby.setText(item.getBrand_name());
+        }
+        if (item.getDate_time().equalsIgnoreCase("null")){
+            // viewHolder.date.setText("");
+            viewHolder.date.setVisibility(View.GONE);
 
-        viewHolder.sharedby.setText(item.getQty());
-        viewHolder.date.setText(item.getDate_time());
+        }else {
+            viewHolder.date.setVisibility(View.VISIBLE);
+            viewHolder.date.setText(item.getDate_time());
+        }
+      /*  viewHolder.sharedby.setText(item.getQty());
+        viewHolder.date.setText(item.getDate_time());*/
         String name = item.getItem_name();
         String ch = String.valueOf(name.charAt(0));
         ColorGenerator generator = ColorGenerator.MATERIAL;
@@ -238,6 +251,9 @@ public class CompleteItemAdapter extends RecyclerSwipeAdapter<CompleteItemAdapte
             dialog.dismiss();
             if (result.equals("success")) {
                 Toast.makeText(context,"updated successfully",Toast.LENGTH_LONG).show();
+                itemArrayList.remove(itemIdPosition);
+                notifyItemRemoved(itemIdPosition);
+                notifyItemRangeChanged(itemIdPosition, itemArrayList.size());
             } else {
                 Toast.makeText(context," Not updated ! Try Again",Toast.LENGTH_LONG).show();
 

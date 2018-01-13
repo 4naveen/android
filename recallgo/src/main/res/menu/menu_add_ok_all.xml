@@ -3,14 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/add"
-        android:icon="@mipmap/ic_done_all_white_24dp"
-        android:title=""
+        android:title="ADD"
         android:visible="false"
         app:showAsAction="always" />
     <item
         android:id="@+id/update"
-        android:icon="@drawable/ic_action_update"
-        android:title=""
+        android:title="Update"
+        android:titleCondensed="Update"
         android:visible="false"
         app:showAsAction="always" />
 </menu>

@@ -1,10 +1,13 @@
 package com.project.spliceglobal.recallgo.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Personal on 12/4/2017.
  */
 
-public class Place {
+public class Place implements Parcelable {
  double latitude,longitude;
     String name,icon_url;
 
@@ -39,4 +42,40 @@ public class Place {
     public void setIcon_url(String icon_url) {
         this.icon_url = icon_url;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(this.latitude);
+        dest.writeDouble(this.longitude);
+        dest.writeString(this.name);
+        dest.writeString(this.icon_url);
+    }
+
+    public Place() {
+    }
+
+    protected Place(Parcel in) {
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
+        this.name = in.readString();
+        this.icon_url = in.readString();
+    }
+
+    public static final Parcelable.Creator<Place> CREATOR = new Parcelable.Creator<Place>() {
+        @Override
+        public Place createFromParcel(Parcel source) {
+            return new Place(source);
+        }
+
+        @Override
+        public Place[] newArray(int size) {
+            return new Place[size];
+        }
+    };
 }

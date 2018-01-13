@@ -4,16 +4,12 @@ package com.project.spliceglobal.recallgo.utils;
  * Created by Personal on 9/25/2017.
  */
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.support.multidex.MultiDexApplication;
-import android.support.v7.app.AppCompatActivity;
 
-import com.project.spliceglobal.recallgo.HomeActivity;
+import com.project.spliceglobal.recallgo.ReminderActivity;
 import com.project.spliceglobal.recallgo.WelcomeActivity;
 
 import java.util.HashMap;
@@ -87,7 +83,7 @@ public class SessionManager {
             _context.startActivity(i);*/
         }
         else {
-            Intent i = new Intent(_context, HomeActivity.class);
+            Intent i = new Intent(_context, ReminderActivity.class);
             // Closing all the Activities
            // i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             // Add new Flag to start new Activity

@@ -12,15 +12,15 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.project.spliceglobal.recallgo.HomeActivity;
 import com.project.spliceglobal.recallgo.R;
-
+import com.project.spliceglobal.recallgo.ReminderActivity;
 
 import org.json.JSONObject;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     public MyFirebaseMessagingService() {
+
     }
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -41,7 +41,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
     private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, ReminderActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);

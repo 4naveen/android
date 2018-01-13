@@ -19,13 +19,14 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         this.context = context;
-        System.out.println("Alarma Reciver Called");
+        //System.out.println("Alarma Reciver Called");
         if (isMyServiceRunning(this.context, DateItemReminderService.class)) {
             //System.out.println("alredy running no need to start again");
             Intent background = new Intent(context, DateItemReminderService.class);
             Intent background1 = new Intent(context, LocationItemReminderService.class);
             context.startService(background);
             context.startService(background1);
+
         } else {
             Intent background = new Intent(context, DateItemReminderService.class);
             Intent background1 = new Intent(context, LocationItemReminderService.class);

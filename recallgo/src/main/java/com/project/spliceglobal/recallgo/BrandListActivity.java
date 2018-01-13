@@ -31,6 +31,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.project.spliceglobal.recallgo.adapters.BrandListAdapter;
 import com.project.spliceglobal.recallgo.adapters.CategoryListAdapter;
 import com.project.spliceglobal.recallgo.model.AllCategory;
 import com.project.spliceglobal.recallgo.utils.AppUrl;
@@ -55,7 +56,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class BrandListActivity extends AppCompatActivity {
     ListView listView;
-    CategoryListAdapter listAdapter;
+    BrandListAdapter listAdapter;
     ArrayList<AllCategory> allCategoryArrayList;
     EditText name;
     String brand_text;
@@ -93,7 +94,6 @@ public class BrandListActivity extends AppCompatActivity {
                 brand_text=category.getCategory_name();
                 brand_id=category.getId();
                 System.out.println("id--"+brand_id);
-
             }
         });
        /* name.addTextChangedListener(new TextWatcher() {
@@ -175,20 +175,19 @@ public class BrandListActivity extends AppCompatActivity {
                                 category.setId(object.getInt("id"));
                                 allCategoryArrayList.add(category);
                             }
-                            if (count<10)
-                            {
+
+                            if (!next_url.equalsIgnoreCase("null")){
+                                for (int i = count-no_of_item_loaded; i >0; i-=no_of_item_loaded) {
+                                    System.out.println("i"+i);
+                                    getMoreBrand(next_url);
+                                }
+                            }
+                            else {
                                 dialog.dismiss();
                                 listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-                                listAdapter = new CategoryListAdapter(BrandListActivity.this, allCategoryArrayList);
+                                listAdapter = new BrandListAdapter(BrandListActivity.this, allCategoryArrayList);
                                 listView.setAdapter(listAdapter);
-                                return;
                             }
-                            for (int i = count-no_of_item_loaded; i >0; i-=no_of_item_loaded) {
-                                System.out.println("i"+i);
-                                getMoreBrand(next_url);
-                            }
-
-
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
@@ -250,7 +249,7 @@ public class BrandListActivity extends AppCompatActivity {
                             System.out.println("array size"+allCategoryArrayList.size());
                             if (allCategoryArrayList.size()==count){
                                 listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-                                listAdapter = new CategoryListAdapter(BrandListActivity.this, allCategoryArrayList);
+                                listAdapter = new BrandListAdapter(BrandListActivity.this, allCategoryArrayList);
                                 listView.setAdapter(listAdapter);
                             }
                         }
@@ -268,19 +267,15 @@ public class BrandListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-
                 return params;
             }
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String,String>header=new HashMap<>();
                 header.put("Content-Type", "application/json; charset=utf-8");
-
                 // header.put("Authorization","Token fe63a7b37e04515a4cba77d2960526a84d1a56da");
                 header.put("Authorization","Token "+ AppUrl.TOKEN);
-
                 // header.put("Content-Type", "application/x-www-form-urlencoded");
-
                 return header;
             }
         } ;

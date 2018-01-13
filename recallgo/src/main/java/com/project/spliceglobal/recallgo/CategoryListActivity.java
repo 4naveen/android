@@ -187,6 +187,7 @@ public class CategoryListActivity extends AppCompatActivity {
                                 category.setCompleted(object.getString("completed"));
                                 category.setUncompletd(object.getString("notcompleted"));
                                 category.setId(object.getInt("id"));
+                                 category.setColor(object.getString("color"));
                                 allCategoryArrayList.add(category);
                             }
                             if (!next_url.equalsIgnoreCase("null")){
@@ -261,6 +262,7 @@ public class CategoryListActivity extends AppCompatActivity {
                                 category.setCompleted(object.getString("completed"));
                                 category.setUncompletd(object.getString("notcompleted"));
                                 category.setId(object.getInt("id"));
+                                category.setColor(object.getString("color"));
                                 allCategoryArrayList.add(category);
                             }
                             dialog.dismiss();
@@ -273,7 +275,6 @@ public class CategoryListActivity extends AppCompatActivity {
                                 listView.setAdapter(listAdapter);
                             }
                         }
-
                         catch (JSONException e) {
                             e.printStackTrace();
                         }

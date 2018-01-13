@@ -1,8 +1,10 @@
 package com.project.spliceglobal.recallgo;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -27,9 +29,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.project.spliceglobal.recallgo.adapters.ViewStoreAdapter;
 import com.project.spliceglobal.recallgo.model.AllCategory;
+import com.project.spliceglobal.recallgo.model.Site;
 import com.project.spliceglobal.recallgo.utils.AppUrl;
 import com.project.spliceglobal.recallgo.utils.MyVolleySingleton;
+import com.project.spliceglobal.recallgo.utils.ObjectSerializer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +42,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -53,14 +59,15 @@ import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 
 public class SetTargetActivity extends AppCompatActivity {
-    TextView store_list,product_url,original_price,current_price,target_price,number,origanal_date,current_date,target_date;
+    TextView store_list,product_name,original_price,current_price,target_price,origanal_date,current_date,target_date;
     ImageButton increase,decrease;
-    ArrayList<String> storeList;
     String priceChaserId;
     String month[]={"","Jan","Feb","March","April","May","June","July","August","Sept","Oct","Nov","Dec"};
     ProgressBar progressBar;
-    Button track;
+    Button track,view;
     LinearLayout layout;
+    EditText number;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +80,7 @@ public class SetTargetActivity extends AppCompatActivity {
             actionBar.setTitle("Price Chaser");
         }
         layout=(LinearLayout)findViewById(R.id.layout);
-        store_list=(TextView)findViewById(R.id.store_list);
-        product_url=(TextView)findViewById(R.id.product_url);
+        product_name=(TextView)findViewById(R.id.product_name);
         original_price=(TextView)findViewById(R.id.original_price);
         current_price=(TextView)findViewById(R.id.current_price);
         target_price=(TextView)findViewById(R.id.target_price);
@@ -82,57 +88,28 @@ public class SetTargetActivity extends AppCompatActivity {
         current_date=(TextView)findViewById(R.id.current_date);
         target_date=(TextView)findViewById(R.id.target_date);
         track=(Button)findViewById(R.id.track);
-        storeList=new ArrayList<>();
-        storeList.add("Walmart");
-        storeList.add("Walgreens");
-        storeList.add("marsh");
-        storeList.add("Relays");
-        storeList.add("Weis");
+        view=(Button)findViewById(R.id.view);
         priceChaserId=getIntent().getStringExtra("id");
-        store_list.setPaintFlags(store_list.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
-        increase=(ImageButton)findViewById(R.id.increase);
-        decrease=(ImageButton)findViewById(R.id.decrease);
-        number=(TextView)findViewById(R.id.number);
+//        store_list.setPaintFlags(store_list.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+   /*     increase=(ImageButton)findViewById(R.id.increase);
+        decrease=(ImageButton)findViewById(R.id.decrease);*/
+        number=(EditText) findViewById(R.id.number);
 
         //new GetPriceChaserDetails().execute(priceChaserId);
         GetPriceChaserDetails(priceChaserId);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
 
-        store_list.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final MaterialDialog dialog1 = new MaterialDialog.Builder(SetTargetActivity.this)
-                        .title("Supported Store")
-                        .customView(R.layout.indi_view_repeat_dialog, true)
-                        .positiveText("")
-                        .positiveColorRes(R.color.colorPrimary)
-                        .negativeColorRes(R.color.colorPrimary)
-                        .negativeText("")
-                        .show();
-                View view = dialog1.getCustomView();
-                if (view != null) {
-                    ListView listView = (ListView) dialog1.getCustomView().findViewById(R.id.lv);
-
-                    ArrayAdapter<String> locationArrayAdapter = new ArrayAdapter<>(SetTargetActivity.this, android.R.layout.simple_list_item_1, storeList);
-                    locationArrayAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-                    listView.setAdapter(locationArrayAdapter);
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //Toast.makeText(getApplicationContext(), "you selected" + parent.getItemAtPosition(position), Toast.LENGTH_LONG).show();
-                           // repeat_text.setText(String.valueOf(parent.getItemAtPosition(position)));
-                            dialog1.dismiss();
-                        }
-                    });
-                }
-            }
-        });
-
         track.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new UpdateTargetPrice().execute(number.getText().toString());
+            }
+        });
+        number.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                number.setCursorVisible(true);
             }
         });
     }
@@ -157,9 +134,9 @@ public class SetTargetActivity extends AppCompatActivity {
                         try {
                             JSONObject jsonObject=new JSONObject(response);
                             System.out.println("response"+response);
-                            original_price.setText(jsonObject.getString("original_price"));
-                            current_price.setText(jsonObject.getString("current_price"));
-                            target_price.setText(jsonObject.getString("target_price"));
+                            original_price.setText("$ "+jsonObject.getString("original_price"));
+                            current_price.setText("$ "+jsonObject.getString("current_price"));
+                            target_price.setText("$ "+jsonObject.getString("target_price"));
                             String []dates1=jsonObject.getString("date_created").split("T");
                             String []dates2=jsonObject.getString("date_updated").split("T");
                             String dt_arr1[]=dates1[0].split("-");
@@ -169,13 +146,23 @@ public class SetTargetActivity extends AppCompatActivity {
                             String conv_date1=dt_arr1[2]+" "+month[mon1]+","+dt_arr1[0];
                             String conv_date2=dt_arr2[2]+" "+month[mon2]+","+dt_arr2[0];
                             origanal_date.setText(conv_date1);
-                            DateFormat dateFormat=new SimpleDateFormat("d MMM,yyyy", Locale.ENGLISH);
+                            DateFormat dateFormat=new SimpleDateFormat("dd MMM,yyyy", Locale.ENGLISH);
                             current_date.setText(dateFormat.format(new Date()));
                             target_date.setText(conv_date2);
-                            number.setText(String.valueOf(Math.round(Double.parseDouble(jsonObject.getString("current_price")))));
-                            product_url.setText(jsonObject.getString("url"));
+                           // number.setText(String.valueOf(Math.round(Double.parseDouble(jsonObject.getString("current_price")))));
+                            number.setText(String.valueOf(Double.parseDouble(jsonObject.getString("current_price"))));
+                            final String url=jsonObject.getString("url");
+
+                            product_name.setText(jsonObject.getString("name"));
                             progressBar.setVisibility(View.GONE);
-                            increase.setOnClickListener(new View.OnClickListener() {
+                            view.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent i = new Intent(Intent.ACTION_VIEW);
+                                    i.setData(Uri.parse(url));
+                                    startActivity(i);            }
+                            });
+                /*            increase.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     int count=Integer.parseInt(number.getText().toString())+1;
@@ -190,7 +177,8 @@ public class SetTargetActivity extends AppCompatActivity {
                                     int count=Integer.parseInt(number.getText().toString())-1;
                                     System.out.println("number"+count);
                                     number.setText(String.valueOf(count));                                }
-                            });
+                            });*/
+
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
@@ -321,4 +309,5 @@ public class SetTargetActivity extends AppCompatActivity {
             }
         }
     }
+
 }

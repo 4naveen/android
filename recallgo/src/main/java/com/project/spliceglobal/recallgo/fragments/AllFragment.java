@@ -21,7 +21,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.github.pwittchen.infinitescroll.library.InfiniteScrollListener;
 import com.project.spliceglobal.recallgo.R;
 import com.project.spliceglobal.recallgo.adapters.AllCategoryAdapter;
 import com.project.spliceglobal.recallgo.model.AllCategory;
@@ -53,11 +52,9 @@ public class AllFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private EndlessRecyclerViewScrollListener scrollListener;
     ProgressBar progressBar;
-
     public AllFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

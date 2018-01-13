@@ -6,8 +6,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="supported_store"><u>View all supported stores</u></string>
+    <string name="supported_store">View all supported stores</string>
     <string name="player">Jukebox Play Screen</string>
     <string name="player_error">Error initializing YouTube player: %s</string>
-
+    <string name="drawer_open">Open drawer</string>
+    <string name="drawer_close">Close drawer</string>
 </resources>

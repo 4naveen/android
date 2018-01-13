@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -50,26 +51,30 @@ public class PriceChaserAdapter extends RecyclerSwipeAdapter<PriceChaserAdapter.
     private int priceChaserIdPosition;
     private int priceChaserId;
     PriceChaser priceChaser;
+    Typeface custom_font;
     public PriceChaserAdapter(Context context, ArrayList<PriceChaser> priceChaserArrayList) {
         this.context = context;
         this.priceChaserArrayList = priceChaserArrayList;
     }
-
     @Override
     public PriceChaserAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.indi_row_price_chaser, parent, false);
+        custom_font = Typeface.createFromAsset(context.getApplicationContext().getAssets(),  "fonts/roboto_regular.ttf");
         return new ViewHolder(v);    }
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int position) {
+
         priceChaser= priceChaserArrayList.get(position);
         priceChaserId = priceChaser.getId();
+        viewHolder.product_name.setTypeface(custom_font);
         viewHolder.product_name.setText(priceChaser.getProduct_name());
         viewHolder.product_url.setText(priceChaser.getProduct_url());
         viewHolder.date.setText(priceChaser.getProduct_date());
         viewHolder.target_price.setText(priceChaser.getTarget_price());
         viewHolder.original_price.setText(priceChaser.getOriginal_rice());
-       // viewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Left, viewHolder.swipeLayout.findViewById(R.id.bottom_wrapper2));
+
+        // viewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Left, viewHolder.swipeLayout.findViewById(R.id.bottom_wrapper2));
  /*       viewHolder.layout_setPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -256,15 +261,12 @@ public class PriceChaserAdapter extends RecyclerSwipeAdapter<PriceChaserAdapter.
         protected void onPostExecute(String result) {
             dialog.dismiss();
             if (result.equals("success")) {
-
                 Log.i("callPosition--", String.valueOf(priceChaserIdPosition));
                 priceChaserArrayList.remove(priceChaserIdPosition);
                 notifyItemRemoved(priceChaserIdPosition);
                 notifyItemRangeChanged(priceChaserIdPosition, priceChaserArrayList.size());
-
                 Log.i("Res--", result);
             } else {
-
 
             }
         }
@@ -355,7 +357,6 @@ public class PriceChaserAdapter extends RecyclerSwipeAdapter<PriceChaserAdapter.
             }
             return jsonresponse;
         }
-
         @Override
         protected void onPostExecute(String result) {
             dialog.dismiss();
@@ -371,4 +372,5 @@ public class PriceChaserAdapter extends RecyclerSwipeAdapter<PriceChaserAdapter.
             }
         }
     }
+
 }

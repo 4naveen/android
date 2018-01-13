@@ -66,7 +66,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
                 android:layout_weight="0.7"
                 android:orientation="vertical">
 
@@ -90,6 +90,7 @@
                     android:singleLine="true"
                     android:textStyle="bold"
                     android:text="quantity"
+                    android:visibility="gone"
                     android:textSize="13sp" />
 
                 <TextView
@@ -101,6 +102,7 @@
                     android:paddingLeft="10dp"
                     android:paddingStart="10dp"
                     android:singleLine="true"
+                    android:visibility="gone"
                     android:text=""
                     android:textSize="14sp" />
             </LinearLayout>

@@ -41,14 +41,13 @@
                 android:layout_marginTop="20dp"
                 android:padding="10dp"
                 >
-
                 <EditText
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email Id or Mobile No"
                     android:inputType="textEmailAddress"
-                    android:text="naveen@spliceglobal.com"
+                    android:text=""
                     android:singleLine="true"
                     android:theme="@android:style/Theme.Holo.Light" />
             </android.support.design.widget.TextInputLayout>
@@ -64,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Password"
-                    android:text="Naveen123"
+                    android:text=""
                     android:inputType="textPassword"
                     android:singleLine="true"
                     android:theme="@android:style/Theme.Holo.Light" />

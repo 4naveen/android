@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,8 +23,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -46,6 +45,7 @@ import com.project.spliceglobal.recallgo.utils.AppUrl;
 import com.project.spliceglobal.recallgo.utils.EndlessRecyclerViewScrollListener;
 import com.project.spliceglobal.recallgo.utils.MyVolleySingleton;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,12 +58,15 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -86,6 +89,7 @@ public class TodayFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private ProgressBar progressBar;
     private EndlessRecyclerViewScrollListener scrollListener;
+    private DateFormat dateFormat;
     public TodayFragment() {
         // Required empty public constructor
     }
@@ -96,10 +100,10 @@ public class TodayFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_today, container, false);
         setHasOptionsMenu(true);
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'",Locale.ENGLISH);
+        /*getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(),0);
-
+        imm.hideSoftInputFromWindow(view.getWindowToken(),0);*/
         called_from=getArguments().getString("called_from","");
         System.out.println("called_from"+called_from);
         searchView = (MaterialSearchView) getActivity().findViewById(R.id.search_view);
@@ -109,37 +113,39 @@ public class TodayFragment extends Fragment {
         info_add=(ImageView)view.findViewById(R.id.info_add);
         if (called_from.equalsIgnoreCase("search")){
            searchView.setVisibility(View.VISIBLE);
-            imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+            /*imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);*/
         }
         if (called_from.equalsIgnoreCase("today_layout")){
             searchView.clearFocus();
             searchView.closeSearch();
             searchView.setVisibility(View.GONE);
-            imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+          /*  imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);*/
         }
         if (called_from.equalsIgnoreCase("main_body")){
             searchView.clearFocus();
             searchView.closeSearch();
             searchView.setVisibility(View.GONE);
-            imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+            /*imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);*/
         }
         if (called_from.equalsIgnoreCase("reminder")){
             searchView.clearFocus();
             searchView.closeSearch();
             searchView.setVisibility(View.GONE);
-            imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+            /*imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);*/
         }
         itemArrayList=new ArrayList<>();
         rv = (RecyclerView)view.findViewById(R.id.rv);
-        getItems(AppUrl.ITEM_LIST_URL);
+        //getItems(AppUrl.ITEM_LIST_URL);
+        getItems(AppUrl.TODAY_REMINDERS_URL+dateFormat.format(new Date()));
+
         add.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                add.setCursorVisible(false);
                 menu1.findItem(R.id.add).setVisible(true);
                 info_add.setVisibility(View.VISIBLE);
                 if (count==0){
@@ -163,7 +169,7 @@ public class TodayFragment extends Fragment {
                         intent.putExtra("name",s.toString());
                         intent.putExtra("called_from","add_today");
                         intent.putExtra("called_from_adapter","today");
-                        getActivity().startActivity(intent);
+                        startActivityForResult(intent,0);
                     }
                 });
             }
@@ -192,8 +198,13 @@ public class TodayFragment extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (searchView.isSearchOpen()) {
+                    }
+                    searchView.closeSearch();
+
                     if (keyCode == KeyEvent.KEYCODE_BACK) {
                            getActivity().finish();
+
                         return true;
                     }
                 }
@@ -216,7 +227,6 @@ public class TodayFragment extends Fragment {
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 return false;
             }
 
@@ -224,10 +234,13 @@ public class TodayFragment extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 ArrayList<Item> subitemArrayList = new ArrayList<>();
                 for (int i = 0; i < itemArrayList.size(); i++) {
-                    if (itemArrayList.get(i).getItem_name().contains(newText)) {
+                  /*  if (itemArrayList.get(i).getItem_name().contains(newText)) {
+                        subitemArrayList.add(itemArrayList.get(i));
+                    }*/
+                    //System.out.println("lead item --"+leadsArrayList.get(i).getName()+" "+leadsArrayList.get(i).getNumber());
+                    if (StringUtils.containsIgnoreCase(itemArrayList.get(i).getItem_name(),newText)) {
                         subitemArrayList.add(itemArrayList.get(i));
                     }
-                    //System.out.println("lead item --"+leadsArrayList.get(i).getName()+" "+leadsArrayList.get(i).getNumber());
                 }
                 rv.setAdapter(new TodayAdapter(getActivity(),subitemArrayList,"update_today","today"));
                 return false;
@@ -235,10 +248,8 @@ public class TodayFragment extends Fragment {
         });
         super.onCreateOptionsMenu(menu, inflater);
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId()==R.id.add)
         {
             item.setVisible(false);
@@ -257,13 +268,16 @@ public class TodayFragment extends Fragment {
         if (searchView.isSearchOpen()) {
             searchView.closeSearch();
         }
+        /*itemArrayList.clear();
+        getItems(AppUrl.ITEM_LIST_URL);*/
+
         super.onResume();
     }
 
     public  void getItems(String url) {
-        System.out.println("getItemcalled");
-        final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,url+"?date="+dateFormat.format(new Date()),
+        //System.out.println("getItemcalled");
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -271,44 +285,85 @@ public class TodayFragment extends Fragment {
                             JSONObject jsonObject=new JSONObject(response);
                             count=jsonObject.getInt("count");
                             next_url=jsonObject.getString("next");
+                            DateFormat timeFormat=new SimpleDateFormat("hh:mm a",Locale.ENGLISH);
                             JSONArray jsonArray = jsonObject.getJSONArray("results");
+                            Date date=new Date();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 Item item = new Item();
-                                String[] dates=object.getString("date").split("T");
-                                System.out.println("item date"+object.getString("date"));
+                                try {
+                                    date=dateFormat.parse(object.getString("date"));
+                                    //Log.e("parsed date",date.toString());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                               // String[] dates=object.getString("date").split("T");
+                                String formate_date=timeFormat.format(date);
+                               // Log.e("formated date",formate_date);
+                                //System.out.println("item date"+object.getString("date"));
                                 item.setItem_name(object.getString("name"));
-                                item.setDate_time("Today "+dates[1].substring(0,5));
-                                item.setQty(object.getString("qty"));
+                                item.setDate_time("Today "+formate_date);
+                                item.setReminder_date_for_update(object.getString("date"));
+                                if (object.getString("qty").equalsIgnoreCase("null")){
+                                    item.setQty(" ");
+                                }
+                                else {
+                                    item.setQty(object.getString("qty"));
+                                }
                                 item.setId(object.getInt("id"));
                                 item.setList_name(object.getString("list_name"));
                                 item.setList_id(object.getInt("list"));
+                                int status=object.getInt("status");
                                 //item.setDescription(object.getString("description"));
-
-                                if (object.getString("store").equalsIgnoreCase("null") || object.getString("brand").equalsIgnoreCase("null")||object.getString("description").equalsIgnoreCase("null")||object.getString("priority").equalsIgnoreCase("null")) {
-                                    item.setStore_name("");
-                                    item.setBrand_name("");
+                                item.setPriority(object.getString("priority"));
+                                if (object.getString("brand").equalsIgnoreCase("null")){
+                                    item.setBrand_name("null");
                                     item.setBrand_id("null");
-                                    item.setStore_id("null");
-                                    item.setDescription("");
-                                    item.setPriority("null");
-
-                                }else {
-                                    item.setStore_name(object.getString("store_name"));
+                                }
+                                else {
                                     item.setBrand_name(object.getString("brand_name"));
                                     item.setBrand_id(String.valueOf(object.getInt("brand")));
-                                    item.setStore_id(String.valueOf(object.getInt("store")));
+                                }
+                                if (object.getString("lat").equalsIgnoreCase("null")){
+                                    item.setLati("null");
+                                }
+                                else {
+                                    item.setLati(object.getString("lat"));
+                                }
+                                if (object.getString("long").equalsIgnoreCase("null")){
+                                    item.setLongi("null");
+                                }
+                                else {
+                                    item.setLongi(object.getString("long"));
+                                }
+                                if (object.getString("description").equalsIgnoreCase("null")){
+                                    item.setDescription("");
+
+                                }
+                                else {
                                     item.setDescription(object.getString("description"));
-                                    item.setPriority(String.valueOf(object.getInt("priority")));
+
+                                }
+                               // Log.e("priority in toay",object.getString("priority"));
+                                if (object.getString("store").equalsIgnoreCase("null") ) {
+                                    item.setStore_name("");
+                                    item.setStore_id("null");
+                                }else {
+                                    item.setStore_name(object.getString("store_name"));
+                                    item.setStore_id(String.valueOf(object.getInt("store")));
                                 }
                                 item.setRepeat_type(String.valueOf(object.getInt("type")));
                                 itemArrayList.add(item);
                             }
+                            updateUI(itemArrayList);
                             if (itemArrayList.isEmpty())
                             {
-                                blank_message.setVisibility(View.VISIBLE);
+                                blank_message.setVisibility(View.GONE);
                             }
-                               updateUI(itemArrayList);
+                            else {
+                                blank_message.setVisibility(View.GONE);
+
+                            }
                            progressBar.setVisibility(View.GONE);
                         }
                         catch (JSONException e) {
@@ -331,18 +386,14 @@ public class TodayFragment extends Fragment {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String,String>header=new HashMap<>();
                 header.put("Content-Type", "application/json; charset=utf-8");
-
                 // header.put("Authorization","Token fe63a7b37e04515a4cba77d2960526a84d1a56da");
                 header.put("Authorization","Token "+ AppUrl.TOKEN);
-
                 // header.put("Content-Type", "application/x-www-form-urlencoded");
-
                 return header;
             }
-        } ;
+        };
         MyVolleySingleton.getInstance(getActivity()).getRequestQueue().add(stringRequest);
     }
-
     private class AddItem extends AsyncTask<String, Void, String> {
         ProgressDialog dialog;
         HttpURLConnection conn;
@@ -368,11 +419,14 @@ public class TodayFragment extends Fragment {
                 jsonObject.put("name",params[0]);
                 jsonObject.put("list",params[1]);
                 jsonObject.put("type", params[2]);
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+               // DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ",Locale.ENGLISH);
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'",Locale.ENGLISH);
+                dateFormat.setTimeZone(TimeZone.getDefault());
                 String formated_date = dateFormat.format(new Date());
-                System.out.println("today formated date "+formated_date);
+                //System.out.println("today formated date "+formated_date);
                 jsonObject.put("date",formated_date);
-                System.out.println(jsonObject.toString());
+               // System.out.println(jsonObject.toString());
+                Log.e("json request",jsonObject.toString());
                 url = new URL(AppUrl.ITEM_LIST_URL);
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
@@ -386,7 +440,6 @@ public class TodayFragment extends Fragment {
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-
                 writer.write(jsonObject.toString());
                 writer.flush();
                 writer.close();
@@ -434,7 +487,8 @@ public class TodayFragment extends Fragment {
             dialog.dismiss();
             if (result.equals("success")) {
                 itemArrayList.clear();
-                getItems(AppUrl.ITEM_LIST_URL);
+                getItems(AppUrl.TODAY_REMINDERS_URL+dateFormat.format(new Date()));
+                sendMessageToActivity(getActivity(),"add");
                 add.setText("");
                 final Snackbar snackbar = Snackbar.make(layout, "Added item Succesfully!", Snackbar.LENGTH_LONG);
                 View v = snackbar.getView();
@@ -455,5 +509,21 @@ public class TodayFragment extends Fragment {
     private void updateUI(ArrayList<Item> data) {
         todayAdapter.setItemData(data);
     }
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("fragment","on Activity result in fragment");
+        itemArrayList.clear();
+        info_add.setVisibility(View.INVISIBLE);
+        add.setText("");
+        add.setHint("What you want me to Remind you ?");
+        add.setCursorVisible(false);
+        getItems(AppUrl.TODAY_REMINDERS_URL+dateFormat.format(new Date()));
+    }
+    private  void sendMessageToActivity(Context context, String msg) {
+        Intent intent = new Intent("BeaconId");
+        // You can also include some extra data.
+        intent.putExtra("id", msg);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
 }

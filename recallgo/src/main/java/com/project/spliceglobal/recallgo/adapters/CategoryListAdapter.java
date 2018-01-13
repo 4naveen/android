@@ -1,6 +1,8 @@
 package com.project.spliceglobal.recallgo.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +58,13 @@ public class CategoryListAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        String color="#"+categoryList.get(position).getColor();
+        Log.e("color",color);
+
+        System.out.println("color_in_int"+Color.parseColor(color));
+        viewHolder.txtName.setTextColor(Color.parseColor(color));
         viewHolder.txtName.setText(categoryList.get(position).getCategory_name());
+
       /*  convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

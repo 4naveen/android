@@ -6,7 +6,32 @@ package com.project.spliceglobal.recallgo.model;
 
 public class Item {
     int count,id,list_id;
-    String item_name,date_time,category,next,qty,list_name,store_name,brand_name,repeat_type,store_id,brand_id,lati,longi,time,date_created,date_updated,entry,description,priority;
+    String item_name,date_time,category,next,qty,list_name,store_name,brand_name,repeat_type,store_id,brand_id,lati,longi,time,next_reminder_date,
+    date_created,date_updated,entry,description,priority,google_category,reminder_date_for_update;
+
+    public String getReminder_date_for_update() {
+        return reminder_date_for_update;
+    }
+
+    public String getNext_reminder_date() {
+        return next_reminder_date;
+    }
+
+    public void setNext_reminder_date(String next_reminder_date) {
+        this.next_reminder_date = next_reminder_date;
+    }
+
+    public void setReminder_date_for_update(String reminder_date_for_update) {
+        this.reminder_date_for_update = reminder_date_for_update;
+    }
+
+    public String getGoogle_category() {
+        return google_category;
+    }
+
+    public void setGoogle_category(String google_category) {
+        this.google_category = google_category;
+    }
 
     public String getPriority() {
         return priority;

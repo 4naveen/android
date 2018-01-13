@@ -29,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.project.spliceglobal.recallgo.adapters.CategoryListAdapter;
+import com.project.spliceglobal.recallgo.adapters.StoreListAdapter;
 import com.project.spliceglobal.recallgo.model.AllCategory;
 import com.project.spliceglobal.recallgo.utils.AppUrl;
 import com.project.spliceglobal.recallgo.utils.MyVolleySingleton;
@@ -52,7 +53,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class StoreListActivity extends AppCompatActivity {
     ListView listView;
-    CategoryListAdapter listAdapter;
+    StoreListAdapter listAdapter;
     ArrayList<AllCategory> allCategoryArrayList;
     EditText name;
     String store_text;
@@ -62,7 +63,6 @@ public class StoreListActivity extends AppCompatActivity {
     ProgressDialog dialog;
     TextView add;
     LinearLayout layout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,12 +76,10 @@ public class StoreListActivity extends AppCompatActivity {
         add=(TextView)findViewById(R.id.add);
         layout=(LinearLayout)findViewById(R.id.layout);
         name = (EditText)findViewById(R.id.name);
-
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Prefered Store");
         }
-
         getStore(AppUrl.ALL_STORE_URL);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -128,7 +126,6 @@ public class StoreListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_add_ok, menu);
         return super.onCreateOptionsMenu(menu);
-
     }
     public  void getStore(String url) {
         dialog = new ProgressDialog(StoreListActivity.this);
@@ -153,20 +150,19 @@ public class StoreListActivity extends AppCompatActivity {
                                 category.setId(object.getInt("id"));
                                 allCategoryArrayList.add(category);
                             }
-                            if (count<10)
-                            {
+
+                            if (!next_url.equalsIgnoreCase("null")){
+                                for (int i = count-no_of_item_loaded; i >0; i-=no_of_item_loaded) {
+                                    System.out.println("i"+i);
+                                    getMoreStore(next_url);
+                                }
+                            }
+                            else {
                                 dialog.dismiss();
                                 listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-                                listAdapter = new CategoryListAdapter(StoreListActivity.this, allCategoryArrayList);
+                                listAdapter = new StoreListAdapter(StoreListActivity.this, allCategoryArrayList);
                                 listView.setAdapter(listAdapter);
-                                return;
                             }
-                            for (int i = count-no_of_item_loaded; i >0; i-=no_of_item_loaded) {
-                                System.out.println("i"+i);
-                                getMoreStore(next_url);
-                            }
-
-
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
@@ -181,7 +177,6 @@ public class StoreListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-
                 return params;
             }
             @Override
@@ -227,7 +222,7 @@ public class StoreListActivity extends AppCompatActivity {
                             System.out.println("array size"+allCategoryArrayList.size());
                             if (allCategoryArrayList.size()==count){
                                 listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-                                listAdapter = new CategoryListAdapter(StoreListActivity.this, allCategoryArrayList);
+                                listAdapter = new StoreListAdapter(StoreListActivity.this, allCategoryArrayList);
                                 listView.setAdapter(listAdapter);
                             }
                         }
@@ -245,19 +240,15 @@ public class StoreListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-
                 return params;
             }
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String,String>header=new HashMap<>();
                 header.put("Content-Type", "application/json; charset=utf-8");
-
                 // header.put("Authorization","Token fe63a7b37e04515a4cba77d2960526a84d1a56da");
                 header.put("Authorization","Token "+ AppUrl.TOKEN);
-
                 // header.put("Content-Type", "application/x-www-form-urlencoded");
-
                 return header;
             }
         } ;
@@ -298,7 +289,6 @@ public class StoreListActivity extends AppCompatActivity {
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestProperty("Accept", "application/json");
                 conn.setRequestProperty("Authorization", "Token "+ AppUrl.TOKEN);
-
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
@@ -320,9 +310,7 @@ public class StoreListActivity extends AppCompatActivity {
                     json = new JSONObject(response);
                     //Get Values from JSONobject
                     // System.out.println("success=" + json.get("success"));
-
                     jsonresponse = "success";
-
                 } else {
                     InputStreamReader inputStreamReader = new InputStreamReader(conn.getErrorStream());
                     bufferedReader = new BufferedReader(inputStreamReader);
@@ -373,5 +361,4 @@ public class StoreListActivity extends AppCompatActivity {
             }
         }
     }
-
 }

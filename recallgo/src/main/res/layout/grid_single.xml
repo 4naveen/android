@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/layout"
+    android:background="@color/dashboad_bg1"
+    >
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:src="@drawable/reminder" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text"
+        android:text="Reminder"
+        android:textAllCaps="true"
+        android:textAlignment="center"
+        android:textColor="@color/textColor"
+        android:textSize="20dp"
+        android:paddingBottom="10dp" />
+</LinearLayout>

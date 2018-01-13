@@ -15,11 +15,14 @@ public class AppUrl {
     public static final String ALL_STORE_URL = BASE_URL+"api/stores/";
     public static final String SHARE_CATEGORY_URL = BASE_URL+"api/lists/share_list/";
     public static final String ITEM_LIST_URL = BASE_URL+"api/reminders/";
+    public static final String TODAY_REMINDERS_URL = BASE_URL+"api/reminders/?date=";
+
     public static final String PRICE_CHASER_URL = BASE_URL+"api/price_chasers/";
     public static final String FEEDBACK_URL = BASE_URL+"api/feedbacks/";
 
     public static final String CATEGOTY_ITEM_LIST_URL = BASE_URL+"api/reminders/?list=";
     public static final String CHANGE_PASSWORD_URL =BASE_URL+"auth/password/change/";
     public static final String FORGET_PASSWORD_URL =BASE_URL+"auth/password/reset/";
+    public static final String SITES_URL = BASE_URL+"api/sites/";
 
 }

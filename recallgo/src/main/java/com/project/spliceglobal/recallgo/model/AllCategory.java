@@ -6,8 +6,17 @@ package com.project.spliceglobal.recallgo.model;
 
 public class AllCategory {
 
-    String category_name,completed,uncompletd;
+    String category_name,completed,uncompletd,color;
     int id;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     public String getCategory_name() {
         return category_name;
     }

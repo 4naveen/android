@@ -33,7 +33,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.github.pwittchen.infinitescroll.library.InfiniteScrollListener;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.project.spliceglobal.recallgo.adapters.CompleteItemAdapter;
 import com.project.spliceglobal.recallgo.adapters.TodayAdapter;
@@ -42,6 +41,7 @@ import com.project.spliceglobal.recallgo.utils.AppUrl;
 import com.project.spliceglobal.recallgo.utils.EndlessRecyclerViewScrollListener;
 import com.project.spliceglobal.recallgo.utils.MyVolleySingleton;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -109,7 +109,6 @@ public class CategoryItemListActivity extends AppCompatActivity {
         rv = (RecyclerView) findViewById(R.id.rv);
         rv1 = (RecyclerView)findViewById(R.id.rv1);
         getItems(AppUrl.CATEGOTY_ITEM_LIST_URL+category_id);
-
         layoutManager = new LinearLayoutManager(CategoryItemListActivity.this,LinearLayoutManager.VERTICAL, false);
         layoutManager.scrollToPosition(0);
 
@@ -126,8 +125,10 @@ public class CategoryItemListActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 menu1.findItem(R.id.add).setVisible(true);
+                info_add.setVisibility(View.VISIBLE);
                 if (count == 0) {
                     menu1.findItem(R.id.add).setVisible(false);
+                    info_add.setVisibility(View.GONE);
                 }
             }
             @Override
@@ -189,7 +190,12 @@ public class CategoryItemListActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
             if (resultCode == Activity.RESULT_OK) {
-                getItems(AppUrl.CATEGOTY_ITEM_LIST_URL);
+                itemArrayList.clear();
+                info_add.setVisibility(View.INVISIBLE);
+                add.setText("");
+                add.setHint("What you want me to Remind you ?");
+                add.setCursorVisible(false);
+                getItems(AppUrl.CATEGOTY_ITEM_LIST_URL+category_id);
             }
         }
     }
@@ -211,10 +217,13 @@ public class CategoryItemListActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 ArrayList<Item> subitemArrayList = new ArrayList<>();
                 for (int i = 0; i < itemArrayList.size(); i++) {
-                    if (itemArrayList.get(i).getItem_name().contains(newText)) {
+                 /*   if (itemArrayList.get(i).getItem_name().contains(newText)) {
+                        subitemArrayList.add(itemArrayList.get(i));
+                    }*/
+                    //System.out.println("lead item --"+leadsArrayList.get(i).getName()+" "+leadsArrayList.get(i).getNumber());
+                    if (StringUtils.containsIgnoreCase(itemArrayList.get(i).getItem_name(),newText)) {
                         subitemArrayList.add(itemArrayList.get(i));
                     }
-                    //System.out.println("lead item --"+leadsArrayList.get(i).getName()+" "+leadsArrayList.get(i).getNumber());
                 }
                 rv.setAdapter(new TodayAdapter(CategoryItemListActivity.this,subitemArrayList,"update_category", category_id, category_name, called_from_adapter));
                 return false;
@@ -246,34 +255,65 @@ public class CategoryItemListActivity extends AppCompatActivity {
                                     int mon=Integer.parseInt(dt_arr[1]);
                                     String conv_date=dt_arr[2]+" "+month[mon]+","+dt_arr[0];
                                     item.setDate_time(conv_date);
+                                    item.setReminder_date_for_update(object.getString("date"));
                                 }
                                else {
-                                    item.setDate_time(object.getString("name"));
+                                    item.setDate_time("null");
                                 }
-                                item.setQty(object.getString("qty"));
+                                if (object.getString("qty").equalsIgnoreCase("null")){
+                                    item.setQty(" ");
+                                }
+                                else {
+                                    item.setQty(object.getString("qty"));
+                                }
                                 item.setId(object.getInt("id"));
                                 item.setList_name(object.getString("list_name"));
                                 item.setList_id(object.getInt("list"));
                                 int status=object.getInt("status");
-
-                                if (object.getString("store").equalsIgnoreCase("null") || object.getString("brand").equalsIgnoreCase("null")||object.getString("description").equalsIgnoreCase("null")||object.getString("priority").equalsIgnoreCase("null")) {
-                                    item.setStore_name("");
-                                    item.setBrand_name("");
+                                item.setPriority(object.getString("priority"));
+                                if (object.getString("brand").equalsIgnoreCase("null")){
+                                    item.setBrand_name("null");
                                     item.setBrand_id("null");
-                                    item.setStore_id("null");
-                                    item.setDescription("");
-                                    item.setPriority("");
-                                } else {
-                                    item.setStore_name(object.getString("store_name"));
+
+                                }
+                                else {
                                     item.setBrand_name(object.getString("brand_name"));
                                     item.setBrand_id(String.valueOf(object.getInt("brand")));
-                                    item.setStore_id(String.valueOf(object.getInt("store")));
+
+                                }
+                                if (object.getString("lat").equalsIgnoreCase("null")){
+                                    item.setLati("null");
+                                }
+                                else {
+                                    item.setLati(object.getString("lat"));
+
+                                }
+                                if (object.getString("long").equalsIgnoreCase("null")){
+                                    item.setLongi("null");
+                                }
+                                else {
+                                    item.setLongi(object.getString("long"));
+
+                                }
+                                if (object.getString("description").equalsIgnoreCase("null")){
+                                    item.setDescription("");
+
+                                }
+                                else {
                                     item.setDescription(object.getString("description"));
-                                    item.setPriority(String.valueOf(object.getInt("priority")));
+
+                                }
+                                if (object.getString("store").equalsIgnoreCase("null")) {
+                                    item.setStore_name("");
+                                    item.setStore_id("null");
+
+                                } else {
+                                    item.setStore_name(object.getString("store_name"));
+                                    item.setStore_id(String.valueOf(object.getInt("store")));
+
                                 }
                                 item.setRepeat_type(String.valueOf(object.getInt("type")));
                                // itemArrayList.add(item);
-
                                 if (status==1){
                                     itemArrayList.add(item);
                                     System.out.println("uncomplete items"+itemArrayList.size());
@@ -335,11 +375,15 @@ public class CategoryItemListActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 finish();
+                break;
             }
             case R.id.add: {
                 item.setVisible(false);
                 new AddItem().execute(add.getText().toString(), String.valueOf(category_id), "1");
+                break;
             }
+
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -354,6 +398,8 @@ public class CategoryItemListActivity extends AppCompatActivity {
             dialog = new ProgressDialog(CategoryItemListActivity.this);
             dialog.setMessage("Please Wait..");
             //dialog.setTitle("Connecting server");
+
+
             dialog.show();
             dialog.setCancelable(false);
         }
@@ -421,7 +467,6 @@ public class CategoryItemListActivity extends AppCompatActivity {
                     //System.out.println("error=" + json.get("error"));
                     //succes = json.getString("success");
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
 
@@ -434,7 +479,7 @@ public class CategoryItemListActivity extends AppCompatActivity {
             dialog.dismiss();
             if (result.equals("success")) {
                 itemArrayList.clear();
-                getItems(AppUrl.CATEGOTY_ITEM_LIST_URL);
+                getItems(AppUrl.CATEGOTY_ITEM_LIST_URL+category_id);
                 add.setText("");
                 final Snackbar snackbar = Snackbar.make(layout, "Added item Succesfully!", Snackbar.LENGTH_LONG);
                 View v = snackbar.getView();
@@ -455,7 +500,6 @@ public class CategoryItemListActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-
         if (searchView.isSearchOpen()) {
             searchView.closeSearch();
         }

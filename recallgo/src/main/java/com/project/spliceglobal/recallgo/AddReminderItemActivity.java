@@ -2,12 +2,14 @@ package com.project.spliceglobal.recallgo;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -31,6 +33,8 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
+import com.project.spliceglobal.recallgo.adapters.RepeatListAdapter;
+import com.project.spliceglobal.recallgo.adapters.StoreListAdapter;
 import com.project.spliceglobal.recallgo.utils.AppConstants;
 import com.project.spliceglobal.recallgo.utils.AppUrl;
 
@@ -48,6 +52,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -60,8 +65,8 @@ public class AddReminderItemActivity extends AppCompatActivity {
     TextView catgeory_text,brand_text,prefered_store_text,repeat_text,date_time_text,none,one,two,three,four;
     int priority;
     String item_name,notes,brand_id,store_id;
-    String formated_date,called_from,called_from_adapter;
-    int category_id=111,repeat_text_id,item_id;
+    String formated_date="null",called_from,called_from_adapter,reminder_date_for_update;
+    int category_id=Integer.parseInt(AppConstants.UncategorisedId),repeat_text_id=1,item_id;
     LinearLayout layout;
     private double longitude=0.00;
     private double latitude=0.00;
@@ -84,10 +89,8 @@ public class AddReminderItemActivity extends AppCompatActivity {
         repeat_text=(TextView)findViewById(R.id.repeat_text);
         date_time_text=(TextView)findViewById(R.id.date_time_text);
         description = (EditText) findViewById(R.id.description);
-
         none=(TextView)findViewById(R.id.none);
         none.setBackgroundColor(Color.BLACK);
-
         one=(TextView)findViewById(R.id.one);
         two=(TextView)findViewById(R.id.two);
         three=(TextView)findViewById(R.id.three);
@@ -97,7 +100,6 @@ public class AddReminderItemActivity extends AppCompatActivity {
         called_from=getIntent().getStringExtra("called_from");
         System.out.println("called_from"+called_from);
         called_from_adapter=getIntent().getStringExtra("called_from_adapter");
-
        // System.out.println("called_from_adapter"+called_from_adapter);
         notes_layout = (LinearLayout) findViewById(R.id.notes);
         date_time = (ImageView) findViewById(R.id.date_time);
@@ -105,8 +107,10 @@ public class AddReminderItemActivity extends AppCompatActivity {
         brand = (LinearLayout) findViewById(R.id.brand);
         prefered_store = (LinearLayout) findViewById(R.id.prefered_store);
         repeat = (LinearLayout) findViewById(R.id.repeat);
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ",Locale.ENGLISH);
-        formated_date = dateFormat.format(new Date());
+       // dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ",Locale.ENGLISH);
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'",Locale.ENGLISH);
+        dateFormat.setTimeZone(TimeZone.getDefault());
+        //formated_date = dateFormat.format(new Date());
         repeatList = new ArrayList<>();
         repeatList.add("One Time");
         repeatList.add("Daily");
@@ -127,12 +131,33 @@ public class AddReminderItemActivity extends AppCompatActivity {
             String repeat="";
             catgeory_text.setText(getIntent().getStringExtra("list_name"));
             category_id=getIntent().getIntExtra("list_id",0);
-            brand_text.setText(getIntent().getStringExtra("brand_name"));
+            if (getIntent().getStringExtra("brand_name").equalsIgnoreCase("null"))
+            {
+                brand_text.setText(" ");
+            }
+            else {
+                brand_text.setText(getIntent().getStringExtra("brand_name"));
+            }
+            if (getIntent().getStringExtra("date_time").equalsIgnoreCase("null"))
+            {
+                date_time_text.setText(" ");
+            }
+            else {
+                date_time_text.setText(getIntent().getStringExtra("date_time"));
+            }
+
+            if (!(getIntent().getStringExtra("lat").equalsIgnoreCase("null")&&getIntent().getStringExtra("long").equalsIgnoreCase("null")))
+            {
+                latitude=Double.parseDouble(getIntent().getStringExtra("lat"));
+                longitude=Double.parseDouble(getIntent().getStringExtra("long"));
+                aSwitch.setChecked(true);
+            }
             prefered_store_text.setText(getIntent().getStringExtra("store_name"));
-            date_time_text.setText(getIntent().getStringExtra("date_time"));
+            Log.e("update date",getIntent().getStringExtra("date_time"));
+            reminder_date_for_update=getIntent().getStringExtra("reminder_date_for_update");
             repeat_text_id=Integer.parseInt(getIntent().getStringExtra("repeat_type"));
             description.setText(getIntent().getStringExtra("description"));
-
+            quantity.setText(getIntent().getStringExtra("qty"));
             if (getIntent().getStringExtra("priority").equalsIgnoreCase("1"))
             {
                 one.setText("1");
@@ -150,7 +175,6 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 two.setText("2");
                 priority=2;
                 System.out.println("priority in add"+getIntent().getStringExtra("priority"));
-
                 none.setTextColor(Color.BLACK);
                 two.setBackgroundColor(Color.BLACK);
                 none.setBackground(getResources().getDrawable(R.drawable.cell_shape));
@@ -163,7 +187,6 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 three.setText("3");
                 priority=3;
                 System.out.println("priority"+getIntent().getStringExtra("priority"));
-
                 none.setTextColor(Color.BLACK);
                 three.setBackgroundColor(Color.BLACK);
                 none.setBackground(getResources().getDrawable(R.drawable.cell_shape));
@@ -176,7 +199,6 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 four.setText("4");
                 priority=4;
                 System.out.println("priority"+getIntent().getStringExtra("priority"));
-
                 none.setTextColor(Color.BLACK);
                 four.setBackgroundColor(Color.BLACK);
                 none.setBackground(getResources().getDrawable(R.drawable.cell_shape));
@@ -266,7 +288,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 new SingleDateAndTimePickerDialog.Builder(AddReminderItemActivity.this)
                         //.bottomSheet()
                         .curved()
-                        //.minutesStep(15)
+                        .minutesStep(1)
                         .mainColor(Color.rgb(63, 81, 181))
                         .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                             @Override
@@ -280,7 +302,8 @@ public class AddReminderItemActivity extends AppCompatActivity {
                             public void onDateSelected(Date date) {
                                 date_time_text.setText(date.toLocaleString());
                                 formated_date = dateFormat.format(date);
-                                System.out.println("formated_date"+formated_date);
+                                reminder_date_for_update=formated_date;
+                                Log.e("formated date",formated_date);
                             }
                         }).display();
             }
@@ -294,7 +317,6 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 else {
                     Intent intent=new Intent(AddReminderItemActivity.this, CategoryListActivity.class);
                     intent.putExtra("called_from","without_move");
-
                     startActivityForResult(intent,0);
                 }
             }
@@ -319,17 +341,28 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 final MaterialDialog dialog1 = new MaterialDialog.Builder(AddReminderItemActivity.this)
                         .title("Select ")
                         .customView(R.layout.indi_view_repeat_dialog, true)
-                        .positiveText("")
+                        .backgroundColor(getResources().getColor(R.color.list_bg_color))
+                        .positiveText("ok")
                         .positiveColorRes(R.color.colorPrimary)
                         .negativeColorRes(R.color.colorPrimary)
-                        .negativeText("")
+                        .negativeText("cancel")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+
+                            }
+                        })
                         .show();
                 View view = dialog1.getCustomView();
                 if (view != null) {
                     ListView listView = (ListView) dialog1.getCustomView().findViewById(R.id.lv);
-                    ArrayAdapter<String> locationArrayAdapter = new ArrayAdapter<>(AddReminderItemActivity.this, android.R.layout.simple_list_item_1, repeatList);
+                  /*  ArrayAdapter<String> locationArrayAdapter = new ArrayAdapter<>(AddReminderItemActivity.this, android.R.layout.simple_list_item_1, repeatList);
                     locationArrayAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-                    listView.setAdapter(locationArrayAdapter);
+                    listView.setAdapter(locationArrayAdapter);*/
+                    RepeatListAdapter repeatListAdapter=new RepeatListAdapter(AddReminderItemActivity.this,repeatList);
+                    listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                    listView.setAdapter(repeatListAdapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -359,7 +392,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
                             {
                                 repeat_text_id=6;
                             }
-                            dialog1.dismiss();
+                          //  dialog1.dismiss();
                         }
                     });
                 }
@@ -518,11 +551,11 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 repeat_text.getText().toString()+""+priority+""+description.getText().toString());*/
                 if (called_from.equalsIgnoreCase("update_category"))
                 {// int category_id=getIntent().getIntExtra("category_id",0);
-                    new UpdateItem().execute(String.valueOf(item_id),item_name,String.valueOf(category_id),store_id,brand_id,quantity.getText().toString(),formated_date,
+                    new UpdateItem().execute(String.valueOf(item_id),item_name,String.valueOf(category_id),store_id,brand_id,quantity.getText().toString(),reminder_date_for_update,
                             String.valueOf(priority),description.getText().toString(),String.valueOf(repeat_text_id),String.valueOf(latitude),String.valueOf(longitude),String.valueOf(radiusInMeters));
                 }
                 else {
-                    new UpdateItem().execute(String.valueOf(item_id),item_name,String.valueOf(category_id),store_id,brand_id,quantity.getText().toString(),formated_date,
+                    new UpdateItem().execute(String.valueOf(item_id),item_name,String.valueOf(category_id),store_id,brand_id,quantity.getText().toString(),reminder_date_for_update,
                             String.valueOf(priority),description.getText().toString(),String.valueOf(repeat_text_id),String.valueOf(latitude),String.valueOf(longitude),String.valueOf(radiusInMeters));
                 }
                                 break;
@@ -587,7 +620,6 @@ public class AddReminderItemActivity extends AppCompatActivity {
     private class AddItem extends AsyncTask<String, Void, String> {
         ProgressDialog dialog;
         HttpURLConnection conn;
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -597,7 +629,6 @@ public class AddReminderItemActivity extends AppCompatActivity {
             dialog.show();
             dialog.setCancelable(false);
         }
-
         @Override
         protected String doInBackground(String... params) {
             String response = "", jsonresponse = "";
@@ -609,7 +640,12 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 jsonObject = new JSONObject();
                 jsonObject.put("name",params[0]);
                 jsonObject.put("qty", params[4]);
-                jsonObject.put("date", params[5]);
+                if (params[5].equalsIgnoreCase("null")){
+                    jsonObject.put("date",JSONObject.NULL);
+                }
+                else {
+                    jsonObject.put("date", params[5]);
+                }
                 jsonObject.put("list",params[1]);
                 jsonObject.put("entry",params[12]);
                 if (params[2].equalsIgnoreCase("null"))
@@ -705,6 +741,8 @@ public class AddReminderItemActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             dialog.dismiss();
             if (result.equals("success")) {
+                sendMessageToActivity(AddReminderItemActivity.this,"add");
+
                 final Snackbar snackbar = Snackbar.make(layout, "Added Item Succesfully!", Snackbar.LENGTH_LONG);
                 View v = snackbar.getView();
                 v.setMinimumWidth(1000);
@@ -756,7 +794,13 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 jsonObject.put("id",params[0]);
                 jsonObject.put("name",params[1]);
                 jsonObject.put("qty", params[5]);
-                jsonObject.put("date", params[6]);
+                //jsonObject.put("date", params[6]);
+                if (params[6].isEmpty()){
+                    jsonObject.put("date",JSONObject.NULL);
+                }
+                else {
+                    jsonObject.put("date", params[6]);
+                }
                 jsonObject.put("list",params[2]);
                 if (params[3].equalsIgnoreCase("null"))
                 {
@@ -849,6 +893,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
             dialog.dismiss();
             if (result.equals("success")) {
                 final Snackbar snackbar = Snackbar.make(layout, "Item Updated Succesfully!", Snackbar.LENGTH_LONG);
+                sendMessageToActivity(AddReminderItemActivity.this,"add");
                 View v = snackbar.getView();
                 v.setMinimumWidth(1000);
                 TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
@@ -869,5 +914,11 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 snackbar.show();
             }
         }
+    }
+    private  void sendMessageToActivity(Context context, String msg) {
+        Intent intent = new Intent("BeaconId");
+        // You can also include some extra data.
+        intent.putExtra("id", msg);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 }

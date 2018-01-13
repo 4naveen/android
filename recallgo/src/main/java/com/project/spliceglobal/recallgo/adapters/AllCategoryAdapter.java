@@ -70,17 +70,20 @@ public class AllCategoryAdapter extends RecyclerSwipeAdapter<AllCategoryAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int position) {
         AllCategory category= allCategoryArrayList.get(position);
-        viewHolder.category_name.setText(category.getCategory_name());
+
+        viewHolder.category_name.setText(category.getCategory_name().substring(0,1).toUpperCase()+category.getCategory_name().substring(1));
+        TextDrawable drawable1 = TextDrawable.builder().buildRound(category.getCompleted(),Color.RED);
+
         viewHolder.completed.setText(category.getCompleted());
         viewHolder.uncompleted.setText(category.getUncompletd());
         String name = category.getCategory_name();
         final String category_id=String.valueOf(category.getId());
         String ch = String.valueOf(name.charAt(0));
         ColorGenerator generator = ColorGenerator.MATERIAL;
-        //int color = generator.getRandomColor();
+        int color = generator.getRandomColor();
         TextDrawable.builder().beginConfig().fontSize(20).width(10).height(10).endConfig();
         //Color.rgb(97,107,192);
-        TextDrawable drawable = TextDrawable.builder().buildRound(ch.toUpperCase(), Color.rgb(51,51,51));
+        TextDrawable drawable = TextDrawable.builder().buildRound(ch.toUpperCase(),color);
         viewHolder.letter.setImageDrawable(drawable);
       //  viewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Left, viewHolder.swipeLayout.findViewById(R.id.bottom_wrapper1));
         viewHolder.layout_delete.setOnClickListener(new View.OnClickListener() {

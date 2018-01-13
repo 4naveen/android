@@ -5,8 +5,24 @@ package com.project.spliceglobal.recallgo.model;
  */
 
 public class Shared {
-String category_name,sharedby,date;
+    String category_name,sharedby,date,completed,uncompletd;
     int id;
+
+    public String getCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(String completed) {
+        this.completed = completed;
+    }
+
+    public String getUncompletd() {
+        return uncompletd;
+    }
+
+    public void setUncompletd(String uncompletd) {
+        this.uncompletd = uncompletd;
+    }
 
     public int getId() {
         return id;

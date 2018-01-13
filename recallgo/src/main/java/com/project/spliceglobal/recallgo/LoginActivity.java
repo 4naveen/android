@@ -98,12 +98,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 input_pwd.setError("");
+
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
             @Override
             public void afterTextChanged(Editable s) {
+
             }
         });
         if (!NetworkStatus.isConnected(LoginActivity.this)) {
@@ -217,8 +219,10 @@ public class LoginActivity extends AppCompatActivity {
                                // AppUrl.TOKEN="fe63a7b37e04515a4cba77d2960526a84d1a56da";
                                 AppUrl.TOKEN=key;
                                 sessionManager.createLoginSession(email_phone.getText().toString(), password.getText().toString(),key);
-                                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                               // startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                startActivity(new Intent(LoginActivity.this, ReminderActivity.class));
                                 finish();
+
                             }
 
                         } catch (JSONException e) {

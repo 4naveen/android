@@ -101,27 +101,32 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
         repeatList.add("Yearly");
          Item item = itemArrayList.get(position);
         final int item_id = itemArrayList.get(position).getId();
+        category_id=itemArrayList.get(position).getList_id();
         type=item.getRepeat_type();
         final String brand=item.getBrand_id();
         final String store=item.getStore_id();
         viewHolder.category_name.setText(item.getItem_name());
-        if (item.getQty().equalsIgnoreCase("null")){
-            viewHolder.sharedby.setText("");
+        if (item.getBrand_name().equalsIgnoreCase("null")){
+            viewHolder.sharedby.setVisibility(View.GONE);
         }else {
-            viewHolder.sharedby.setText(item.getQty());
+            viewHolder.sharedby.setVisibility(View.VISIBLE);
+            viewHolder.sharedby.setText(item.getBrand_name());
         }
         if (item.getDate_time().equalsIgnoreCase("null")){
-            viewHolder.date.setText("");
+           // viewHolder.date.setText("");
+            viewHolder.date.setVisibility(View.GONE);
+
         }else {
+            viewHolder.date.setVisibility(View.VISIBLE);
             viewHolder.date.setText(item.getDate_time());
         }
         String name = item.getItem_name();
         String ch = String.valueOf(name.charAt(0));
         ColorGenerator generator = ColorGenerator.MATERIAL;
-        //int color = generator.getRandomColor();
+        int color = generator.getRandomColor();
         TextDrawable.builder().beginConfig().fontSize(20).width(10).height(10).endConfig();
         //Color.rgb(97,107,192);
-        TextDrawable drawable = TextDrawable.builder().buildRound(ch.toUpperCase(), Color.rgb(51,51,51));
+        TextDrawable drawable = TextDrawable.builder().buildRound(ch.toUpperCase(),color);
         viewHolder.letter.setImageDrawable(drawable);
         viewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, viewHolder.swipeLayout.findViewById(R.id.bottom_wrapper1));
         viewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Left, viewHolder.swipeLayout.findViewById(R.id.bottom_wrapper2));
@@ -157,6 +162,7 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
                         .title("Select ")
                         .customView(R.layout.indi_view_repeat_dialog, true)
                         .positiveText("ok")
+                        .backgroundColor(context.getResources().getColor(R.color.list_bg_color))
                         .positiveColorRes(R.color.colorPrimary)
                         .negativeColorRes(R.color.colorPrimary)
                         .negativeText("cancel")
@@ -172,9 +178,12 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
                 View view = dialog1.getCustomView();
                 if (view != null) {
                     ListView listView = (ListView) dialog1.getCustomView().findViewById(R.id.lv);
-                    ArrayAdapter<String> locationArrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, repeatList);
+                  /*  ArrayAdapter<String> locationArrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, repeatList);
                     locationArrayAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-                    listView.setAdapter(locationArrayAdapter);
+                    listView.setAdapter(locationArrayAdapter);*/
+                    RepeatListAdapter repeatListAdapter=new RepeatListAdapter(context,repeatList);
+                    listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                    listView.setAdapter(repeatListAdapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -244,9 +253,7 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
             layout_move=(LinearLayout)itemView.findViewById(R.id.layout_move);
             layout_later=(LinearLayout)itemView.findViewById(R.id.layout_later);
             layout_complete=(LinearLayout)itemView.findViewById(R.id.layout_Complete);
-
             top_view.setOnClickListener(this);
-
         }
         @Override
         public void onClick(View v) {
@@ -260,12 +267,16 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
             i.putExtra("brand_name",itemArrayList.get(getAdapterPosition()).getBrand_name());
             i.putExtra("repeat_type",itemArrayList.get(getAdapterPosition()).getRepeat_type());
             i.putExtra("date_time",itemArrayList.get(getAdapterPosition()).getDate_time());
+            i.putExtra("reminder_date_for_update",itemArrayList.get(getAdapterPosition()).getReminder_date_for_update());
             i.putExtra("brand_id",itemArrayList.get(getAdapterPosition()).getBrand_id());
             i.putExtra("store_id",itemArrayList.get(getAdapterPosition()).getStore_id());
             i.putExtra("list_id",itemArrayList.get(getAdapterPosition()).getList_id());
             i.putExtra("called_from_adapter",called_from_adapter);
             i.putExtra("description",itemArrayList.get(getAdapterPosition()).getDescription());
             i.putExtra("priority",itemArrayList.get(getAdapterPosition()).getPriority());
+            i.putExtra("lat",itemArrayList.get(getAdapterPosition()).getLati());
+            i.putExtra("long",itemArrayList.get(getAdapterPosition()).getLongi());
+            i.putExtra("qty",itemArrayList.get(getAdapterPosition()).getQty());
             System.out.println("priority in adapter"+itemArrayList.get(getAdapterPosition()).getPriority());
             if (called_from.equalsIgnoreCase("update_category"))
             {
@@ -365,8 +376,6 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
 
                 Log.i("Res--", result);
             } else {
-
-
             }
         }
     }
@@ -439,9 +448,7 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
                     json = new JSONObject(response);
                     //Get Values from JSONobject
                     // System.out.println("success=" + json.get("success"));
-
                     jsonresponse = "success";
-
                 } else {
                     InputStreamReader inputStreamReader = new InputStreamReader(conn.getErrorStream());
                     bufferedReader = new BufferedReader(inputStreamReader);
@@ -458,7 +465,6 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
             return jsonresponse;
         }
@@ -602,6 +608,14 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
                         finish();
                     }
                 }, 3000);*/
+
+                if (called_from.equalsIgnoreCase("update_category"))
+                {
+                    itemArrayList.remove(itemIdPosition);
+                    notifyItemRemoved(itemIdPosition);
+                    notifyItemRangeChanged(itemIdPosition, itemArrayList.size());
+                }
+
                 Toast.makeText(context,"updated successfully",Toast.LENGTH_LONG).show();
             } else {
            /*     final Snackbar snackbar = Snackbar.make(layout, "Item not moved! Try Again", Snackbar.LENGTH_LONG);
@@ -615,5 +629,4 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
             }
         }
     }
-
 }

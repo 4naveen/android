@@ -36,11 +36,12 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShaedFragment extends Fragment {
+public class SharedFragment extends Fragment {
     ArrayList<Shared> sharedArrayList;
     RecyclerView rv;
     SharedAdapter sharedAdapter;
-    public ShaedFragment() {
+    String month[]={"","Jan","Feb","March","April","May","June","July","August","Sept","Oct","Nov","Dec"};
+    public SharedFragment() {
         // Required empty public constructor
     }
 
@@ -83,7 +84,13 @@ public class ShaedFragment extends Fragment {
                                 Shared shared = new Shared();
                                 shared.setCategory_name(object.getString("name"));
                                 shared.setSharedby(object.getString("shared_by"));
-                                shared.setDate("20 May,2017");
+                                shared.setCompleted(object.getString("completed"));
+                                shared.setUncompletd(object.getString("notcompleted"));
+                                String []dates=object.getString("date_created").split("T");
+                                String dt_arr[]=dates[0].split("-");
+                                int mon=Integer.parseInt(dt_arr[1]);
+                                String conv_date=dt_arr[2]+" "+month[mon]+","+dt_arr[0];
+                                shared.setDate(conv_date);
                                 shared.setId(object.getInt("id"));
                                 sharedArrayList.add(shared);
                             }
@@ -129,5 +136,4 @@ public class ShaedFragment extends Fragment {
         } ;
         MyVolleySingleton.getInstance(getActivity()).getRequestQueue().add(stringRequest);
     }
-
 }

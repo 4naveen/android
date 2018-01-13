@@ -42,6 +42,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.project.spliceglobal.recallgo.utils.AppConstants;
 import com.project.spliceglobal.recallgo.utils.AppUrl;
 import com.project.spliceglobal.recallgo.utils.MyVolleySingleton;
 
@@ -59,6 +60,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -79,12 +81,18 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     LinearLayout layout;
     int keyDel;
     String a;
+    SharedPreferences pref;
+    int PRIVATE_MODE = 0;
+    public static final String PREF_NAME = "FirebaseTokenPref";
+    public static final String KEY_TOKEN = "token";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        pref = getApplicationContext().getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         android.support.v7.app.ActionBar actionBar=getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -92,7 +100,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
         register=(Button)findViewById(R.id.save);
         layout=(LinearLayout)findViewById(R.id.layout);
-
         input_name=(TextInputLayout)findViewById(R.id.input_layout_name);
         input_email=(TextInputLayout)findViewById(R.id.input_layout_email);
         input_mobile=(TextInputLayout)findViewById(R.id.input_layout_mobile);
@@ -109,9 +116,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         google = (ImageView) findViewById(R.id.google);
         twitter = (ImageView) findViewById(R.id.twitter);
         linkedin = (ImageView) findViewById(R.id.linkedin);
-
       //  int selectedId=radioGroup.getCheckedRadioButtonId();
-
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -297,7 +302,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         password.getText().toString(),confirm_password.getText().toString());
             }
         });
-
     }
 
     @Override
@@ -375,6 +379,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 jsonObject.put("password1", params[4]);
                 jsonObject.put("password2", params[5]);
                 jsonObject.put("first_name",first_name);
+                //Log.e("device_id", AppConstants.DEVICE_TOKEN);
+               // System.out.println("device_token"+pref.getString(KEY_TOKEN, ""));
+                //Log.e("device_id", pref.getString(KEY_TOKEN, ""));
+                jsonObject.put("device_id", pref.getString(KEY_TOKEN, ""));
+                //jsonObject.put("device_id", AppConstants.DEVICE_TOKEN);
                 if (last_name.isEmpty()) {
                     jsonObject.put("last_name","BLANK");
                 }else{
@@ -382,10 +391,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 }
                 jsonObject.put("mobile", params[3]);
                 jsonObject.put("salutation",sur_name_id);
-                  JSONObject sub_object=new JSONObject();
-                sub_object.put("mime","image/jpeg");
-                sub_object.put("img",encoded_image);
-                jsonObject.put("picture",sub_object);
+               // System.out.println("encoded image in asyn"+encoded_image);
+               // Log.e("encoded image in asyn",encoded_image);
+                if (encoded_image==null){
+                     jsonObject.put("picture",JSONObject.NULL);
+                 }
+                 else {
+                     JSONObject sub_object=new JSONObject();
+                     sub_object.put("mime","image/jpeg");
+                     sub_object.put("img",encoded_image);
+                     jsonObject.put("picture",sub_object);
+                 }
                 //jsonObject.put("picture", encoded_image);
                 System.out.println(jsonObject.toString());
                 url = new URL(AppUrl.REGISTRATION_URL);
@@ -397,11 +413,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 conn.setDoOutput(true);
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestProperty("Accept", "application/json");
-
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-
                 writer.write(jsonObject.toString());
                 writer.flush();
                 writer.close();
@@ -450,7 +464,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 try {
                     JSONObject jsonObject=new JSONObject(result);
                     AppUrl.TOKEN=jsonObject.getString("key");
-                    startActivity(new Intent(RegisterActivity.this,HomeActivity.class));
+                   // startActivity(new Intent(RegisterActivity.this,HomeActivity.class));
+                    startActivity(new Intent(RegisterActivity.this,ReminderActivity.class));
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -459,19 +474,28 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             } else {
                 try {
                     JSONObject jsonObject=new JSONObject(result);
-                    input_name.setError(jsonObject.getString("username"));
-                    input_email.setError(jsonObject.getString("email"));
-                    input_password.setError(jsonObject.getString("password1"));
+                    Iterator<String> iter = jsonObject.keys();
+                    while (iter.hasNext()) {
+                        String key = iter.next();
+                        if (key.equalsIgnoreCase("username")){
+                            input_name.setError(jsonObject.getString("username"));
+
+                        }
+                        else if (key.equalsIgnoreCase("email")){
+                            input_email.setError(jsonObject.getString("email"));
+
+                        }
+                        else if (key.equalsIgnoreCase("password1")){
+                            input_password.setError(jsonObject.getString("password1"));
+
+                        }
+                    }
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-           /*     final Snackbar snackbar = Snackbar.make(layout, "Registration not successful! Try Again", Snackbar.LENGTH_LONG);
-                View v = snackbar.getView();
-                v.setMinimumWidth(1000);
-                TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
-                tv.setTextColor(Color.YELLOW);
-                snackbar.show();*/
+
             }
             dialog.dismiss();
 

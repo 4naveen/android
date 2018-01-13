@@ -32,7 +32,6 @@
             android:gravity="center"
             android:id="@+id/text2"
             android:textSize="@dimen/slide_mob_title"
-
             android:textStyle="bold" />
 
         <TextView

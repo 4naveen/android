@@ -8,9 +8,7 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
 import com.android.volley.AuthFailureError;
@@ -18,12 +16,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.project.spliceglobal.recallgo.HomeActivity;
 import com.project.spliceglobal.recallgo.R;
 import com.project.spliceglobal.recallgo.ReminderActivity;
 import com.project.spliceglobal.recallgo.model.Item;
-import com.project.spliceglobal.recallgo.utils.AppConstants;
-import com.project.spliceglobal.recallgo.utils.AppUrl;
 import com.project.spliceglobal.recallgo.utils.MyVolleySingleton;
 
 import org.json.JSONArray;
@@ -38,7 +33,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 
 /**
  * Created by Personal on 11/10/2017.
@@ -71,7 +65,7 @@ public class DateItemReminderService extends Service {
         return START_STICKY;
     }
     private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, ReminderActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -96,7 +90,9 @@ public class DateItemReminderService extends Service {
     }
 
     public  void getItems(String url) {
-            StringRequest stringRequest = new StringRequest(Request.Method.GET,url,
+        final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'",Locale.ENGLISH);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -121,24 +117,24 @@ public class DateItemReminderService extends Service {
                                 getItems(next_url);
                             }
                             else {
-                                DateFormat dateFormat1=new SimpleDateFormat("HH:mm",Locale.ENGLISH);
+                                DateFormat timeFormat=new SimpleDateFormat("hh:mm a",Locale.ENGLISH);
+                                Date date=new Date();
                                // System.out.println("today araay size"+itemArrayList.size());
                                 for (int i=0;i<itemArrayList.size();i++){
-                                    String [] item_dates=itemArrayList.get(i).getDate_time().split("T");
-                                    Date date=new Date();
-                                    date.setTime(System.currentTimeMillis()-((5*60*60*1000)+(30*60*1000)));
-                                    String current_date=dateFormat1.format(date);
-                                    String original_time=item_dates[1].substring(0,5);
-                                   // System.out.println("current time"+current_date);
-                                   // System.out.println("original time"+original_time);
-                                    if (original_time.equalsIgnoreCase(current_date)){
-                                        System.out.println("send notification");
+                                    date=dateFormat.parse(itemArrayList.get(i).getDate_time());
+                                    String original_time=timeFormat.format(date);
+                                    String current_time=timeFormat.format(System.currentTimeMillis());
+                                    //Log.e("original time",original_time+"current time"+current_time);
+                                    if (original_time.equalsIgnoreCase(current_time)){
+                                        //System.out.println("send notification");
                                         sendNotification(itemArrayList.get(i).getItem_name());
                                     }
                                 }
                             }
                         }
                         catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (ParseException e) {
                             e.printStackTrace();
                         }
                     }

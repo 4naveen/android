@@ -85,14 +85,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_edittext"
             android:gravity="top|left"
-            android:inputType="textMultiLine"
+            android:inputType="textMultiLine|textCapWords"
             android:overScrollMode="always"
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
@@ -132,7 +131,6 @@
             />
 
     </LinearLayout>
-
 
     <Button
         android:id="@+id/submit"
