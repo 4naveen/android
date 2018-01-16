@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -65,8 +66,11 @@ public class AddReminderItemActivity extends AppCompatActivity {
     TextView catgeory_text,brand_text,prefered_store_text,repeat_text,date_time_text,none,one,two,three,four;
     int priority;
     String item_name,notes,brand_id,store_id;
-    String formated_date="null",called_from,called_from_adapter,reminder_date_for_update;
-    int category_id=Integer.parseInt(AppConstants.UncategorisedId),repeat_text_id=1,item_id;
+    String formated_date="null",called_from,called_from_adapter,reminder_date_for_update="null";
+    SharedPreferences preferences;
+    int PRIVATE_MODE = 0;
+    public static final String PREF_NAME1 = "UncategorisedId";
+    int category_id,repeat_text_id=1,item_id;
     LinearLayout layout;
     private double longitude=0.00;
     private double latitude=0.00;
@@ -81,6 +85,8 @@ public class AddReminderItemActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        preferences = getApplicationContext().getSharedPreferences(PREF_NAME1, PRIVATE_MODE);
+        category_id=preferences.getInt("id",0);
         layout=(LinearLayout)findViewById(R.id.layout);
         catgeory_text=(TextView)findViewById(R.id.category_text);
         quantity=(EditText)findViewById(R.id.quantity);
@@ -413,7 +419,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 two.setBackgroundColor(Color.WHITE);
                 three.setBackgroundColor(Color.WHITE);
                 four.setBackgroundColor(Color.WHITE);*/
-               none.setTextColor(Color.WHITE);
+                none.setTextColor(Color.WHITE);
                 one.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                 two.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                 three.setBackground(getResources().getDrawable(R.drawable.cell_shape));
@@ -558,6 +564,8 @@ public class AddReminderItemActivity extends AppCompatActivity {
                     new UpdateItem().execute(String.valueOf(item_id),item_name,String.valueOf(category_id),store_id,brand_id,quantity.getText().toString(),reminder_date_for_update,
                             String.valueOf(priority),description.getText().toString(),String.valueOf(repeat_text_id),String.valueOf(latitude),String.valueOf(longitude),String.valueOf(radiusInMeters));
                 }
+
+
                                 break;
             }
         }
@@ -577,7 +585,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
                         category_id=data.getIntExtra("id",category_id);
                     }
                     else {
-                        category_id=data.getIntExtra("id", Integer.parseInt(AppConstants.UncategorisedId));
+                        category_id=data.getIntExtra("id",preferences.getInt("id",0));
                     }
                     catgeory_text.setText(category_name);
                 }
@@ -732,7 +740,6 @@ public class AddReminderItemActivity extends AppCompatActivity {
 
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
             return jsonresponse;
         }
@@ -742,7 +749,6 @@ public class AddReminderItemActivity extends AppCompatActivity {
             dialog.dismiss();
             if (result.equals("success")) {
                 sendMessageToActivity(AddReminderItemActivity.this,"add");
-
                 final Snackbar snackbar = Snackbar.make(layout, "Added Item Succesfully!", Snackbar.LENGTH_LONG);
                 View v = snackbar.getView();
                 v.setMinimumWidth(1000);
@@ -795,12 +801,6 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 jsonObject.put("name",params[1]);
                 jsonObject.put("qty", params[5]);
                 //jsonObject.put("date", params[6]);
-                if (params[6].isEmpty()){
-                    jsonObject.put("date",JSONObject.NULL);
-                }
-                else {
-                    jsonObject.put("date", params[6]);
-                }
                 jsonObject.put("list",params[2]);
                 if (params[3].equalsIgnoreCase("null"))
                 {
@@ -815,6 +815,14 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 }else {
                     jsonObject.put("brand", params[4]);
                 }
+               // Log.e("date in update","value"+params[6]);
+                if (params[6]==null){
+                    jsonObject.put("date",JSONObject.NULL);
+                }
+                else {
+                    jsonObject.put("date", params[6]);
+                }
+
                 jsonObject.put("priority",params[7]);
                 if (params[8].isEmpty()){
                     jsonObject.put("description", jsonObject.NULL);
@@ -894,11 +902,14 @@ public class AddReminderItemActivity extends AppCompatActivity {
             if (result.equals("success")) {
                 final Snackbar snackbar = Snackbar.make(layout, "Item Updated Succesfully!", Snackbar.LENGTH_LONG);
                 sendMessageToActivity(AddReminderItemActivity.this,"add");
+                //sendMessageToFragment(AddReminderItemActivity.this,"add");
                 View v = snackbar.getView();
                 v.setMinimumWidth(1000);
                 TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
                 tv.setTextColor(Color.YELLOW);
                 snackbar.show();
+                Intent myIntent = new Intent();
+                setResult(Activity.RESULT_OK, myIntent);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -916,6 +927,12 @@ public class AddReminderItemActivity extends AppCompatActivity {
         }
     }
     private  void sendMessageToActivity(Context context, String msg) {
+        Intent intent = new Intent("BeaconId");
+        // You can also include some extra data.
+        intent.putExtra("id", msg);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
+    private  void sendMessageToFragment(Context context, String msg) {
         Intent intent = new Intent("BeaconId");
         // You can also include some extra data.
         intent.putExtra("id", msg);

@@ -4,8 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -124,7 +126,9 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
         String ch = String.valueOf(name.charAt(0));
         ColorGenerator generator = ColorGenerator.MATERIAL;
         int color = generator.getRandomColor();
-        TextDrawable.builder().beginConfig().fontSize(20).width(10).height(10).endConfig();
+        Typeface tf2 = Typeface.createFromAsset(context.getAssets(), "fonts/roboto-bold.ttf");
+
+        TextDrawable.builder().beginConfig().useFont(tf2).fontSize(20).width(10).height(10).endConfig();
         //Color.rgb(97,107,192);
         TextDrawable drawable = TextDrawable.builder().buildRound(ch.toUpperCase(),color);
         viewHolder.letter.setImageDrawable(drawable);
@@ -368,12 +372,11 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
         protected void onPostExecute(String result) {
             dialog.dismiss();
             if (result.equals("success")) {
-
+                sendMessageToActivity(context,"add");
                 Log.i("callPosition--", String.valueOf(itemIdPosition));
                 itemArrayList.remove(itemIdPosition);
                 notifyItemRemoved(itemIdPosition);
                 notifyItemRangeChanged(itemIdPosition, itemArrayList.size());
-
                 Log.i("Res--", result);
             } else {
             }
@@ -628,5 +631,11 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
 
             }
         }
+    }
+    private  void sendMessageToActivity(Context context, String msg) {
+        Intent intent = new Intent("BeaconId");
+        // You can also include some extra data.
+        intent.putExtra("id", msg);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 }

@@ -204,6 +204,7 @@
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:layout_weight="0.08"
+        android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
@@ -211,6 +212,7 @@
         app:itemBackground="@color/colorPrimary"
         app:itemIconTint="@drawable/nav_item_color_state"
         app:itemTextColor="@drawable/nav_item_color_state"/>
+
     </LinearLayout>
     <RelativeLayout
         android:layout_width="260dp"

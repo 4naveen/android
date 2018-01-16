@@ -34,7 +34,6 @@
                 android:layout_marginLeft="5dp"
                 android:inputType="textCapWords"
                 android:hint="What you want me to Remind you ?"
-
                 android:drawableLeft="@mipmap/ic_add_black_24dp"
                 android:backgroundTint="@android:color/transparent"
                 android:textColorHint="@color/add_reminder_text_color" />

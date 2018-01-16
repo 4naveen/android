@@ -125,15 +125,23 @@ public class CategoryItemListActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 menu1.findItem(R.id.add).setVisible(true);
-                info_add.setVisibility(View.VISIBLE);
+                if (menu1!=null){
+                    info_add.setVisibility(View.VISIBLE);
+
+                }
                 if (count == 0) {
-                    menu1.findItem(R.id.add).setVisible(false);
+                    if (menu1!=null){
+                        menu1.findItem(R.id.add).setVisible(false);
+
+                    }
                     info_add.setVisibility(View.GONE);
                 }
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                menu1.findItem(R.id.add).setVisible(false);
+                if (menu1!=null){
+                    menu1.findItem(R.id.add).setVisible(false);
+                }
             }
             @Override
             public void afterTextChanged(final Editable s) {
@@ -253,7 +261,7 @@ public class CategoryItemListActivity extends AppCompatActivity {
                                     String []dates=object.getString("date").split("T");
                                     String dt_arr[]=dates[0].split("-");
                                     int mon=Integer.parseInt(dt_arr[1]);
-                                    String conv_date=dt_arr[2]+" "+month[mon]+","+dt_arr[0];
+                                    String conv_date=dt_arr[2]+" "+month[mon]+", "+dt_arr[0];
                                     item.setDate_time(conv_date);
                                     item.setReminder_date_for_update(object.getString("date"));
                                 }
@@ -326,9 +334,9 @@ public class CategoryItemListActivity extends AppCompatActivity {
                             updateUI(itemArrayList);
 
                             if (itemArrayList.isEmpty()) {
-                                blank_message.setVisibility(View.VISIBLE);
-                            }
+                               // blank_message.setVisibility(View.VISIBLE);
 
+                            }
 
                          /*   if (dialog.isShowing()) {
                                 dialog.dismiss();

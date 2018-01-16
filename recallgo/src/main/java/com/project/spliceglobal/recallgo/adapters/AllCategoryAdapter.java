@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -79,11 +80,13 @@ public class AllCategoryAdapter extends RecyclerSwipeAdapter<AllCategoryAdapter.
         String name = category.getCategory_name();
         final String category_id=String.valueOf(category.getId());
         String ch = String.valueOf(name.charAt(0));
+        Typeface tf2 = Typeface.createFromAsset(context.getAssets(), "fonts/roboto-bold.ttf");
         ColorGenerator generator = ColorGenerator.MATERIAL;
         int color = generator.getRandomColor();
-        TextDrawable.builder().beginConfig().fontSize(20).width(10).height(10).endConfig();
+        TextDrawable.builder().beginConfig().useFont(tf2).fontSize(20).width(10).height(10).endConfig();
         //Color.rgb(97,107,192);
         TextDrawable drawable = TextDrawable.builder().buildRound(ch.toUpperCase(),color);
+
         viewHolder.letter.setImageDrawable(drawable);
       //  viewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Left, viewHolder.swipeLayout.findViewById(R.id.bottom_wrapper1));
         viewHolder.layout_delete.setOnClickListener(new View.OnClickListener() {

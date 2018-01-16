@@ -295,7 +295,7 @@ public class PriceChaserActivity extends AppCompatActivity {
                                 String[] dates = object.getString("date_created").split("T");
                                 String dt_arr[] = dates[0].split("-");
                                 int mon = Integer.parseInt(dt_arr[1]);
-                                String conv_date = dt_arr[2] + " " + month[mon] + "," + dt_arr[0];
+                                String conv_date = dt_arr[2] + " " + month[mon] + ", " + dt_arr[0];
                                 priceChaser.setProduct_date(conv_date);
                                 priceChaser.setTarget_price(object.getString("target_price"));
                                 priceChaser.setOriginal_rice(object.getString("original_price"));

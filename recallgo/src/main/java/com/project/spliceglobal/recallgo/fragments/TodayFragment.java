@@ -2,8 +2,11 @@ package com.project.spliceglobal.recallgo.fragments;
 
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -90,10 +93,12 @@ public class TodayFragment extends Fragment {
     private ProgressBar progressBar;
     private EndlessRecyclerViewScrollListener scrollListener;
     private DateFormat dateFormat;
+    SharedPreferences preferences;
+    int PRIVATE_MODE = 0;
+    public static final String PREF_NAME1 = "UncategorisedId";
     public TodayFragment() {
         // Required empty public constructor
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -101,9 +106,12 @@ public class TodayFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_today, container, false);
         setHasOptionsMenu(true);
         dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'",Locale.ENGLISH);
+    /*    LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
+                mMessageReceiver, new IntentFilter("BeaconId"));*/
         /*getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(),0);*/
+        preferences = getActivity().getSharedPreferences(PREF_NAME1, PRIVATE_MODE);
         called_from=getArguments().getString("called_from","");
         System.out.println("called_from"+called_from);
         searchView = (MaterialSearchView) getActivity().findViewById(R.id.search_view);
@@ -141,22 +149,26 @@ public class TodayFragment extends Fragment {
         rv = (RecyclerView)view.findViewById(R.id.rv);
         //getItems(AppUrl.ITEM_LIST_URL);
         getItems(AppUrl.TODAY_REMINDERS_URL+dateFormat.format(new Date()));
-
         add.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                add.setCursorVisible(false);
-                menu1.findItem(R.id.add).setVisible(true);
+               // add.setCursorVisible(false);
+                if (menu1!=null){
+                    menu1.findItem(R.id.add).setVisible(true);
+                }
                 info_add.setVisibility(View.VISIBLE);
                 if (count==0){
-                    menu1.findItem(R.id.add).setVisible(false);
+                    if (menu1!=null){
+                        menu1.findItem(R.id.add).setVisible(false);
+                    }
                     info_add.setVisibility(View.GONE);
-
                 }
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                menu1.findItem(R.id.add).setVisible(false);
+                if (menu1!=null){
+                    menu1.findItem(R.id.add).setVisible(false);
+                }
             }
 
             @Override
@@ -253,8 +265,8 @@ public class TodayFragment extends Fragment {
         if (item.getItemId()==R.id.add)
         {
             item.setVisible(false);
-            if (!AppConstants.UncategorisedId.isEmpty()){
-                new AddItem().execute(add.getText().toString(),AppConstants.UncategorisedId,"1");
+            if (!String.valueOf(preferences.getInt("id",0)).isEmpty()){
+                new AddItem().execute(add.getText().toString(),String.valueOf(preferences.getInt("id",0)),"1");
             }
             else {
                 Toast.makeText(getActivity(),"Something went wrong!Please Relogin or check your internet Connection",Toast.LENGTH_LONG).show();
@@ -285,6 +297,7 @@ public class TodayFragment extends Fragment {
                             JSONObject jsonObject=new JSONObject(response);
                             count=jsonObject.getInt("count");
                             next_url=jsonObject.getString("next");
+
                             DateFormat timeFormat=new SimpleDateFormat("hh:mm a",Locale.ENGLISH);
                             JSONArray jsonArray = jsonObject.getJSONArray("results");
                             Date date=new Date();
@@ -517,7 +530,7 @@ public class TodayFragment extends Fragment {
         info_add.setVisibility(View.INVISIBLE);
         add.setText("");
         add.setHint("What you want me to Remind you ?");
-        add.setCursorVisible(false);
+        //add.setCursorVisible(false);
         getItems(AppUrl.TODAY_REMINDERS_URL+dateFormat.format(new Date()));
     }
     private  void sendMessageToActivity(Context context, String msg) {
@@ -526,4 +539,18 @@ public class TodayFragment extends Fragment {
         intent.putExtra("id", msg);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
+ /*   private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String message = intent.getStringExtra("id");
+            // System.out.println("message from serevice"+message);
+            if (!message.equalsIgnoreCase(""))
+            {        itemArrayList.clear();
+                     getItems(AppUrl.TODAY_REMINDERS_URL+dateFormat.format(new Date()));
+            }
+
+            // Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        }
+    };*/
 }

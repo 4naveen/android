@@ -51,10 +51,12 @@
             android:parentActivityName=".WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-       <!-- <activity
+        <!--
+            <activity
             android:name=".HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />-->
+            android:theme="@style/AppTheme.NoActionBar" />
+        -->
         <activity
             android:name=".ProfileActivity"
             android:screenOrientation="portrait"
@@ -62,8 +64,8 @@
         <activity
             android:name=".ReminderActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".AddReminderItemActivity"
             android:screenOrientation="portrait"
@@ -134,12 +136,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TutorialActivity"
-            android:label="Tutorial"
             android:exported="true"
+            android:label="Tutorial"
             android:parentActivityName=".ReminderActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
 
         <service
             android:name=".services.DateItemReminderService"
@@ -168,10 +168,11 @@
 
         <service
             android:name=".services.LocationStoreReminderService"
-            android:exported="false"></service>
+            android:exported="false" />
 
-        <activity android:name=".LocateStoreActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".LocateStoreActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

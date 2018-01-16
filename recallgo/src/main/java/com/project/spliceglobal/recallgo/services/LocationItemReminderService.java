@@ -162,7 +162,7 @@ public class LocationItemReminderService extends IntentService {
                                 float distance = mCurrentLocation.distanceTo(locationB);
                                 //System.out.println("distance"+distance);
                                 if (entry.equalsIgnoreCase("Arriving")) {
-                                    if (distance < (float) 200.0) {
+                                    if (distance < (float) 20.0) {
                                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                                         if (prefs.getBoolean("PREF_NAME", true)) {
                                             //locationItemArrayList.add(itemArrayList.get(i));
@@ -237,7 +237,7 @@ public class LocationItemReminderService extends IntentService {
     }
     private void sendNotification(String messageBody, int id) {
         Intent intent = new Intent(this, ReminderActivity.class);
-        // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

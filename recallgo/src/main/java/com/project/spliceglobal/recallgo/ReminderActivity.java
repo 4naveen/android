@@ -1,6 +1,7 @@
 package com.project.spliceglobal.recallgo;
 
 import android.*;
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -21,6 +22,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -98,11 +100,12 @@ public class ReminderActivity extends AppCompatActivity {
     SessionManager sessionManager;
     AlarmManager am;
     PendingIntent pi;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    SharedPreferences sharedPreferences,sharedPreferences1;
+    SharedPreferences.Editor editor,editor1;
     int PRIVATE_MODE = 0;
     public static final String KEY_SITE = "site_name";
     public static final String PREF_NAME = "SitePref";
+    public static final String PREF_NAME1 = "UncategorisedId";
     String month[]={"","Jan","Feb","March","April","May","June","July","August","Sept","Oct","Nov","Dec"};
     Set<String>siteList;
     ArrayList<Site> supported_site_List;
@@ -118,8 +121,11 @@ public class ReminderActivity extends AppCompatActivity {
        // actionBar.setDisplayHomeAsUpEnabled(true);
         siteList=new HashSet<>();
         sharedPreferences = getApplicationContext().getSharedPreferences(PREF_NAME,PRIVATE_MODE);
+        sharedPreferences1=getApplicationContext().getSharedPreferences(PREF_NAME1,PRIVATE_MODE);
         sessionManager=new SessionManager(getApplicationContext());
         editor = sharedPreferences.edit();
+        editor1 = sharedPreferences1.edit();
+
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 mMessageReceiver, new IntentFilter("BeaconId"));
        /* editor.clear();
@@ -157,7 +163,7 @@ public class ReminderActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getService(this, 0,intent,0);
         long interval = 1000 * 50;
         am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),interval,pi);
-        DateFormat dateFormat = new SimpleDateFormat("d MMM ,yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("d MMM, yyyy");
         String formated_date = dateFormat.format(new Date());
         //System.out.println("today formated date "+formated_date);
         date.setText(dateFormat.format(new Date()));
@@ -271,7 +277,8 @@ public class ReminderActivity extends AppCompatActivity {
                     }
                 });
         if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M) {
-            ActivityCompat.requestPermissions(this, new String[]{ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE);
+            checkLocationPermission();
+          //  ActivityCompat.requestPermissions(this, new String[]{ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE);
         }
         else {
             startService(new Intent(ReminderActivity.this, LocationStoreReminderService.class));
@@ -346,7 +353,6 @@ public class ReminderActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
         finish();
     }
     public static Bitmap getImage(byte[] image) {
@@ -370,7 +376,10 @@ public class ReminderActivity extends AppCompatActivity {
                                 int id=object.getInt("id");
                                  if (name.equalsIgnoreCase("UnCategorized")){
                                      AppConstants.UncategorisedId=String.valueOf(id);
-                                     System.out.println("uncategorisedId"+AppConstants.UncategorisedId);
+                                    // System.out.println("uncategorisedId"+AppConstants.UncategorisedId);
+                                     editor1.putInt("id", id);
+                                     editor1.apply();
+                                     editor1.commit();
                                  }
                             }
                         }
@@ -411,30 +420,33 @@ public class ReminderActivity extends AppCompatActivity {
     }
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case 1: {
-                boolean courseLocationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                if (courseLocationAccepted) {
-                    // new DownloadFileFromURL(this).execute(file_path);
-                    startService(new Intent(ReminderActivity.this, LocationStoreReminderService.class));
-                } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (shouldShowRequestPermissionRationale(INTERNET)) {
-                            showMessageOKCancel("You need to allow access the permissions",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                requestPermissions(new String[]{ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE);
-                                            }
-                                        }
-                                    });
-                            return;
-                        }
-                    }
-                }
+            case PERMISSION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                break;
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+                        startService(new Intent(ReminderActivity.this, LocationStoreReminderService.class));
+
+                        //Request location updates:
+                        //locationManager.requestLocationUpdates(provider, 400, 1, this);
+
+                      //  getCurrentLocation();
+                    }
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+
+                }
+                return;
             }
+
         }
     }
     private void selectItemFromDrawer(int position) {
@@ -563,7 +575,7 @@ public class ReminderActivity extends AppCompatActivity {
                             String []dates=jsonObject.getString("last_login").split("T");
                             String dt_arr[]=dates[0].split("-");
                             int mon=Integer.parseInt(dt_arr[1]);
-                            String conv_date=dt_arr[2]+""+month[mon]+", "+dt_arr[0];
+                            String conv_date=dt_arr[2]+" "+month[mon]+", "+dt_arr[0];
                             last_visited.setText("Last Visited : "+conv_date);
                             //last_visited.setText("Last Visited : "+jsonObject.getString("last_login").substring(0,10));
 
@@ -661,7 +673,7 @@ public class ReminderActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
             String message = intent.getStringExtra("id");
-            System.out.println("message from serevice"+message);
+           // System.out.println("message from serevice"+message);
             if (!message.equalsIgnoreCase(""))
             {
                 getUserDetail(AppUrl.GET_USER_PROFILE_URL);
@@ -671,4 +683,61 @@ public class ReminderActivity extends AppCompatActivity {
             // Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         }
     };
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(this)
+                        .setTitle("")
+                        .setMessage("We will access your location to enable this feature !")
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(ReminderActivity.this,
+                                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                                        PERMISSION_REQUEST_CODE);
+                            }
+                        })
+                        .create()
+                        .show();
+
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        PERMISSION_REQUEST_CODE);
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserDetail(AppUrl.GET_USER_PROFILE_URL);
+        arrow2.setVisibility(View.VISIBLE);
+        arrow3.setVisibility(View.INVISIBLE);
+        arrow1.setVisibility(View.INVISIBLE);
+        Bundle bundle = new Bundle();
+        bundle.putString("called_from", "today_layout");
+        status.setText("Today");
+        Fragment fragment1 = new TodayFragment();
+        FragmentTransaction trans1 = getSupportFragmentManager().beginTransaction();
+        fragment1.setArguments(bundle);
+        trans1.replace(R.id.frame, fragment1);
+        trans1.addToBackStack(null);
+        trans1.commit();
+    }
 }

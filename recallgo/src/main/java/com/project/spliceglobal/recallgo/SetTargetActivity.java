@@ -143,10 +143,10 @@ public class SetTargetActivity extends AppCompatActivity {
                             String dt_arr2[]=dates2[0].split("-");
                             int mon1=Integer.parseInt(dt_arr1[1]);
                             int mon2=Integer.parseInt(dt_arr2[1]);
-                            String conv_date1=dt_arr1[2]+" "+month[mon1]+","+dt_arr1[0];
-                            String conv_date2=dt_arr2[2]+" "+month[mon2]+","+dt_arr2[0];
+                            String conv_date1=dt_arr1[2]+" "+month[mon1]+", "+dt_arr1[0];
+                            String conv_date2=dt_arr2[2]+" "+month[mon2]+", "+dt_arr2[0];
                             origanal_date.setText(conv_date1);
-                            DateFormat dateFormat=new SimpleDateFormat("dd MMM,yyyy", Locale.ENGLISH);
+                            DateFormat dateFormat=new SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH);
                             current_date.setText(dateFormat.format(new Date()));
                             target_date.setText(conv_date2);
                            // number.setText(String.valueOf(Math.round(Double.parseDouble(jsonObject.getString("current_price")))));

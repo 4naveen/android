@@ -3,6 +3,7 @@ package com.project.spliceglobal.recallgo.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,9 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.ViewHolder
         String ch = String.valueOf(name.charAt(0));
         ColorGenerator generator = ColorGenerator.MATERIAL;
         int color = generator.getRandomColor();
-        TextDrawable.builder().beginConfig().fontSize(20).width(10).height(10).endConfig();
+        Typeface tf2 = Typeface.createFromAsset(context.getAssets(), "fonts/roboto-bold.ttf");
+
+        TextDrawable.builder().beginConfig().useFont(tf2).fontSize(20).width(10).height(10).endConfig();
         //Color.rgb(97,107,192);
         TextDrawable drawable = TextDrawable.builder().buildRound(ch.toUpperCase(),color);
         holder.letter.setImageDrawable(drawable);

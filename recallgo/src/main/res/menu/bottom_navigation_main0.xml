@@ -4,20 +4,20 @@
     <item
         android:id="@+id/search"
         android:enabled="true"
-        android:icon="@mipmap/search"
+        android:icon="@drawable/ic_search"
         android:title="Search"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/reminder"
         android:enabled="true"
-        android:icon="@mipmap/reminder"
+        android:icon="@drawable/ic_reminder"
         android:title="Reminder"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/price_chaser"
         android:enabled="true"
-        android:icon="@mipmap/price_chaser"
+        android:icon="@drawable/ic_price_chaser"
         android:title="Price Chaser"
         app:showAsAction="ifRoom" />
 </menu>

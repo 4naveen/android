@@ -3,6 +3,7 @@ package com.project.spliceglobal.recallgo.adapters;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -52,9 +53,14 @@ public class PriceChaserAdapter extends RecyclerSwipeAdapter<PriceChaserAdapter.
     private int priceChaserId;
     PriceChaser priceChaser;
     Typeface custom_font;
+    SharedPreferences preferences;
+    int PRIVATE_MODE = 0;
+    public static final String PREF_NAME1 = "UncategorisedId";
     public PriceChaserAdapter(Context context, ArrayList<PriceChaser> priceChaserArrayList) {
         this.context = context;
         this.priceChaserArrayList = priceChaserArrayList;
+        preferences = context.getSharedPreferences(PREF_NAME1, PRIVATE_MODE);
+
     }
     @Override
     public PriceChaserAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -173,7 +179,7 @@ public class PriceChaserAdapter extends RecyclerSwipeAdapter<PriceChaserAdapter.
                     priceChaserIdPosition = getAdapterPosition();
                     priceChaserId=priceChaserArrayList.get(getAdapterPosition()).getId();
                     System.out.println("pricechaserid"+String.valueOf(priceChaserId));
-                    new AddItem().execute(priceChaser.getProduct_name(), AppConstants.UncategorisedId,"1");
+                    new AddItem().execute(priceChaser.getProduct_name(),String.valueOf(preferences.getInt("id",0)),"1");
                     mItemManger.closeAllItems();
                 }
             });

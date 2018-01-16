@@ -24,7 +24,8 @@
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:textColor="#444"
             android:layout_margin="10dp"
             android:text="Category"/>
 
@@ -67,7 +68,8 @@
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:textColor="#444"
             android:layout_margin="10dp"
             android:text="Brand"/>
 
@@ -112,7 +114,8 @@
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:textColor="#444"
             android:layout_margin="10dp"
             android:text="Preferd Store"/>
 
@@ -154,7 +157,8 @@
             android:layout_width="0dp"
             android:layout_weight="0.7"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:textColor="#444"
             android:layout_margin="10dp"
             android:text="Quantity"/>
 
@@ -191,7 +195,8 @@
             android:layout_width="0dp"
             android:layout_weight="0.6"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:textColor="#444"
             android:layout_margin="10dp"
             android:text="Remind me on day"/>
         <TextView
@@ -233,7 +238,8 @@
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:textColor="#444"
             android:layout_margin="10dp"
             android:text="Repeat"/>
 
@@ -276,7 +282,8 @@
             android:layout_width="0dp"
             android:layout_weight="0.9"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:textColor="#444"
             android:layout_margin="10dp"
             android:text="Remind me at location"/>
 
@@ -309,7 +316,8 @@
             android:layout_width="0dp"
             android:layout_weight="0.6"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:textColor="#444"
             android:layout_margin="10dp"
             android:text="Priority"/>
 
@@ -404,11 +412,12 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:id="@+id/description"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:background="@android:color/transparent"
             android:layout_margin="10dp"
             android:inputType="textCapWords"
             android:gravity="top"
+            android:textColorHint="#444"
             android:hint="Add a Note..." />
 
  <!--       <ImageView

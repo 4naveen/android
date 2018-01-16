@@ -14,6 +14,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -23,11 +24,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -74,7 +79,9 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
     private int strokeColor = 0xffff0000;
     //opaque red fill
     private int shadeColor = 0x44ff0000;
-    SearchView searchView;
+   // SearchView searchView;
+    LinearLayout search_layout;
+    TextView found_place;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,15 +89,17 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-            ActivityCompat.requestPermissions(this, new String[]{ ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE);
+                checkLocationPermission();
+            //ActivityCompat.requestPermissions(this, new String[]{ ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE);
         }
         final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+     /*   if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
 
-        }
+        }*/
+        search_layout=(LinearLayout)findViewById(R.id.search_layout);
+        found_place=(TextView)findViewById(R.id.found_place);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -103,25 +112,26 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
 
         arriving = (Button) findViewById(R.id.arriving);
         leaving = (Button) findViewById(R.id.leaving);
+        arriving.setBackgroundColor(Color.rgb(5, 112, 130));
+        arriving.setTextColor(Color.WHITE);
         //leaving.setBackgroundColor(Color.rgb(0, 137, 123));
         arriving.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arriving.setBackgroundColor(Color.rgb(0, 137, 123));
-                leaving.setBackgroundColor(Color.WHITE);
+                arriving.setBackgroundColor(Color.rgb(5, 112, 130));
+                leaving.setBackground(getResources().getDrawable(R.drawable.cell_shape_button));
                 arriving.setTextColor(Color.WHITE);
-                leaving.setTextColor(Color.BLACK);
+                leaving.setTextColor(getResources().getColor(R.color.colorPrimary));
                 entry="Arriving";
-
             }
         });
         leaving.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                leaving.setBackgroundColor(Color.rgb(0, 137, 123));
-                arriving.setBackgroundColor(Color.WHITE);
+                leaving.setBackgroundColor(Color.rgb(5, 112, 130));
+                arriving.setBackground(getResources().getDrawable(R.drawable.cell_shape_button));
                 leaving.setTextColor(Color.WHITE);
-                arriving.setTextColor(Color.BLACK);
+                arriving.setTextColor(getResources().getColor(R.color.colorPrimary));
                 entry="leaving";
             }
         });
@@ -129,7 +139,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Add Location");
         }
-        searchView = (SearchView) findViewById(R.id.searchView);
+  /*      searchView = (SearchView) findViewById(R.id.searchView);
         searchView.setQueryHint("current location");
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +170,24 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
 
                 return false;
             }
+        });*/
+        search_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent =
+                            new PlaceAutocomplete
+                                    .IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                                    .build(LocationActivity.this);
+                    startActivityForResult(intent, 1);
+                } catch (GooglePlayServicesRepairableException e) {
+                    // TODO: Handle the error.
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    // TODO: Handle the error.
+                }
+            }
         });
+
     }
 
     @Override
@@ -285,40 +312,40 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                 boolean courseLocationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    if (courseLocationAccepted) {
+            case PERMISSION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                        //android.widget.Toast.makeText(getBaseContext(), "All Permission Granted.", Toast.LENGTH_LONG).show();
-                        //Snackbar.make(view, "Permission Granted, Now you can access location data and camera.", Snackbar.LENGTH_LONG).show();
-                    } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (shouldShowRequestPermissionRationale(INTERNET)) {
-                                showMessageOKCancel("You need to allow access to both the permissions",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                    requestPermissions(new String[]{ACCESS_COARSE_LOCATION},PERMISSION_REQUEST_CODE);
-                                                }
-                                            }
-                                        });
-                                return;
-                            }
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+                        //Request location updates:
+                        //locationManager.requestLocationUpdates(provider, 400, 1, this);
+                        String provider = android.provider.Settings.Secure.getString(getContentResolver(),android.provider.Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+                        if (!provider.contains("gps"))
+                        {
+                            buildAlertMessageNoGps();
+                        }
+                        else {
+                            getCurrentLocation();
                         }
 
                     }
 
-                break;
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+
+                }
+                return;
+            }
+
         }
-    }
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(LocationActivity.this)
-                .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -330,7 +357,8 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
                 longitude=place.getLatLng().longitude;
                 Log.e("Tag", "Place: " + place.getAddress() + place.getPhoneNumber());
                 System.out.println("address"+place.getAddress()+"latlong"+place.getLatLng());
-                searchView.setQueryHint(place.getAddress());
+                //searchView.setQueryHint(place.getAddress());
+                 found_place.setText(place.getAddress());
                 map.clear();
                 map.addMarker(new MarkerOptions()
                         .position(place.getLatLng()) //setting position
@@ -347,27 +375,39 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
                 // TODO: Handle the error.
                 Log.e("Tag", status.getStatusMessage());
 
-            } else if (resultCode == RESULT_CANCELED) {
+            }
+            else if (resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.
             }
         }
+        if (requestCode==101){
+             getCurrentLocation();
+        }
     }
     private void buildAlertMessageNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+
+                new MaterialDialog.Builder(LocationActivity.this)
+                .content("Your GPS seems to be disabled, do you want to enable it")
+                .titleGravity(GravityEnum.CENTER)
+               // .customView(R.layout.forget_pwd_info, true)
+                .positiveText("Yes")
+                .negativeText("No")
+                .autoDismiss(false)
+                .positiveColorRes(R.color.colorPrimary)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS),101);
+                        dialog.dismiss();
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        dialog.cancel();
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
                     }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
+                })
+                .show();
     }
 
     @Override
@@ -380,5 +420,47 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
         myIntent.putExtra("entry",entry);
         setResult(Activity.RESULT_OK, myIntent);
         finish();
+    }
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(this)
+                        .setTitle("")
+                        .setMessage("We will access your location to enable this feature !")
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(LocationActivity.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        PERMISSION_REQUEST_CODE);
+                            }
+                        })
+                        .create()
+                        .show();
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        PERMISSION_REQUEST_CODE);
+            }
+            return false;
+        } else {
+            String provider = android.provider.Settings.Secure.getString(getContentResolver(),android.provider.Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+            if (!provider.contains("gps"))
+            {
+                buildAlertMessageNoGps();
+            }
+            return true;
+        }
     }
 }
