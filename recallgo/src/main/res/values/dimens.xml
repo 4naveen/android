@@ -7,5 +7,7 @@
     <dimen name="slide_mob_desc">15dp</dimen>
     <dimen name="desc_mob_padding">40dp</dimen>
     <dimen name="desc_padding">40dp</dimen>
+    <dimen name="simpleratingbar_width">162dp</dimen>
+    <dimen name="srb_starSize">24dp</dimen>
 
 </resources>

@@ -8,8 +8,33 @@ import android.os.Parcelable;
  */
 
 public class Place implements Parcelable {
- double latitude,longitude;
-    String name,icon_url;
+    double latitude,longitude;
+
+    String name,icon_url,rating,address,distance;
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public double getLatitude() {
         return latitude;
@@ -55,6 +80,10 @@ public class Place implements Parcelable {
         dest.writeDouble(this.longitude);
         dest.writeString(this.name);
         dest.writeString(this.icon_url);
+        dest.writeString(this.address);
+        dest.writeString(this.rating);
+        dest.writeString(this.distance);
+
     }
 
     public Place() {
@@ -65,6 +94,10 @@ public class Place implements Parcelable {
         this.longitude = in.readDouble();
         this.name = in.readString();
         this.icon_url = in.readString();
+        this.address = in.readString();
+        this.rating = in.readString();
+        this.distance = in.readString();
+
     }
 
     public static final Parcelable.Creator<Place> CREATOR = new Parcelable.Creator<Place>() {

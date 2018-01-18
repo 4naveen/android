@@ -80,7 +80,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
     //opaque red fill
     private int shadeColor = 0x44ff0000;
    // SearchView searchView;
-    LinearLayout search_layout;
+    LinearLayout search_layout,current_location_layout;
     TextView found_place;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +99,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
 
         }*/
         search_layout=(LinearLayout)findViewById(R.id.search_layout);
+        current_location_layout=(LinearLayout)findViewById(R.id.current_location_layout);
         found_place=(TextView)findViewById(R.id.found_place);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -171,6 +172,12 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
                 return false;
             }
         });*/
+        current_location_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCurrentLocation();
+            }
+        });
         search_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

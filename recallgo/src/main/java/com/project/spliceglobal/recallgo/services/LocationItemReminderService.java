@@ -113,7 +113,6 @@ public class LocationItemReminderService extends IntentService {
         itemArrayList=new ArrayList<>();
         getItems(AppUrl.ITEM_LIST_URL);
     }
-
     private void createLocationCallback() {
         mLocationCallback = new LocationCallback() {
             @Override
@@ -153,7 +152,7 @@ public class LocationItemReminderService extends IntentService {
                                 String [] dates=itemArrayList.get(i).getNext_reminder_date().split("T");
                                 String reminder_date=dates[0];
                                 String current_date=dateFormat.format(new Date());
-                                Log.e("reminder_date",reminder_date+"current date"+current_date);
+                              //  Log.e("reminder_date",reminder_date+"current date"+current_date);
                                 if (itemArrayList.get(i).getEntry().equalsIgnoreCase("null")) {
                                     entry = "Arriving";
                                 }
@@ -182,6 +181,7 @@ public class LocationItemReminderService extends IntentService {
                                             //locationItemArrayList.add(itemArrayList.get(i));
                                             //locationManager.removeUpdates();
                                             // Toast.makeText(getApplicationContext(),itemArrayList.get(i).getItem_name(), Toast.LENGTH_SHORT).show();
+
                                             if (current_date.equalsIgnoreCase(reminder_date)){
                                                 sendNotification(itemArrayList.get(i).getItem_name(), i);
                                                 System.out.println("send notification");

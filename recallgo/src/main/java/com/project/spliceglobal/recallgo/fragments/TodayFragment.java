@@ -297,7 +297,6 @@ public class TodayFragment extends Fragment {
                             JSONObject jsonObject=new JSONObject(response);
                             count=jsonObject.getInt("count");
                             next_url=jsonObject.getString("next");
-
                             DateFormat timeFormat=new SimpleDateFormat("hh:mm a",Locale.ENGLISH);
                             JSONArray jsonArray = jsonObject.getJSONArray("results");
                             Date date=new Date();
@@ -317,6 +316,7 @@ public class TodayFragment extends Fragment {
                                 item.setItem_name(object.getString("name"));
                                 item.setDate_time("Today "+formate_date);
                                 item.setReminder_date_for_update(object.getString("date"));
+                                item.setGoogle_category(object.getString("google_category"));
                                 if (object.getString("qty").equalsIgnoreCase("null")){
                                     item.setQty(" ");
                                 }

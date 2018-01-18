@@ -139,7 +139,7 @@
             android:exported="true"
             android:label="Tutorial"
             android:parentActivityName=".ReminderActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".services.DateItemReminderService"
@@ -173,6 +173,7 @@
         <activity
             android:name=".LocateStoreActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ListStoreActivity"></activity>
     </application>
 
 </manifest>

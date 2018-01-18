@@ -29,6 +29,7 @@ import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.project.spliceglobal.recallgo.AddReminderItemActivity;
 import com.project.spliceglobal.recallgo.CategoryListActivity;
+import com.project.spliceglobal.recallgo.ListStoreActivity;
 import com.project.spliceglobal.recallgo.R;
 import com.project.spliceglobal.recallgo.model.Item;
 import com.project.spliceglobal.recallgo.utils.AppUrl;
@@ -104,6 +105,7 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
          Item item = itemArrayList.get(position);
         final int item_id = itemArrayList.get(position).getId();
         category_id=itemArrayList.get(position).getList_id();
+        final String google_category=itemArrayList.get(position).getGoogle_category();
         type=item.getRepeat_type();
         final String brand=item.getBrand_id();
         final String store=item.getStore_id();
@@ -117,7 +119,6 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
         if (item.getDate_time().equalsIgnoreCase("null")){
            // viewHolder.date.setText("");
             viewHolder.date.setVisibility(View.GONE);
-
         }else {
             viewHolder.date.setVisibility(View.VISIBLE);
             viewHolder.date.setText(item.getDate_time());
@@ -225,7 +226,16 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
                 mItemManger.closeAllItems();
             }
         });
-
+        viewHolder.layout_navigate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemIdPosition = viewHolder.getLayoutPosition();
+                Intent intent=new Intent(context,ListStoreActivity.class);
+                intent.putExtra("category",google_category);
+                context.startActivity(intent);
+                mItemManger.closeAllItems();
+            }
+        });
         mItemManger.bindView(viewHolder.itemView, position);
     }
 
@@ -243,7 +253,7 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
         TextView category_name,sharedby, date;
         ImageView letter;
         SwipeLayout swipeLayout;
-        LinearLayout top_view,layout_delete,layout_move,layout_later,layout_complete;
+        LinearLayout top_view,layout_delete,layout_move,layout_later,layout_complete,layout_navigate;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -257,6 +267,7 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
             layout_move=(LinearLayout)itemView.findViewById(R.id.layout_move);
             layout_later=(LinearLayout)itemView.findViewById(R.id.layout_later);
             layout_complete=(LinearLayout)itemView.findViewById(R.id.layout_Complete);
+            layout_navigate=(LinearLayout)itemView.findViewById(R.id.layout_navigate);
             top_view.setOnClickListener(this);
         }
         @Override
@@ -638,4 +649,6 @@ public class TodayAdapter extends RecyclerSwipeAdapter<TodayAdapter.ViewHolder> 
         intent.putExtra("id", msg);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
+
+
 }
